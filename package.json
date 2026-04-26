@@ -1,0 +1,15 @@
+{
+  "name": "anguekepgael-sgve-2026",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/fetch-preview.mjs"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.2.0"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^2.8.2"
+  }
+}

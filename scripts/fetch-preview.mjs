@@ -107,7 +107,7 @@ a[href*="chat.whatsapp.com"].btn {
 
 .header-whatsapp-cta::after,
 .hero-whatsapp-cta::after {
-  content: "↗" !important;
+  content: "\2197" !important;
   font-size: 1.02rem !important;
   font-weight: 1000 !important;
   margin-left: 8px !important;
@@ -148,6 +148,29 @@ a[href*="chat.whatsapp.com"].btn {
   object-position: center !important;
 }
 
+.required-note {
+  background: #fff7ed !important;
+  border: 1px solid rgba(242,106,33,.3) !important;
+  border-radius: 18px !important;
+  color: #7c2d12 !important;
+  font-size: .92rem !important;
+  font-weight: 850 !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+  padding: 14px 16px !important;
+}
+
+.required-mark {
+  color: #dc2626 !important;
+  font-weight: 1000 !important;
+  margin-left: 4px !important;
+}
+
+.form input.field-error {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 5px rgba(220,38,38,.12) !important;
+}
+
 @media (max-width: 980px) {
   .header-whatsapp-cta {
     display: inline-flex !important;
@@ -172,27 +195,124 @@ a[href*="chat.whatsapp.com"].btn {
 }
 `;
 
+const registrationValidationScript = `
+<script>
+(() => {
+  const form = document.querySelector("[data-form]");
+  if (!form) return;
+
+  const statusLine = form.querySelector("[data-status]");
+  const importantFields = [
+    { name: "name", label: "nom complet" },
+    { name: "phone", label: "numéro de téléphone WhatsApp" },
+    { name: "email", label: "adresse email" },
+  ];
+
+  function getInput(name) {
+    return form.elements[name];
+  }
+
+  function setError(input, active) {
+    if (!input) return;
+    input.classList.toggle("field-error", active);
+    input.setAttribute("aria-invalid", active ? "true" : "false");
+  }
+
+  function validateImportantFields() {
+    const missing = [];
+    let firstInvalid = null;
+
+    importantFields.forEach((field) => {
+      const input = getInput(field.name);
+      const empty = !input || !String(input.value || "").trim();
+      setError(input, empty);
+      if (empty) {
+        missing.push(field.label);
+        firstInvalid = firstInvalid || input;
+      }
+    });
+
+    const emailInput = getInput("email");
+    const emailValue = emailInput ? String(emailInput.value || "").trim() : "";
+    const invalidEmail = Boolean(emailValue && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(emailValue));
+
+    if (invalidEmail) {
+      setError(emailInput, true);
+      missing.push("adresse email valide");
+      firstInvalid = firstInvalid || emailInput;
+    }
+
+    if (missing.length) {
+      if (statusLine) {
+        statusLine.className = "form-status full error";
+        statusLine.textContent = "Veuillez renseigner les champs obligatoires marqués d'un astérisque : " + missing.join(", ") + ".";
+      }
+      if (firstInvalid) firstInvalid.focus();
+      return false;
+    }
+
+    if (statusLine && statusLine.classList.contains("error")) {
+      statusLine.className = "form-status full";
+      statusLine.textContent = "";
+    }
+
+    return true;
+  }
+
+  importantFields.forEach((field) => {
+    const input = getInput(field.name);
+    if (!input) return;
+    input.addEventListener("input", () => setError(input, false));
+  });
+
+  form.addEventListener("submit", (event) => {
+    if (!validateImportantFields()) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }, true);
+})();
+</script>`;
+
 function polishHtml(html) {
   const heroWhatsappButton = `<a class="btn hero-whatsapp-cta" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre le groupe WhatsApp</a>`;
 
   return html
     .replace(
-      /<a class="header-cta" href="#inscription">Réserver<\/a>/,
+      /<a class="header-cta" href="#inscription">(?:Réserver|RÃ©server)<\/a>/,
       `<a class="header-cta header-whatsapp-cta" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre WhatsApp</a>`,
     )
     .replace(
-      /(<div class="actions">\s*<a class="btn primary" href="#inscription">Je réserve ma place<\/a>\s*<a class="btn ghost" href="#programme">Découvrir le programme<\/a>\s*)<\/div>/,
+      /(<div class="actions">\s*<a class="btn primary" href="#inscription">(?:Je réserve ma place|Je rÃ©serve ma place)<\/a>\s*<a class="btn ghost" href="#programme">(?:Découvrir le programme|DÃ©couvrir le programme)<\/a>\s*)<\/div>/,
       `$1${heroWhatsappButton}</div>`,
     )
     .replace(
       /(<div class="venue-photo reveal">\s*)<img[^>]+\/>/,
       `$1<img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=90" alt="Salle de conférence professionnelle pour SGVE 2026" />`,
     )
-    .replace('speaker-photo crop-9', 'speaker-photo speaker-reine')
-    .replace('speaker-photo crop-4', 'speaker-photo speaker-jacques')
-    .replace('speaker-photo crop-3', 'speaker-photo speaker-anguekep')
-    .replace('speaker-photo crop-8', 'speaker-photo speaker-henri')
-    .replace('speaker-photo crop-10', 'speaker-photo speaker-carene');
+    .replace(
+      /<form class="form reveal" data-form>/,
+      `<form class="form reveal" data-form novalidate><p class="required-note full">Les cases avec un astérisque (*) sont marquées comme importantes et doivent être renseignées pour valider l’inscription.</p>`,
+    )
+    .replace(/\srequired(?=\sname="(?:age|status|organization|city|targetCountry|educationLevel|visaRefusal|accompanied)")/g, "")
+    .replace(
+      /<label>Nom complet<input required name="name"([^>]*)><\/label>/,
+      `<label>Nom complet <span class="required-mark" aria-hidden="true">*</span><input required aria-required="true" name="name"$1></label>`,
+    )
+    .replace(
+      /<label>(?:Téléphone WhatsApp|TÃ©lÃ©phone WhatsApp)<input required name="phone"([^>]*)><\/label>/,
+      `<label>Téléphone WhatsApp <span class="required-mark" aria-hidden="true">*</span><input required aria-required="true" name="phone"$1></label>`,
+    )
+    .replace(
+      /<label>Email<input required name="email"([^>]*)><\/label>/,
+      `<label>Email <span class="required-mark" aria-hidden="true">*</span><input required aria-required="true" name="email"$1></label>`,
+    )
+    .replace("</body>", `${registrationValidationScript}\n</body>`)
+    .replace("speaker-photo crop-9", "speaker-photo speaker-reine")
+    .replace("speaker-photo crop-4", "speaker-photo speaker-jacques")
+    .replace("speaker-photo crop-3", "speaker-photo speaker-anguekep")
+    .replace("speaker-photo crop-8", "speaker-photo speaker-henri")
+    .replace("speaker-photo crop-10", "speaker-photo speaker-carene");
 }
 
 function stripLegacyImageSprite(css) {
@@ -227,6 +347,6 @@ await fetchText("/styles.css", "styles.css", polishCss);
 await fetchText("/script.js", "script.js");
 
 await writeFile(`${outDir}/_redirects`, "/register /.netlify/functions/register 200\n", "utf8");
-await writeFile(`${outDir}/build-ok.txt`, `Built from ${sourceUrl} with premium image polish, uncropped speaker portraits, and prominent WhatsApp CTAs\n`, "utf8");
+await writeFile(`${outDir}/build-ok.txt`, `Built from ${sourceUrl} with premium image polish, uncropped speaker portraits, prominent WhatsApp CTAs, and required registration fields\n`, "utf8");
 
-console.log(`SGVE static preview copied from ${sourceUrl} with premium image polish, uncropped speaker portraits, and prominent WhatsApp CTAs`);
+console.log(`SGVE static preview copied from ${sourceUrl} with premium image polish, uncropped speaker portraits, prominent WhatsApp CTAs, and required registration fields`);

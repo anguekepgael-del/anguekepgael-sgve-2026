@@ -285,10 +285,22 @@ export default async (req: Request) => {
   }
 
   const name = clean(data.name);
+  const phone = clean(data.phone);
   const email = clean(data.email);
+  const missingFields: string[] = [];
 
-  if (!name || !isValidEmail(email)) {
-    return jsonResponse({ message: "Veuillez renseigner un nom complet et une adresse email valide." }, 400);
+  if (!name) missingFields.push("nom complet");
+  if (!phone) missingFields.push("numéro de téléphone WhatsApp");
+  if (!email) missingFields.push("adresse email");
+
+  if (missingFields.length > 0) {
+    return jsonResponse({
+      message: `Veuillez renseigner les champs obligatoires marqués d'un astérisque : ${missingFields.join(", ")}.`,
+    }, 400);
+  }
+
+  if (!isValidEmail(email)) {
+    return jsonResponse({ message: "Veuillez renseigner une adresse email valide." }, 400);
   }
 
   const ticketId = createTicketId();

@@ -23,4 +23,4 @@ Ce dépôt est prêt pour Netlify. Il publie la landing page SGVE actuelle et d�
 
 Par défaut, `scripts/fetch-preview.mjs` récupère la landing page actuelle depuis `https://sgve-2026-preview.netlify.app`, puis Netlify publie le dossier `deploy-inline` et active les fonctions serveur.
 
-Dernière synchronisation email : variables Resend mises à jour pour `contact@cfconsultingtravel.org` avec scopes Netlify complets.
+Dernière synchronisation email : configuration Resend active pour `contact@cfconsultingtravel.org`.

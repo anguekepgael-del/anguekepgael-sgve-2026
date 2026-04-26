@@ -1,9 +1,7 @@
 import { copyFile, mkdir, rm, writeFile } from "node:fs/promises";
 
-const sourceUrl = (process.env.SGVE_SOURCE_URL || "https://sgve-2026-preview.netlify.app").replace(/\/$/, "");
 const outDir = "deploy-inline";
 const whatsappUrl = "https://chat.whatsapp.com/JvcvjQ60MWl2dX3ZENxZmP?mode=gi_t";
-
 const speakerAssets = [
   "reine-lea-kameni.svg",
   "jacques-pelabou.svg",
@@ -12,341 +10,106 @@ const speakerAssets = [
   "carene-nono.svg",
 ];
 
-const premiumImageTokens = `
-:root {
-  --img-campus: url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=90");
-  --img-library: url("https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=90");
-  --img-advisory: url("https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=90");
-  --img-travel: url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=90");
-  --img-team: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=90");
-  --img-conference: url("https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1200&q=90");
-  --img-documents: url("https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=90");
-  --img-office: url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=90");
-}
+const html = `<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Participez gratuitement à SGVE 2026, la conférence Stratégie Gagnante Visa Étudiant organisée par CF Consulting Travel le 12 septembre 2026 à 15h à Douala." />
+    <title>SGVE 2026 - Stratégie Gagnante Visa Étudiant à Douala</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header" data-header>
+      <a class="brand" href="#accueil" aria-label="Accueil SGVE 2026"><img src="/images/cf-logo.svg" alt="CF Consulting Travel" /><span><strong>SGVE 2026</strong><small>CF Consulting Travel</small></span></a>
+      <button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+      <nav class="nav" id="menu" data-menu><a href="#apropos">À propos</a><a href="#programme">Pourquoi SGVE ?</a><a href="#strategie">Stratégie</a><a href="#inscription">Inscription</a><a href="#faq">FAQ</a></nav>
+      <a class="header-cta header-whatsapp-cta" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre WhatsApp</a>
+    </header>
 
-.visual-thumb, .mini-thumb, .speaker-photo {
-  background-image:
-    linear-gradient(180deg, rgba(8,43,70,.04), rgba(8,43,70,.22)),
-    var(--thumb-image, var(--img-campus)) !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-  background-position: var(--thumb-position, center) !important;
-  overflow: hidden;
-  position: relative;
-}
+    <main>
+      <section class="hero" id="accueil">
+        <img class="hero-bg-photo" src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1800&q=90" alt="Salle pleine lors d'une conférence à Krystal Palace Douala" />
+        <div class="hero-photo-overlay" aria-hidden="true"></div>
+        <div class="hero-grid">
+          <div class="hero-copy reveal">
+            <p class="hero-kicker">Conférence officielle · Douala, Cameroun</p>
+            <div class="sgve-lockup"><span>SGVE</span><strong>2026</strong></div>
+            <h1>Stratégie Gagnante Visa Étudiant</h1>
+            <p class="slogan">Maîtrisez la feuille de route pour décrocher votre visa étudiant</p>
+            <p class="hero-text">Une conférence organisée par CF Consulting Travel pour aider les étudiants, les élèves et les parents à comprendre les étapes essentielles d'un projet d'études à l'étranger, éviter les erreurs fréquentes et construire une stratégie solide pour maximiser leurs chances d'obtenir un visa étudiant.</p>
+            <div class="event-badges"><span>12 septembre 2026</span><span>15h00</span><span>Krystal Palace Douala</span><span>Accès gratuit</span><span class="seat-pill"><strong data-seats-remaining>400</strong> places restantes</span></div>
+            <div class="country-strip"><span>Pays concernés</span><strong>France</strong><strong>Canada</strong><strong>Espagne</strong><strong>Russie</strong></div>
+            <div class="actions"><a class="btn primary" href="#inscription">Je réserve ma place</a><a class="btn ghost" href="#programme">Découvrir le programme</a><a class="btn hero-whatsapp-cta" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre le groupe WhatsApp</a></div>
+            <p class="hero-note">Inscription gratuite · accompagnement stratégique · places limitées</p>
+          </div>
+          <aside class="hero-visual reveal">
+            <div class="visual-card main-poster"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=90" alt="Étudiants internationaux" /></div>
+            <div class="countdown-card"><p>Début de la conférence dans</p><div class="countdown"><div><strong data-days>--</strong><span>jours</span></div><div><strong data-hours>--</strong><span>heures</span></div><div><strong data-minutes>--</strong><span>min</span></div><div><strong data-seconds>--</strong><span>sec</span></div></div></div>
+          </aside>
+        </div>
+      </section>
 
-.visual-thumb {
-  box-shadow: 0 16px 36px rgba(8,43,70,.08) !important;
-}
+      <section class="section about" id="apropos"><div class="section-grid"><div class="section-heading reveal"><p class="eyebrow">À propos de CF Consulting Travel</p><h2>Un accompagnement clair pour des projets d'études à l'étranger mieux préparés.</h2><p>CF Consulting Travel accompagne les étudiants, familles et partenaires éducatifs dans la compréhension des démarches, la sélection des parcours et la préparation des dossiers de mobilité internationale.</p><div class="actions"><a class="btn navy-btn" href="#inscription">M'inscrire maintenant</a><a class="btn white-btn" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre le groupe WhatsApp SGVE</a></div></div><div class="trust-panel reveal"><img src="/images/cf-logo.svg" alt="Logo CF Consulting Travel" /><article><strong>Approche pédagogique</strong><span>Aider les candidats à comprendre chaque étape avec méthode.</span></article><article><strong>Expertise dossier</strong><span>Cohérence du projet, sélection académique et préparation visa.</span></article><article><strong>Cadre rassurant</strong><span>Un repère solide pour les parents, étudiants et partenaires.</span></article></div></div></section>
 
-.visual-thumb::after, .mini-thumb::after, .speaker-photo::after {
-  background: linear-gradient(135deg, rgba(255,255,255,.14), transparent 42%);
-  content: "";
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-}
+      <section class="section problem-solution" id="programme"><div class="center reveal"><p class="eyebrow">Pourquoi SGVE ?</p><h2>Parce qu'un refus de visa se joue souvent avant même le dépôt du dossier.</h2><p>SGVE 2026 met de l'ordre dans les décisions importantes : choisir le bon parcours, bâtir un projet crédible et défendre sa candidature avec des arguments clairs.</p></div><div class="dual-panel"><div class="pain-card reveal"><span class="panel-tag">Les risques fréquents</span><ul><li>Mauvais choix d'école ou de destination</li><li>Dossier incohérent ou mal justifié</li><li>Manque d'informations fiables</li><li>Erreurs administratives qui provoquent des refus</li><li>Absence de stratégie avant l'entretien ou le dépôt</li></ul></div><div class="solution-card reveal"><span class="panel-tag">La réponse SGVE</span><h3>Une méthode pour transformer l'ambition académique en projet défendable.</h3><p>La conférence aide chaque participant à comprendre les attentes des institutions, à clarifier son projet d'études et à préparer les prochaines étapes avec une feuille de route lisible.</p></div></div></section>
 
-.crop-1 { --thumb-image: var(--img-campus); --thumb-position: center; }
-.crop-2 { --thumb-image: var(--img-documents); --thumb-position: center; }
-.crop-3 { --thumb-image: var(--img-travel); --thumb-position: center; }
-.crop-4 { --thumb-image: var(--img-conference); --thumb-position: center; }
-.crop-5 { --thumb-image: var(--img-library); --thumb-position: center; }
-.crop-6 { --thumb-image: var(--img-advisory); --thumb-position: center; }
-.crop-7 { --thumb-image: var(--img-office); --thumb-position: center; }
-.crop-8 { --thumb-image: var(--img-documents); --thumb-position: center 58%; }
-.crop-11 { --thumb-image: var(--img-library); --thumb-position: center 42%; }
-.crop-12 { --thumb-image: var(--img-campus); --thumb-position: center 40%; }
+      <section class="section objectives"><div class="section-grid"><div class="section-heading reveal"><p class="eyebrow">Objectifs de la conférence</p><h2>Une feuille de route pour structurer le projet avant le dépôt du dossier.</h2></div><div class="objective-grid reveal"><article><span>01</span><p>Comprendre les étapes d'un projet d'études à l'étranger</p></article><article><span>02</span><p>Identifier les erreurs qui fragilisent un dossier de visa étudiant</p></article><article><span>03</span><p>Choisir une école cohérente avec son profil et son projet professionnel</p></article><article><span>04</span><p>Comprendre les attentes des consulats et institutions</p></article><article><span>05</span><p>Découvrir les démarches administratives essentielles</p></article><article><span>06</span><p>Recevoir des conseils d'experts et des retours d'expérience</p></article><article><span>07</span><p>Se préparer avec méthode avant de déposer son dossier</p></article></div></div></section>
 
-.speaker-reine { --thumb-image: url("/images/speakers/reine-lea-kameni.svg"); }
-.speaker-jacques { --thumb-image: url("/images/speakers/jacques-pelabou.svg"); }
-.speaker-anguekep { --thumb-image: url("/images/speakers/anguekep-gael.svg"); }
-.speaker-henri { --thumb-image: url("/images/speakers/henri-guehoada.svg"); }
-.speaker-carene { --thumb-image: url("/images/speakers/carene-nono.svg"); }
+      <section class="section benefit-section"><div class="center reveal"><p class="eyebrow">Ce que les participants vont gagner</p><h2>Des repères concrets pour avancer avec confiance.</h2></div><div class="cards benefit-cards"><article><span>✓</span><h3>Procédure visa</h3><p>Une meilleure compréhension de la procédure visa étudiant.</p></article><article><span>✓</span><h3>Feuille de route</h3><p>Une structure claire pour organiser les étapes du projet.</p></article><article><span>✓</span><h3>Conseils pratiques</h3><p>Des conseils pour éviter les erreurs fréquentes.</p></article><article><span>✓</span><h3>Vision académique</h3><p>Une meilleure vision des pays, écoles, formations et démarches.</p></article><article><span>✓</span><h3>Réponses utiles</h3><p>Des réponses concrètes aux questions des étudiants et parents.</p></article><article><span>✓</span><h3>Projet crédible</h3><p>Une méthode pour mieux défendre son projet devant les institutions.</p></article></div></section>
 
-.speaker-grid article {
-  overflow: hidden !important;
-  padding-top: 16px !important;
-}
+      <section class="section strategy" id="strategie"><div class="center reveal"><p class="eyebrow">Au coeur de la stratégie visa étudiant</p><h2>Quatre piliers pour transformer une candidature en projet cohérent.</h2></div><div class="cards strategy-cards"><article><span class="icon">⌖</span><h3>Choix du pays et de l'école</h3><p>Comparer les destinations, les coûts, les délais, les exigences et la cohérence du choix académique.</p></article><article><span class="icon">●</span><h3>Projet d'études et projet professionnel</h3><p>Construire une histoire crédible entre le parcours actuel, la formation visée et l'avenir professionnel.</p></article><article><span class="icon">▣</span><h3>Dossier administratif et financier</h3><p>Préparer les pièces clés, les justificatifs et les preuves financières avec rigueur.</p></article><article><span class="icon">✦</span><h3>Préparation au visa étudiant</h3><p>Anticiper les questions, défendre son projet et éviter les réponses imprécises devant les institutions.</p></article></div></section>
 
-.speaker-photo {
-  background-color: #f8fafc !important;
-  background-image: var(--thumb-image) !important;
-  background-position: center center !important;
-  background-repeat: no-repeat !important;
-  background-size: contain !important;
-  border: 1px solid rgba(8,43,70,.1) !important;
-  border-radius: 22px !important;
-  box-shadow: 0 18px 36px rgba(8,43,70,.12) !important;
-  height: clamp(230px, 24vw, 300px) !important;
-  margin-bottom: 22px !important;
-  width: 100% !important;
-}
+      <section class="section speakers"><div class="center reveal"><p class="eyebrow">Intervenants / équipe</p><h2>Une équipe mobilisée autour des préoccupations réelles des candidats.</h2></div><div class="speaker-grid"><article><div class="speaker-photo speaker-reine"></div><h3>Reine Léa Kameni</h3><strong>Intervenante SGVE</strong><p>Orientation, parcours étudiant et préparation stratégique.</p></article><article><div class="speaker-photo speaker-jacques"></div><h3>Jacques Pelabou</h3><strong>Intervenant SGVE</strong><p>Démarches, cohérence du dossier et attentes institutionnelles.</p></article><article><div class="speaker-photo speaker-anguekep"></div><h3>Anguekep Gaël</h3><strong>Intervenant SGVE</strong><p>Choix de destination, programmes et conseils pratiques.</p></article><article><div class="speaker-photo speaker-henri"></div><h3>M. Henri Guehoada</h3><strong>Intervenant SGVE</strong><p>Analyse des profils, financement et préparation du projet.</p></article><article><div class="speaker-photo speaker-carene"></div><h3>Carène Nono</h3><strong>Intervenante SGVE</strong><p>Accompagnement des familles et réponses aux préoccupations clés.</p></article></div></section>
 
-.speaker-photo::after,
-.speaker-photo span {
-  display: none !important;
-}
+      <section class="stats"><article><strong>1000+</strong><p>étudiants formés, orientés et accompagnés</p></article><article><strong>25</strong><p>écoles partenaires</p></article><article><strong>400+</strong><p>programmes de formations</p></article><article><strong>5</strong><p>destinations principales</p></article></section>
 
-.header-whatsapp-cta,
-a[href*="chat.whatsapp.com"].btn {
-  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
-  border-color: rgba(255,255,255,.2) !important;
-  color: #fff !important;
-  box-shadow: 0 18px 42px rgba(22,163,74,.32) !important;
-}
+      <section class="section practical"><div class="venue-photo reveal"><img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=90" alt="Salle de conférence professionnelle pour SGVE 2026" /></div><div class="section-heading reveal"><p class="eyebrow">Informations pratiques</p><h2>Tout ce qu'il faut retenir pour participer à SGVE 2026.</h2><dl><div><dt>Date</dt><dd>12 septembre 2026</dd></div><div><dt>Heure</dt><dd>15h00</dd></div><div><dt>Lieu</dt><dd>Hôtel Crystal Palace / Krystal Palace Douala</dd></div><div><dt>Ville</dt><dd>Douala, Cameroun</dd></div><div><dt>Accès</dt><dd>Gratuit</dd></div><div><dt>Participation</dt><dd>Sur inscription</dd></div></dl></div></section>
 
-.header-whatsapp-cta {
-  align-items: center !important;
-  display: inline-flex !important;
-  font-size: .98rem !important;
-  min-height: 52px !important;
-  padding: 0 28px !important;
-  white-space: nowrap !important;
-}
+      <section class="section registration" id="inscription"><div class="registration-copy reveal"><p class="eyebrow">Inscription gratuite - places limitées</p><h2>Réservez votre place avant la clôture des inscriptions.</h2><p>Renseignez le formulaire pour permettre à l'équipe CF Consulting Travel de confirmer votre participation et de vous transmettre les informations pratiques.</p><div class="mini-info"><span>12 septembre 2026 · 15h00</span><span>Krystal Palace Douala</span><span>Accès gratuit sur inscription</span><span class="seat-pill"><strong data-seats-remaining>400</strong> places restantes</span></div></div><form class="form reveal" data-form novalidate><p class="required-note full">Les cases avec un astérisque (*) sont marquées comme importantes et doivent être renseignées pour valider l'inscription.</p><label>Nom complet <span class="required-mark">*</span><input required aria-required="true" name="name" placeholder="Ex. Marie Kamdem" /></label><label>Âge<input name="age" type="number" min="12" placeholder="Ex. 22" /></label><label>Statut<select name="status"><option value="">Sélectionner</option><option>Élève</option><option>Étudiant</option><option>Parent</option><option>Jeune diplômé</option><option>Partenaire</option></select></label><label>Établissement ou organisation<input name="organization" placeholder="Votre établissement" /></label><label>Ville<input name="city" placeholder="Votre ville" /></label><label>Téléphone WhatsApp <span class="required-mark">*</span><input required aria-required="true" name="phone" placeholder="+237 ..." /></label><label>Email <span class="required-mark">*</span><input required aria-required="true" name="email" type="email" placeholder="nom@email.com" /></label><label>Pays visé<input name="targetCountry" placeholder="France, Canada, Espagne, Russie..." /></label><label>Niveau d'études actuel<select name="educationLevel"><option value="">Sélectionner</option><option>Secondaire</option><option>Baccalauréat</option><option>Licence</option><option>Master</option><option>Autre</option></select></label><label>Avez-vous déjà eu un refus de visa ?<select name="visaRefusal"><option value="">Sélectionner</option><option>Non</option><option>Oui</option><option>Je préfère ne pas répondre</option></select></label><label>Souhaitez-vous venir accompagné ?<select name="accompanied"><option value="">Sélectionner</option><option>Non</option><option>Oui</option></select></label><label>Nombre d'accompagnants<input name="companions" type="number" min="0" placeholder="0" /></label><label class="full">Question ou message<textarea name="message" placeholder="Votre question ou votre projet"></textarea></label><button class="btn primary full" type="submit">Envoyer mon inscription</button><p class="form-status full" data-status></p></form></section>
 
-.header-whatsapp-cta::after,
-.hero-whatsapp-cta::after {
-  content: "\2197" !important;
-  font-size: 1.02rem !important;
-  font-weight: 1000 !important;
-  margin-left: 8px !important;
-}
+      <section class="section faq-section" id="faq"><div class="center reveal"><p class="eyebrow">FAQ</p><h2>Les réponses aux questions que se posent les étudiants et les parents.</h2></div><div class="faq"><details open><summary>La participation à SGVE 2026 est-elle payante ?</summary><p>Non. L'accès est gratuit, mais la participation se fait uniquement sur inscription.</p></details><details><summary>Les parents peuvent-ils participer ?</summary><p>Oui. La conférence s'adresse aussi aux parents et accompagnants.</p></details><details><summary>Dois-je déjà avoir choisi un pays ou une école ?</summary><p>Ce n'est pas obligatoire. La conférence aide à clarifier le choix de destination et d'école.</p></details><details><summary>La conférence garantit-elle l'obtention du visa étudiant ?</summary><p>Non. SGVE aide à mieux structurer le projet, éviter les erreurs et se préparer avec méthode.</p></details></div></section>
+    </main>
 
-.hero-whatsapp-cta {
-  font-size: 1.05rem !important;
-  min-height: 66px !important;
-  padding-inline: 34px !important;
-}
+    <footer class="footer"><div><img src="/images/cf-logo.svg" alt="CF Consulting Travel" /><h2>SGVE 2026 - Stratégie Gagnante Visa Étudiant</h2><p>Maîtrisez la feuille de route pour décrocher votre visa étudiant.</p><a class="btn primary" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre le groupe WhatsApp SGVE</a></div><address><strong>Contacts</strong><a href="mailto:cfconsultingtravel@outlook.fr">cfconsultingtravel@outlook.fr</a><a href="tel:+33656737225">France : +33 6 56 73 72 25</a><a href="tel:+237657605017">Cameroun : +237 657 605 017</a><span>8 rue du Dauphiné, Massy, 91300, France</span></address><nav><strong>Liens rapides</strong><a href="#apropos">À propos</a><a href="#programme">Pourquoi SGVE ?</a><a href="#strategie">Stratégie visa</a><a href="#inscription">Inscription</a></nav></footer>
+    <script src="script.js"></script>
+  </body>
+</html>`;
 
-.hero-whatsapp-cta:hover,
-.header-whatsapp-cta:hover {
-  box-shadow: 0 24px 56px rgba(22,163,74,.42) !important;
-  transform: translateY(-4px) scale(1.035) !important;
-}
+const css = `:root{--navy:#082B46;--navy2:#061f33;--orange:#F26A21;--soft:#F5F7FA;--text:#111827;--muted:#64748b;--line:rgba(8,43,70,.12);font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text);scroll-behavior:smooth}*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--text)}a{color:inherit;text-decoration:none}img{display:block;max-width:100%}.header{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:22px;justify-content:space-between;padding:14px clamp(18px,4vw,54px);background:rgba(255,255,255,.92);border-bottom:1px solid rgba(8,43,70,.08);backdrop-filter:blur(18px)}.brand{display:flex;align-items:center;gap:12px}.brand img,.footer img,.trust-panel>img{width:58px;height:auto}.brand strong{display:block;color:var(--navy);font-weight:1000}.brand small{color:var(--muted);font-weight:800}.nav{display:flex;gap:20px;align-items:center;font-size:.93rem;font-weight:850}.nav a:hover{color:var(--orange)}.menu-button{display:none}.header-cta,.btn{border:0;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;font-weight:950;transition:transform .22s ease,box-shadow .22s ease,background .22s ease}.header-cta{background:var(--orange);color:#fff;box-shadow:0 18px 38px rgba(242,106,33,.25)}.header-whatsapp-cta,.hero-whatsapp-cta{background:linear-gradient(135deg,#16a34a,#22c55e)!important;color:#fff!important;box-shadow:0 18px 42px rgba(22,163,74,.32)!important}.hero-whatsapp-cta{min-height:66px;font-size:1.04rem}.btn:hover,.header-cta:hover,.motion-card:hover{transform:translateY(-4px);box-shadow:0 24px 54px rgba(8,43,70,.18)}.primary{background:var(--orange);color:#fff;box-shadow:0 18px 42px rgba(242,106,33,.32)}.ghost{border:1px solid rgba(255,255,255,.42);color:#fff;background:rgba(255,255,255,.12)}.navy-btn{background:var(--navy);color:#fff}.white-btn{background:#fff;color:var(--navy);border:1px solid var(--line)}.hero{position:relative;overflow:hidden;min-height:calc(100vh - 80px);color:#fff}.hero-bg-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.hero-photo-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(3,20,34,.96),rgba(8,43,70,.86) 44%,rgba(8,43,70,.54)),radial-gradient(circle at 20% 18%,rgba(242,106,33,.36),transparent 28%)}.hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(330px,.8fr);gap:clamp(32px,5vw,76px);align-items:center;min-height:calc(100vh - 80px);padding:clamp(64px,8vw,112px) clamp(20px,5vw,72px)}.hero-kicker,.eyebrow{color:#ffb083;text-transform:uppercase;letter-spacing:.14em;font-size:.77rem;font-weight:1000}.sgve-lockup{display:flex;align-items:flex-end;gap:14px;margin:16px 0}.sgve-lockup span{font-size:clamp(4.2rem,11vw,10rem);font-weight:1000;line-height:.82}.sgve-lockup strong{font-size:clamp(1.8rem,4vw,3.5rem);color:var(--orange)}h1{font-size:clamp(2.2rem,5.8vw,5.9rem);line-height:1.02;margin:0;font-weight:1000;letter-spacing:0}h2{font-size:clamp(2rem,4.4vw,4.4rem);line-height:1.08;margin:10px 0 0;color:var(--navy);font-weight:1000}h3{color:var(--navy);font-size:1.22rem;margin:.2rem 0 .6rem}.slogan{font-size:clamp(1.2rem,2.3vw,2rem);font-weight:900;margin:18px 0 0}.hero-text{max-width:780px;font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.82)}.event-badges,.country-strip,.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}.event-badges span,.country-strip span,.country-strip strong,.mini-info span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:10px 14px;font-weight:900}.seat-pill strong{color:#fff}.hero-note{color:#ffd1b8;font-weight:900}.hero-visual{display:grid;gap:18px}.visual-card,.countdown-card,.trust-panel,.pain-card,.solution-card,.form,.speaker-grid article,.cards article,.stats article,.faq details{border:1px solid rgba(8,43,70,.1);border-radius:28px;background:#fff;box-shadow:0 22px 60px rgba(8,43,70,.1);overflow:hidden}.main-poster img{height:420px;width:100%;object-fit:cover}.countdown-card{padding:22px;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.24);backdrop-filter:blur(16px)}.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.countdown div{border-radius:18px;background:#fff;color:var(--navy);padding:16px;text-align:center}.countdown strong{display:block;font-size:2rem}.section{padding:clamp(70px,9vw,130px) clamp(18px,5vw,72px)}.section-grid,.dual-panel,.practical,.registration,.footer{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,70px);max-width:1180px;margin:auto;align-items:center}.center{max-width:860px;margin:auto;text-align:center}.section-heading p,.center p,.cards p,.objective-grid p,.speaker-grid p,.faq p{color:#475569;line-height:1.75}.trust-panel{padding:24px;display:grid;gap:16px}.trust-panel article,.objective-grid article,.format-list article{border:1px solid var(--line);border-radius:22px;padding:20px;background:#fff}.dual-panel{align-items:stretch;margin-top:44px}.pain-card,.solution-card{padding:32px}.pain-card{background:#fff7ed}.pain-card li{margin:14px 0;font-weight:850;color:#7c2d12}.panel-tag{color:var(--orange);font-weight:1000;text-transform:uppercase;font-size:.75rem;letter-spacing:.13em}.objective-grid,.cards,.speaker-grid,.stats,.faq{max-width:1180px;margin:44px auto 0;display:grid;gap:20px}.objective-grid{grid-template-columns:repeat(3,1fr)}.cards{grid-template-columns:repeat(4,1fr)}.cards article,.speaker-grid article,.stats article{padding:24px;transition:transform .22s ease,box-shadow .22s ease}.cards span,.objective-grid span,.icon{display:inline-flex;width:46px;height:46px;border-radius:16px;background:var(--navy);color:#fff;align-items:center;justify-content:center;font-weight:1000;margin-bottom:14px}.strategy{background:var(--soft)}.speaker-grid{grid-template-columns:repeat(5,1fr)}.speaker-photo{height:220px;border-radius:24px;background:#f8fafc center/contain no-repeat;border:1px solid var(--line);margin-bottom:18px}.speaker-reine{background-image:url('/images/speakers/reine-lea-kameni.svg')}.speaker-jacques{background-image:url('/images/speakers/jacques-pelabou.svg')}.speaker-anguekep{background-image:url('/images/speakers/anguekep-gael.svg')}.speaker-henri{background-image:url('/images/speakers/henri-guehoada.svg')}.speaker-carene{background-image:url('/images/speakers/carene-nono.svg')}.stats{grid-template-columns:repeat(4,1fr);padding:70px clamp(18px,5vw,72px);margin:0;background:var(--navy);max-width:none}.stats article{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:#fff;text-align:center}.stats strong{font-size:clamp(2.4rem,5vw,5rem);color:#fff}.stats p{color:#dbeafe}.venue-photo img{border-radius:30px;height:520px;width:100%;object-fit:cover;box-shadow:0 24px 70px rgba(8,43,70,.14)}dl div{display:flex;justify-content:space-between;gap:18px;border-bottom:1px solid var(--line);padding:16px 0}dt{color:#64748b;font-weight:850}dd{margin:0;font-weight:950;color:var(--navy);text-align:right}.registration{max-width:none;background:linear-gradient(110deg,rgba(6,31,51,.96),rgba(8,43,70,.9)),url('https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1600&q=90') center/cover;padding:clamp(70px,9vw,120px) clamp(18px,5vw,72px);color:#fff}.registration h2{color:#fff}.registration p{color:rgba(255,255,255,.78)}.form{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:28px;background:#fff}.form label{color:var(--navy);font-weight:900;display:grid;gap:8px}.form input,.form select,.form textarea{width:100%;border:1px solid #d6dde8;border-radius:16px;padding:14px 16px;font:inherit;color:var(--text);background:#fff}.form textarea{min-height:120px;resize:vertical}.full{grid-column:1/-1}.required-note{background:#fff7ed!important;border:1px solid rgba(242,106,33,.3)!important;border-radius:18px!important;color:#7c2d12!important;font-size:.92rem!important;font-weight:850!important;line-height:1.55!important;margin:0!important;padding:14px 16px!important}.required-mark{color:#dc2626;font-weight:1000;margin-left:4px}.form input.field-error{border-color:#dc2626!important;box-shadow:0 0 0 5px rgba(220,38,38,.12)!important}.form-status{min-height:24px;color:var(--navy);font-weight:900}.form-status.error{color:#dc2626}.form-status.success{color:#15803d}.faq{max-width:920px}.faq details{padding:22px}.faq summary{cursor:pointer;font-weight:950;color:var(--navy)}.footer{max-width:none;background:#061f33;color:#fff;padding:56px clamp(18px,5vw,72px);align-items:start}.footer h2{color:#fff;font-size:1.6rem}.footer a,.footer span{display:block;color:#dbeafe;margin:8px 0}.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}.reveal.in-view{opacity:1;transform:none}@media(max-width:980px){.nav{display:none}.nav.is-open{display:flex;position:absolute;top:74px;left:16px;right:16px;flex-direction:column;background:#fff;border-radius:24px;padding:18px;box-shadow:0 24px 60px rgba(8,43,70,.16)}.menu-button{display:grid;gap:5px;border:0;background:#fff}.menu-button span{width:28px;height:3px;background:var(--navy);border-radius:99px}.header-whatsapp-cta{font-size:.78rem;min-height:44px;padding:0 13px}.hero-grid,.section-grid,.dual-panel,.practical,.registration,.footer{grid-template-columns:1fr}.hero-grid{min-height:auto;padding-top:70px}.cards,.objective-grid,.speaker-grid,.stats{grid-template-columns:1fr 1fr}.main-poster img{height:300px}}@media(max-width:620px){.header{gap:10px;padding:10px 14px}.brand img{width:44px}.brand small{display:none}.hero-grid{padding-inline:16px}.sgve-lockup span{font-size:4rem}.event-badges span,.country-strip span,.country-strip strong{width:100%;text-align:center}.actions .btn{width:100%}.cards,.objective-grid,.speaker-grid,.stats,.form{grid-template-columns:1fr}.section{padding-inline:16px}.venue-photo img{height:320px}.footer{padding-inline:18px}}`;
 
-.section-heading a[href*="chat.whatsapp.com"].btn,
-.footer a[href*="chat.whatsapp.com"].btn {
-  min-height: 62px !important;
-  padding-inline: 30px !important;
-}
+const js = `const targetDate = new Date("2026-09-12T15:00:00+01:00");
+const header = document.querySelector("[data-header]");
+const menu = document.querySelector("[data-menu]");
+const menuButton = document.querySelector("[data-menu-button]");
+const form = document.querySelector("[data-form]");
+const statusLine = document.querySelector("[data-status]");
+const submitButton = form ? form.querySelector('button[type="submit"]') : null;
+const seatCounters = document.querySelectorAll("[data-seats-remaining]");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const defaultTotalSeats = 400;
 
-.solution-card .visual-thumb,
-.strategy-cards .visual-thumb {
-  box-shadow: 0 18px 44px rgba(0,0,0,.2) !important;
-}
+function updateCountdown(){const remaining=Math.max(0,Math.floor((targetDate.getTime()-Date.now())/1000));const days=Math.floor(remaining/86400);const hours=Math.floor((remaining%86400)/3600);const minutes=Math.floor((remaining%3600)/60);const seconds=remaining%60;document.querySelector("[data-days]").textContent=String(days).padStart(2,"0");document.querySelector("[data-hours]").textContent=String(hours).padStart(2,"0");document.querySelector("[data-minutes]").textContent=String(minutes).padStart(2,"0");document.querySelector("[data-seconds]").textContent=String(seconds).padStart(2,"0")}
+function updateSeatsDisplay(value){const remaining=Math.max(0,Number.parseInt(String(value),10)||0);seatCounters.forEach((counter)=>counter.textContent=String(remaining));if(submitButton){submitButton.disabled=remaining<=0}if(remaining<=0&&statusLine){statusLine.className="form-status full error";statusLine.textContent="Les places disponibles sont épuisées. Vous pouvez contacter CF Consulting Travel pour plus d'informations."}}
+async function loadSeatsAvailability(){updateSeatsDisplay(defaultTotalSeats);try{const response=await fetch("/register",{method:"GET"});if(!response.ok)return;const result=await response.json();if(typeof result.remainingSeats==="number")updateSeatsDisplay(result.remainingSeats)}catch{updateSeatsDisplay(defaultTotalSeats)}}
+function importantFieldsAreValid(){if(!form)return true;const importantFields=[{name:"name",label:"nom complet"},{name:"phone",label:"numéro de téléphone WhatsApp"},{name:"email",label:"adresse email"}];const missing=[];let firstInvalid=null;for(const field of importantFields){const input=form.elements[field.name];const empty=!input||!String(input.value||"").trim();if(input){input.classList.toggle("field-error",empty);input.setAttribute("aria-invalid",empty?"true":"false")}if(empty){missing.push(field.label);firstInvalid=firstInvalid||input}}const emailInput=form.elements.email;const emailValue=emailInput?String(emailInput.value||"").trim():"";if(emailValue&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(emailValue)){emailInput.classList.add("field-error");emailInput.setAttribute("aria-invalid","true");missing.push("adresse email valide");firstInvalid=firstInvalid||emailInput}if(missing.length){statusLine.className="form-status full error";statusLine.textContent="Veuillez renseigner les champs obligatoires marqués d'un astérisque : "+missing.join(", ")+".";if(firstInvalid)firstInvalid.focus();return false}return true}
+if(menuButton){menuButton.addEventListener("click",()=>{const open=menu.classList.toggle("is-open");menuButton.setAttribute("aria-expanded",String(open))})}
+if(!reduceMotion){const observer=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting){entry.target.classList.add("in-view");observer.unobserve(entry.target)}})},{threshold:.12});document.querySelectorAll(".reveal").forEach((item)=>observer.observe(item))}else{document.querySelectorAll(".reveal").forEach((item)=>item.classList.add("in-view"))}
+if(form){["name","phone","email"].forEach((name)=>{const input=form.elements[name];if(input)input.addEventListener("input",()=>{input.classList.remove("field-error");input.setAttribute("aria-invalid","false")})});form.addEventListener("submit",async(event)=>{event.preventDefault();if(!importantFieldsAreValid())return;const data=Object.fromEntries(new FormData(form).entries());const originalText=submitButton.textContent;submitButton.disabled=true;submitButton.textContent="Envoi en cours...";statusLine.className="form-status full";statusLine.textContent="Traitement de votre inscription...";try{const response=await fetch("/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});const result=await response.json().catch(()=>({}));if(!response.ok){throw new Error(result.message||"L'inscription n'a pas pu être finalisée.")}if(typeof result.remainingSeats==="number")updateSeatsDisplay(result.remainingSeats);statusLine.className="form-status full success";statusLine.textContent="Votre inscription à SGVE 2026 a bien été enregistrée. L'équipe CF Consulting Travel vous contactera avec les informations pratiques.";form.reset()}catch(error){statusLine.className="form-status full error";statusLine.textContent=error instanceof Error?error.message:"Une erreur est survenue."}finally{submitButton.disabled=false;submitButton.textContent=originalText}},true)}
+updateCountdown();setInterval(updateCountdown,1000);loadSeatsAvailability();`;
 
-.registration {
-  background:
-    linear-gradient(110deg, rgba(6,31,51,.96) 0%, rgba(8,43,70,.9) 50%, rgba(8,43,70,.72) 100%),
-    radial-gradient(circle at 18% 20%, rgba(242,106,33,.26), transparent 30%),
-    var(--img-conference) center / cover no-repeat !important;
-}
-
-.venue-photo img {
-  content: url("https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=90");
-  object-position: center !important;
-}
-
-.required-note {
-  background: #fff7ed !important;
-  border: 1px solid rgba(242,106,33,.3) !important;
-  border-radius: 18px !important;
-  color: #7c2d12 !important;
-  font-size: .92rem !important;
-  font-weight: 850 !important;
-  line-height: 1.55 !important;
-  margin: 0 !important;
-  padding: 14px 16px !important;
-}
-
-.required-mark {
-  color: #dc2626 !important;
-  font-weight: 1000 !important;
-  margin-left: 4px !important;
-}
-
-.form input.field-error {
-  border-color: #dc2626 !important;
-  box-shadow: 0 0 0 5px rgba(220,38,38,.12) !important;
-}
-
-@media (max-width: 980px) {
-  .header-whatsapp-cta {
-    display: inline-flex !important;
-    font-size: .78rem !important;
-    line-height: 1.15 !important;
-    min-height: 44px !important;
-    padding: 0 13px !important;
-    text-align: center !important;
-    white-space: normal !important;
-  }
-}
-
-@media (max-width: 560px) {
-  .header-whatsapp-cta {
-    max-width: 148px !important;
-  }
-
-  .hero-whatsapp-cta {
-    min-height: 62px !important;
-    width: 100% !important;
-  }
-}
-`;
-
-const registrationValidationScript = `
-<script>
-(() => {
-  const form = document.querySelector("[data-form]");
-  if (!form) return;
-
-  const statusLine = form.querySelector("[data-status]");
-  const importantFields = [
-    { name: "name", label: "nom complet" },
-    { name: "phone", label: "numéro de téléphone WhatsApp" },
-    { name: "email", label: "adresse email" },
-  ];
-
-  function getInput(name) {
-    return form.elements[name];
-  }
-
-  function setError(input, active) {
-    if (!input) return;
-    input.classList.toggle("field-error", active);
-    input.setAttribute("aria-invalid", active ? "true" : "false");
-  }
-
-  function validateImportantFields() {
-    const missing = [];
-    let firstInvalid = null;
-
-    importantFields.forEach((field) => {
-      const input = getInput(field.name);
-      const empty = !input || !String(input.value || "").trim();
-      setError(input, empty);
-      if (empty) {
-        missing.push(field.label);
-        firstInvalid = firstInvalid || input;
-      }
-    });
-
-    const emailInput = getInput("email");
-    const emailValue = emailInput ? String(emailInput.value || "").trim() : "";
-    const invalidEmail = Boolean(emailValue && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(emailValue));
-
-    if (invalidEmail) {
-      setError(emailInput, true);
-      missing.push("adresse email valide");
-      firstInvalid = firstInvalid || emailInput;
-    }
-
-    if (missing.length) {
-      if (statusLine) {
-        statusLine.className = "form-status full error";
-        statusLine.textContent = "Veuillez renseigner les champs obligatoires marqués d'un astérisque : " + missing.join(", ") + ".";
-      }
-      if (firstInvalid) firstInvalid.focus();
-      return false;
-    }
-
-    if (statusLine && statusLine.classList.contains("error")) {
-      statusLine.className = "form-status full";
-      statusLine.textContent = "";
-    }
-
-    return true;
-  }
-
-  importantFields.forEach((field) => {
-    const input = getInput(field.name);
-    if (!input) return;
-    input.addEventListener("input", () => setError(input, false));
-  });
-
-  form.addEventListener("submit", (event) => {
-    if (!validateImportantFields()) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
-  }, true);
-})();
-</script>`;
-
-function polishHtml(html) {
-  const heroWhatsappButton = `<a class="btn hero-whatsapp-cta" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre le groupe WhatsApp</a>`;
-
-  return html
-    .replace(
-      /<a class="header-cta" href="#inscription">(?:Réserver|RÃ©server)<\/a>/,
-      `<a class="header-cta header-whatsapp-cta" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre WhatsApp</a>`,
-    )
-    .replace(
-      /(<div class="actions">\s*<a class="btn primary" href="#inscription">(?:Je réserve ma place|Je rÃ©serve ma place)<\/a>\s*<a class="btn ghost" href="#programme">(?:Découvrir le programme|DÃ©couvrir le programme)<\/a>\s*)<\/div>/,
-      `$1${heroWhatsappButton}</div>`,
-    )
-    .replace(
-      /(<div class="venue-photo reveal">\s*)<img[^>]+\/>/,
-      `$1<img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=90" alt="Salle de conférence professionnelle pour SGVE 2026" />`,
-    )
-    .replace(
-      /<form class="form reveal" data-form>/,
-      `<form class="form reveal" data-form novalidate><p class="required-note full">Les cases avec un astérisque (*) sont marquées comme importantes et doivent être renseignées pour valider l’inscription.</p>`,
-    )
-    .replace(/\srequired(?=\sname="(?:age|status|organization|city|targetCountry|educationLevel|visaRefusal|accompanied)")/g, "")
-    .replace(
-      /<label>Nom complet<input required name="name"([^>]*)><\/label>/,
-      `<label>Nom complet <span class="required-mark" aria-hidden="true">*</span><input required aria-required="true" name="name"$1></label>`,
-    )
-    .replace(
-      /<label>(?:Téléphone WhatsApp|TÃ©lÃ©phone WhatsApp)<input required name="phone"([^>]*)><\/label>/,
-      `<label>Téléphone WhatsApp <span class="required-mark" aria-hidden="true">*</span><input required aria-required="true" name="phone"$1></label>`,
-    )
-    .replace(
-      /<label>Email<input required name="email"([^>]*)><\/label>/,
-      `<label>Email <span class="required-mark" aria-hidden="true">*</span><input required aria-required="true" name="email"$1></label>`,
-    )
-    .replace("</body>", `${registrationValidationScript}\n</body>`)
-    .replace("speaker-photo crop-9", "speaker-photo speaker-reine")
-    .replace("speaker-photo crop-4", "speaker-photo speaker-jacques")
-    .replace("speaker-photo crop-3", "speaker-photo speaker-anguekep")
-    .replace("speaker-photo crop-8", "speaker-photo speaker-henri")
-    .replace("speaker-photo crop-10", "speaker-photo speaker-carene");
-}
-
-function stripLegacyImageSprite(css) {
-  return css.replace(
-    /\.visual-thumb, \.mini-thumb, \.speaker-photo \{[\s\S]*?\.crop-12 \{ background-position: 100% 100%; \}\s*/,
-    "",
-  );
-}
-
-function polishCss(css) {
-  return `${stripLegacyImageSprite(css)}\n\n/* Agency-quality image polish: clear, independent, high-resolution section visuals. */\n${premiumImageTokens}\n`;
-}
-
-async function fetchText(path, target, transform = (value) => value) {
-  const response = await fetch(`${sourceUrl}${path}`);
-  if (!response.ok) {
-    throw new Error(`Unable to fetch ${sourceUrl}${path}: ${response.status}`);
-  }
-  await writeFile(`${outDir}/${target}`, transform(await response.text()), "utf8");
-}
+const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" role="img" aria-label="CF Consulting Travel"><rect width="240" height="80" rx="18" fill="#ffffff"/><circle cx="44" cy="40" r="25" fill="#F26A21"/><path d="M24 43c26 14 58 5 76-18" fill="none" stroke="#082B46" stroke-width="7" stroke-linecap="round"/><path d="M70 20l28-10-12 28" fill="#082B46"/><text x="86" y="35" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="900" fill="#082B46">CF CONSULTING</text><text x="86" y="57" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="900" letter-spacing="4" fill="#111827">TRAVEL</text></svg>`;
 
 await rm(outDir, { recursive: true, force: true });
-await mkdir(outDir, { recursive: true });
 await mkdir(`${outDir}/images/speakers`, { recursive: true });
-
 for (const asset of speakerAssets) {
   await copyFile(`public/images/speakers/${asset}`, `${outDir}/images/speakers/${asset}`);
 }
-
-await fetchText("/", "index.html", polishHtml);
-await fetchText("/styles.css", "styles.css", polishCss);
-await fetchText("/script.js", "script.js");
-
+await mkdir(`${outDir}/images`, { recursive: true });
+await writeFile(`${outDir}/images/cf-logo.svg`, logoSvg, "utf8");
+await writeFile(`${outDir}/index.html`, html, "utf8");
+await writeFile(`${outDir}/styles.css`, css, "utf8");
+await writeFile(`${outDir}/script.js`, js, "utf8");
 await writeFile(`${outDir}/_redirects`, "/register /.netlify/functions/register 200\n", "utf8");
-await writeFile(`${outDir}/build-ok.txt`, `Built from ${sourceUrl} with premium image polish, uncropped speaker portraits, prominent WhatsApp CTAs, and required registration fields\n`, "utf8");
-
-console.log(`SGVE static preview copied from ${sourceUrl} with premium image polish, uncropped speaker portraits, prominent WhatsApp CTAs, and required registration fields`);
+await writeFile(`${outDir}/build-ok.txt`, "SGVE 2026 standalone build generated successfully.\n", "utf8");
+console.log("SGVE 2026 standalone landing page generated successfully");

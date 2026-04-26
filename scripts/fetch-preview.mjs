@@ -76,8 +76,15 @@ function polishHtml(html) {
   );
 }
 
+function stripLegacyImageSprite(css) {
+  return css.replace(
+    /\.visual-thumb, \.mini-thumb, \.speaker-photo \{[\s\S]*?\.crop-12 \{ background-position: 100% 100%; \}\s*/,
+    "",
+  );
+}
+
 function polishCss(css) {
-  return `${css}\n\n/* Agency-quality image polish: clear, independent, high-resolution section visuals. */\n${premiumImageTokens}\n`;
+  return `${stripLegacyImageSprite(css)}\n\n/* Agency-quality image polish: clear, independent, high-resolution section visuals. */\n${premiumImageTokens}\n`;
 }
 
 async function fetchText(path, target, transform = (value) => value) {

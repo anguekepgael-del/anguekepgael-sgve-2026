@@ -1,5 +1,14 @@
 import { getStore } from "@netlify/blobs";
-import type { Config } from "@netlify/functions";
+
+declare const Netlify: {
+  env: {
+    get(name: string): string | undefined;
+  };
+};
+
+declare const process: {
+  env: Record<string, string | undefined>;
+};
 
 type RegistrationData = {
   name?: string;
@@ -26,10 +35,6 @@ type SeatState = {
 
 const seatStateKey = "seat-state";
 const defaultTotalSeats = 250;
-
-function env(name: string) {
-  return Netlify.env.get(name);
-}
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -61,6 +66,11 @@ function createTicketId() {
   return `SGVE-${timestamp}-${suffix}`;
 }
 
+function env(name: string) {
+  const netlifyValue = typeof Netlify !== "undefined" ? Netlify.env.get(name) : undefined;
+  return netlifyValue || process.env[name];
+}
+
 function getConfiguredTotalSeats() {
   const configured = Number.parseInt(env("SGVE_TOTAL_SEATS") || "", 10);
   return Number.isFinite(configured) && configured > 0 ? configured : defaultTotalSeats;
@@ -76,12 +86,23 @@ async function getSeatState(): Promise<SeatState> {
   const stored = await store.get(seatStateKey, { type: "json" }) as SeatState | null;
 
   if (!stored) {
-    return { totalSeats, remainingSeats: totalSeats, registrations: 0, updatedAt: new Date().toISOString() };
+    return {
+      totalSeats,
+      remainingSeats: totalSeats,
+      registrations: 0,
+      updatedAt: new Date().toISOString(),
+    };
   }
 
   const remainingSeats = Math.max(0, Math.min(Number(stored.remainingSeats ?? totalSeats), totalSeats));
   const registrations = Math.max(0, Number(stored.registrations ?? totalSeats - remainingSeats));
-  return { totalSeats, remainingSeats, registrations, updatedAt: clean(stored.updatedAt) || new Date().toISOString() };
+
+  return {
+    totalSeats,
+    remainingSeats,
+    registrations,
+    updatedAt: clean(stored.updatedAt) || new Date().toISOString(),
+  };
 }
 
 async function reserveSeat() {
@@ -123,7 +144,10 @@ function createCalendarAttachment(ticketId: string, data: RegistrationData) {
     "END:VCALENDAR",
   ].join("\r\n");
 
-  return { filename: "invitation-sgve-2026.ics", content: Buffer.from(ics, "utf8").toString("base64") };
+  return {
+    filename: "invitation-sgve-2026.ics",
+    content: Buffer.from(ics, "utf8").toString("base64"),
+  };
 }
 
 function createEmailHtml(ticketId: string, data: RegistrationData) {
@@ -135,7 +159,56 @@ function createEmailHtml(ticketId: string, data: RegistrationData) {
   const status = escapeHtml(data.status);
   const companions = escapeHtml(data.companions || "0");
 
-  return `<!doctype html><html lang="fr"><body style="margin:0;background:#f5f7fa;font-family:Arial,Helvetica,sans-serif;color:#111827;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f5f7fa;padding:28px 12px;"><tr><td align="center"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;background:#ffffff;border-radius:24px;overflow:hidden;border:1px solid #e5e7eb;"><tr><td style="background:#082B46;padding:34px 30px;color:#ffffff;"><p style="margin:0 0 10px;color:#ffb083;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">Billet d'invitation officiel</p><h1 style="margin:0;font-size:34px;line-height:1.1;">SGVE 2026</h1><p style="margin:10px 0 0;font-size:18px;color:#e5eef5;">Stratégie Gagnante Visa Étudiant</p></td></tr><tr><td style="padding:30px;"><p style="margin:0 0 22px;font-size:16px;line-height:1.7;">Bonjour <strong>${name}</strong>, votre inscription à SGVE 2026 a bien été enregistrée. Ce message constitue votre billet d'invitation.</p><div style="border:2px dashed #F26A21;border-radius:20px;padding:24px;background:#fff7ed;"><p style="margin:0;color:#9a3412;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">Code billet</p><p style="margin:8px 0 0;color:#082B46;font-size:28px;font-weight:900;">${ticketId}</p></div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:24px;border-collapse:collapse;"><tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Date</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">12 septembre 2026</td></tr><tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Heure</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">15h00</td></tr><tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Lieu</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Krystal Palace Douala</td></tr><tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Accès</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Gratuit, sur inscription</td></tr></table><h2 style="margin:26px 0 12px;color:#082B46;font-size:18px;">Informations du participant</h2><p style="margin:0;line-height:1.8;color:#374151;">Statut : <strong>${status}</strong><br />Ville : <strong>${city}</strong><br />Pays visé : <strong>${targetCountry}</strong><br />Accompagnants : <strong>${companions}</strong><br />Email : <strong>${email}</strong><br />WhatsApp : <strong>${phone}</strong></p><p style="margin:26px 0 0;line-height:1.7;color:#475467;">Présentez ce billet à l'accueil de la conférence. L'équipe CF Consulting Travel vous contactera avec les informations pratiques.</p></td></tr><tr><td style="background:#061f33;padding:22px 30px;color:#cbd5e1;font-size:13px;line-height:1.6;">CF Consulting Travel · cfconsultingtravel@outlook.fr · France : +33 6 56 73 72 25 · Cameroun : +237 657 605 017</td></tr></table></td></tr></table></body></html>`;
+  return `<!doctype html>
+<html lang="fr">
+  <body style="margin:0;background:#f5f7fa;font-family:Arial,Helvetica,sans-serif;color:#111827;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f5f7fa;padding:28px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;background:#ffffff;border-radius:24px;overflow:hidden;border:1px solid #e5e7eb;">
+            <tr>
+              <td style="background:#082B46;padding:34px 30px;color:#ffffff;">
+                <p style="margin:0 0 10px;color:#ffb083;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">Billet d'invitation officiel</p>
+                <h1 style="margin:0;font-size:34px;line-height:1.1;">SGVE 2026</h1>
+                <p style="margin:10px 0 0;font-size:18px;color:#e5eef5;">Stratégie Gagnante Visa Étudiant</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:30px;">
+                <p style="margin:0 0 22px;font-size:16px;line-height:1.7;">Bonjour <strong>${name}</strong>, votre inscription à SGVE 2026 a bien été enregistrée. Ce message constitue votre billet d'invitation.</p>
+                <div style="border:2px dashed #F26A21;border-radius:20px;padding:24px;background:#fff7ed;">
+                  <p style="margin:0;color:#9a3412;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">Code billet</p>
+                  <p style="margin:8px 0 0;color:#082B46;font-size:28px;font-weight:900;">${ticketId}</p>
+                </div>
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:24px;border-collapse:collapse;">
+                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Date</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">12 septembre 2026</td></tr>
+                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Heure</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">15h00</td></tr>
+                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Lieu</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Krystal Palace Douala</td></tr>
+                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Accès</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Gratuit, sur inscription</td></tr>
+                </table>
+                <h2 style="margin:26px 0 12px;color:#082B46;font-size:18px;">Informations du participant</h2>
+                <p style="margin:0;line-height:1.8;color:#374151;">
+                  Statut : <strong>${status}</strong><br />
+                  Ville : <strong>${city}</strong><br />
+                  Pays visé : <strong>${targetCountry}</strong><br />
+                  Accompagnants : <strong>${companions}</strong><br />
+                  Email : <strong>${email}</strong><br />
+                  WhatsApp : <strong>${phone}</strong>
+                </p>
+                <p style="margin:26px 0 0;line-height:1.7;color:#475467;">Présentez ce billet à l'accueil de la conférence. L'équipe CF Consulting Travel vous contactera avec les informations pratiques.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background:#061f33;padding:22px 30px;color:#cbd5e1;font-size:13px;line-height:1.6;">
+                CF Consulting Travel · contact@cfconsultingtravel.org · France : +33 6 56 73 72 25 · Cameroun : +237 657 605 017
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
 }
 
 function createEmailText(ticketId: string, data: RegistrationData) {
@@ -158,7 +231,7 @@ function createEmailText(ticketId: string, data: RegistrationData) {
 async function sendTicketEmail(ticketId: string, data: RegistrationData) {
   const apiKey = env("RESEND_API_KEY");
   const from = env("SGVE_EMAIL_FROM");
-  const replyTo = env("SGVE_EMAIL_REPLY_TO") || "cfconsultingtravel@outlook.fr";
+  const replyTo = env("SGVE_EMAIL_REPLY_TO") || "contact@cfconsultingtravel.org";
 
   if (!apiKey || !from) {
     return { configured: false, sent: false };
@@ -166,7 +239,10 @@ async function sendTicketEmail(ticketId: string, data: RegistrationData) {
 
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       from,
       to: [clean(data.email)],
@@ -179,7 +255,8 @@ async function sendTicketEmail(ticketId: string, data: RegistrationData) {
   });
 
   if (!response.ok) {
-    console.error("Email provider error", await response.text());
+    const details = await response.text();
+    console.error("Email provider error", details);
     throw new Error("Le billet n'a pas pu être envoyé par email.");
   }
 
@@ -189,7 +266,11 @@ async function sendTicketEmail(ticketId: string, data: RegistrationData) {
 export default async (req: Request) => {
   if (req.method === "GET") {
     const state = await getSeatState();
-    return jsonResponse({ totalSeats: state.totalSeats, remainingSeats: state.remainingSeats, registrations: state.registrations });
+    return jsonResponse({
+      totalSeats: state.totalSeats,
+      remainingSeats: state.remainingSeats,
+      registrations: state.registrations,
+    });
   }
 
   if (req.method !== "POST") {
@@ -247,6 +328,6 @@ export default async (req: Request) => {
   }
 };
 
-export const config: Config = {
+export const config = {
   path: "/register",
 };

@@ -57,12 +57,35 @@ const premiumImageTokens = `
 .crop-11 { --thumb-image: var(--img-library); --thumb-position: center 42%; }
 .crop-12 { --thumb-image: var(--img-campus); --thumb-position: center 40%; }
 
-.speaker-reine { --thumb-image: url("/images/speakers/reine-lea-kameni.svg"); --thumb-position: center 22%; }
-.speaker-jacques { --thumb-image: url("/images/speakers/jacques-pelabou.svg"); --thumb-position: center 18%; }
-.speaker-anguekep { --thumb-image: url("/images/speakers/anguekep-gael.svg"); --thumb-position: center 18%; }
-.speaker-henri { --thumb-image: url("/images/speakers/henri-guehoada.svg"); --thumb-position: center 14%; }
-.speaker-carene { --thumb-image: url("/images/speakers/carene-nono.svg"); --thumb-position: center 18%; }
-.speaker-photo { height: 180px !important; margin-bottom: 28px !important; }
+.speaker-reine { --thumb-image: url("/images/speakers/reine-lea-kameni.svg"); }
+.speaker-jacques { --thumb-image: url("/images/speakers/jacques-pelabou.svg"); }
+.speaker-anguekep { --thumb-image: url("/images/speakers/anguekep-gael.svg"); }
+.speaker-henri { --thumb-image: url("/images/speakers/henri-guehoada.svg"); }
+.speaker-carene { --thumb-image: url("/images/speakers/carene-nono.svg"); }
+
+.speaker-grid article {
+  overflow: hidden !important;
+  padding-top: 16px !important;
+}
+
+.speaker-photo {
+  background-color: #f8fafc !important;
+  background-image: var(--thumb-image) !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  border: 1px solid rgba(8,43,70,.1) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 18px 36px rgba(8,43,70,.12) !important;
+  height: clamp(230px, 24vw, 300px) !important;
+  margin-bottom: 22px !important;
+  width: 100% !important;
+}
+
+.speaker-photo::after,
+.speaker-photo span {
+  display: none !important;
+}
 
 .solution-card .visual-thumb,
 .strategy-cards .visual-thumb {
@@ -127,6 +150,6 @@ await fetchText("/styles.css", "styles.css", polishCss);
 await fetchText("/script.js", "script.js");
 
 await writeFile(`${outDir}/_redirects`, "/register /.netlify/functions/register 200\n", "utf8");
-await writeFile(`${outDir}/build-ok.txt`, `Built from ${sourceUrl} with premium image polish and real speaker portraits\n`, "utf8");
+await writeFile(`${outDir}/build-ok.txt`, `Built from ${sourceUrl} with premium image polish and uncropped speaker portraits\n`, "utf8");
 
-console.log(`SGVE static preview copied from ${sourceUrl} with premium image polish and real speaker portraits`);
+console.log(`SGVE static preview copied from ${sourceUrl} with premium image polish and uncropped speaker portraits`);

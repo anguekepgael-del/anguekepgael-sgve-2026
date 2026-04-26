@@ -1,7 +1,15 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, rm, writeFile } from "node:fs/promises";
 
 const sourceUrl = (process.env.SGVE_SOURCE_URL || "https://sgve-2026-preview.netlify.app").replace(/\/$/, "");
 const outDir = "deploy-inline";
+
+const speakerAssets = [
+  "reine-lea-kameni.svg",
+  "jacques-pelabou.svg",
+  "anguekep-gael.svg",
+  "henri-guehoada.svg",
+  "carene-nono.svg",
+];
 
 const premiumImageTokens = `
 :root {
@@ -46,10 +54,15 @@ const premiumImageTokens = `
 .crop-6 { --thumb-image: var(--img-advisory); --thumb-position: center; }
 .crop-7 { --thumb-image: var(--img-office); --thumb-position: center; }
 .crop-8 { --thumb-image: var(--img-documents); --thumb-position: center 58%; }
-.crop-9 { --thumb-image: var(--img-conference); --thumb-position: center; }
-.crop-10 { --thumb-image: var(--img-team); --thumb-position: center; }
 .crop-11 { --thumb-image: var(--img-library); --thumb-position: center 42%; }
 .crop-12 { --thumb-image: var(--img-campus); --thumb-position: center 40%; }
+
+.speaker-reine { --thumb-image: url("/images/speakers/reine-lea-kameni.svg"); --thumb-position: center 22%; }
+.speaker-jacques { --thumb-image: url("/images/speakers/jacques-pelabou.svg"); --thumb-position: center 18%; }
+.speaker-anguekep { --thumb-image: url("/images/speakers/anguekep-gael.svg"); --thumb-position: center 18%; }
+.speaker-henri { --thumb-image: url("/images/speakers/henri-guehoada.svg"); --thumb-position: center 14%; }
+.speaker-carene { --thumb-image: url("/images/speakers/carene-nono.svg"); --thumb-position: center 18%; }
+.speaker-photo { height: 180px !important; margin-bottom: 28px !important; }
 
 .solution-card .visual-thumb,
 .strategy-cards .visual-thumb {
@@ -70,10 +83,16 @@ const premiumImageTokens = `
 `;
 
 function polishHtml(html) {
-  return html.replace(
-    /(<div class="venue-photo reveal">\s*)<img[^>]+\/>/,
-    `$1<img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=90" alt="Salle de conférence professionnelle pour SGVE 2026" />`,
-  );
+  return html
+    .replace(
+      /(<div class="venue-photo reveal">\s*)<img[^>]+\/>/,
+      `$1<img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=90" alt="Salle de conférence professionnelle pour SGVE 2026" />`,
+    )
+    .replace('speaker-photo crop-9', 'speaker-photo speaker-reine')
+    .replace('speaker-photo crop-4', 'speaker-photo speaker-jacques')
+    .replace('speaker-photo crop-3', 'speaker-photo speaker-anguekep')
+    .replace('speaker-photo crop-8', 'speaker-photo speaker-henri')
+    .replace('speaker-photo crop-10', 'speaker-photo speaker-carene');
 }
 
 function stripLegacyImageSprite(css) {
@@ -97,12 +116,17 @@ async function fetchText(path, target, transform = (value) => value) {
 
 await rm(outDir, { recursive: true, force: true });
 await mkdir(outDir, { recursive: true });
+await mkdir(`${outDir}/images/speakers`, { recursive: true });
+
+for (const asset of speakerAssets) {
+  await copyFile(`public/images/speakers/${asset}`, `${outDir}/images/speakers/${asset}`);
+}
 
 await fetchText("/", "index.html", polishHtml);
 await fetchText("/styles.css", "styles.css", polishCss);
 await fetchText("/script.js", "script.js");
 
 await writeFile(`${outDir}/_redirects`, "/register /.netlify/functions/register 200\n", "utf8");
-await writeFile(`${outDir}/build-ok.txt`, `Built from ${sourceUrl} with premium image polish\n`, "utf8");
+await writeFile(`${outDir}/build-ok.txt`, `Built from ${sourceUrl} with premium image polish and real speaker portraits\n`, "utf8");
 
-console.log(`SGVE static preview copied from ${sourceUrl} with premium image polish`);
+console.log(`SGVE static preview copied from ${sourceUrl} with premium image polish and real speaker portraits`);

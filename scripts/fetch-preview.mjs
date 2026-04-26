@@ -2,6 +2,7 @@ import { copyFile, mkdir, rm, writeFile } from "node:fs/promises";
 
 const sourceUrl = (process.env.SGVE_SOURCE_URL || "https://sgve-2026-preview.netlify.app").replace(/\/$/, "");
 const outDir = "deploy-inline";
+const whatsappUrl = "https://chat.whatsapp.com/JvcvjQ60MWl2dX3ZENxZmP?mode=gi_t";
 
 const speakerAssets = [
   "reine-lea-kameni.svg",
@@ -87,6 +88,49 @@ const premiumImageTokens = `
   display: none !important;
 }
 
+.header-whatsapp-cta,
+a[href*="chat.whatsapp.com"].btn {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
+  border-color: rgba(255,255,255,.2) !important;
+  color: #fff !important;
+  box-shadow: 0 18px 42px rgba(22,163,74,.32) !important;
+}
+
+.header-whatsapp-cta {
+  align-items: center !important;
+  display: inline-flex !important;
+  font-size: .98rem !important;
+  min-height: 52px !important;
+  padding: 0 28px !important;
+  white-space: nowrap !important;
+}
+
+.header-whatsapp-cta::after,
+.hero-whatsapp-cta::after {
+  content: "↗" !important;
+  font-size: 1.02rem !important;
+  font-weight: 1000 !important;
+  margin-left: 8px !important;
+}
+
+.hero-whatsapp-cta {
+  font-size: 1.05rem !important;
+  min-height: 66px !important;
+  padding-inline: 34px !important;
+}
+
+.hero-whatsapp-cta:hover,
+.header-whatsapp-cta:hover {
+  box-shadow: 0 24px 56px rgba(22,163,74,.42) !important;
+  transform: translateY(-4px) scale(1.035) !important;
+}
+
+.section-heading a[href*="chat.whatsapp.com"].btn,
+.footer a[href*="chat.whatsapp.com"].btn {
+  min-height: 62px !important;
+  padding-inline: 30px !important;
+}
+
 .solution-card .visual-thumb,
 .strategy-cards .visual-thumb {
   box-shadow: 0 18px 44px rgba(0,0,0,.2) !important;
@@ -103,10 +147,43 @@ const premiumImageTokens = `
   content: url("https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=90");
   object-position: center !important;
 }
+
+@media (max-width: 980px) {
+  .header-whatsapp-cta {
+    display: inline-flex !important;
+    font-size: .78rem !important;
+    line-height: 1.15 !important;
+    min-height: 44px !important;
+    padding: 0 13px !important;
+    text-align: center !important;
+    white-space: normal !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .header-whatsapp-cta {
+    max-width: 148px !important;
+  }
+
+  .hero-whatsapp-cta {
+    min-height: 62px !important;
+    width: 100% !important;
+  }
+}
 `;
 
 function polishHtml(html) {
+  const heroWhatsappButton = `<a class="btn hero-whatsapp-cta" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre le groupe WhatsApp</a>`;
+
   return html
+    .replace(
+      /<a class="header-cta" href="#inscription">Réserver<\/a>/,
+      `<a class="header-cta header-whatsapp-cta" target="_blank" rel="noreferrer" href="${whatsappUrl}">Rejoindre WhatsApp</a>`,
+    )
+    .replace(
+      /(<div class="actions">\s*<a class="btn primary" href="#inscription">Je réserve ma place<\/a>\s*<a class="btn ghost" href="#programme">Découvrir le programme<\/a>\s*)<\/div>/,
+      `$1${heroWhatsappButton}</div>`,
+    )
     .replace(
       /(<div class="venue-photo reveal">\s*)<img[^>]+\/>/,
       `$1<img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=90" alt="Salle de conférence professionnelle pour SGVE 2026" />`,
@@ -150,6 +227,6 @@ await fetchText("/styles.css", "styles.css", polishCss);
 await fetchText("/script.js", "script.js");
 
 await writeFile(`${outDir}/_redirects`, "/register /.netlify/functions/register 200\n", "utf8");
-await writeFile(`${outDir}/build-ok.txt`, `Built from ${sourceUrl} with premium image polish and uncropped speaker portraits\n`, "utf8");
+await writeFile(`${outDir}/build-ok.txt`, `Built from ${sourceUrl} with premium image polish, uncropped speaker portraits, and prominent WhatsApp CTAs\n`, "utf8");
 
-console.log(`SGVE static preview copied from ${sourceUrl} with premium image polish and uncropped speaker portraits`);
+console.log(`SGVE static preview copied from ${sourceUrl} with premium image polish, uncropped speaker portraits, and prominent WhatsApp CTAs`);

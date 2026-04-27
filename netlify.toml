@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/build-with-image-rules.mjs && node scripts/inject-floating-whatsapp.mjs"
+  command = "node scripts/build-with-image-rules.mjs && node scripts/inject-floating-whatsapp.mjs && node scripts/force-registration-background.mjs"
   publish = "deploy-inline"
 
 [functions]

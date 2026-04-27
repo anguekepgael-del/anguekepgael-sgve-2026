@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/fetch-preview.mjs"
+    "build": "node scripts/build-with-image-rules.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^8.2.0"

@@ -6,6 +6,7 @@ const logoSource = "public/images/sgve/logo-cf-consulting.png";
 const logoMainTarget = "deploy-inline/images/sgve/logo-cf-consulting.png";
 const logoFallbackTarget = "deploy-inline/images/cf-logo.png";
 const logoPath = "/images/sgve/logo-cf-consulting.png?v=20260427";
+const logoPlaceholder = "__SGVE_CF_LOGO_PATH__";
 
 await mkdir("deploy-inline/images/sgve", { recursive: true });
 await copyFile(logoSource, logoMainTarget);
@@ -14,8 +15,9 @@ await copyFile(logoSource, logoFallbackTarget);
 const htmlPath = "deploy-inline/index.html";
 let html = await readFile(htmlPath, "utf8");
 html = html
-  .replaceAll("/images/cf-logo.svg", logoPath)
-  .replaceAll("/images/sgve/logo-cf-consulting.png", logoPath);
+  .replaceAll("/images/cf-logo.svg", logoPlaceholder)
+  .replaceAll("/images/sgve/logo-cf-consulting.png", logoPlaceholder)
+  .replaceAll(logoPlaceholder, logoPath);
 await writeFile(htmlPath, html, "utf8");
 
 const cssPath = "deploy-inline/styles.css";

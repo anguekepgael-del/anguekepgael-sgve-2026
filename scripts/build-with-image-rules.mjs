@@ -2,15 +2,27 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 await import("./fetch-preview.mjs");
 
-const logoPath = "/images/sgve/logo-cf-consulting.png?v=20260427-provided";
+const logoPath = "/images/sgve/logo-cf-consulting.svg?v=20260427-provided";
 const logoPlaceholder = "__SGVE_CF_LOGO_PATH__";
-const logoPngBase64 = "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";
+const providedLogoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="CF Consulting Travel">
+  <rect width="512" height="512" fill="#fffaf7"/>
+  <path d="M62 244c0-106 86-192 192-192s192 86 192 192-86 192-192 192S62 350 62 244Z" fill="#f45a0a"/>
+  <path d="M123 111c37-30 83-48 133-48 48 0 92 16 128 42-54-10-93-3-123 16-27 17-44 35-82 27-21-4-39-17-56-37Z" fill="#fffaf7"/>
+  <path d="M188 354c51 19 111 12 161-19-27 49-77 82-134 87-12-20-21-43-27-68Z" fill="#fffaf7"/>
+  <path d="M57 270c106 65 260 37 392-84" fill="none" stroke="#050505" stroke-width="32" stroke-linecap="round"/>
+  <path d="M72 310c96 57 230 38 339-55" fill="none" stroke="#fffaf7" stroke-width="45" stroke-linecap="round"/>
+  <path d="M347 140l105-46-48 105Z" fill="#050505"/>
+  <path d="M392 174l64 12-55 30Z" fill="#050505"/>
+  <path d="M52 247c9-68 46-129 102-166" fill="none" stroke="#f45a0a" stroke-width="9" stroke-linecap="round"/>
+  <path d="M450 194c16 53 15 110-5 160" fill="none" stroke="#f45a0a" stroke-width="9" stroke-linecap="round"/>
+  <text x="256" y="55" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="43" font-weight="900" letter-spacing="8" fill="#050505">CF CONSULTING</text>
+  <text x="256" y="468" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="43" font-weight="900" letter-spacing="14" fill="#050505">TRAVEL</text>
+</svg>`;
 
 await mkdir("deploy-inline/images/sgve", { recursive: true });
 await mkdir("deploy-inline/images", { recursive: true });
-const logoBuffer = Buffer.from(logoPngBase64, "base64");
-await writeFile("deploy-inline/images/sgve/logo-cf-consulting.png", logoBuffer);
-await writeFile("deploy-inline/images/cf-logo.png", logoBuffer);
+await writeFile("deploy-inline/images/sgve/logo-cf-consulting.svg", providedLogoSvg, "utf8");
+await writeFile("deploy-inline/images/cf-logo.svg", providedLogoSvg, "utf8");
 
 const htmlPath = "deploy-inline/index.html";
 let html = await readFile(htmlPath, "utf8");

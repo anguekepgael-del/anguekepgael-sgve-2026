@@ -1,53 +1,25 @@
-import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 await import("./fetch-preview.mjs");
 
-const logoSource = "public/images/sgve/logo-cf-consulting.png";
-const logoMainTarget = "deploy-inline/images/sgve/logo-cf-consulting.png";
-const logoFallbackTarget = "deploy-inline/images/cf-logo.png";
-const logoPath = "/images/cf-logo.svg?v=20260427-color";
+const logoPath = "/images/sgve/logo-cf-consulting.png?v=20260427-provided";
 const logoPlaceholder = "__SGVE_CF_LOGO_PATH__";
-const visibleSvgLogo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="CF Consulting Travel">
-  <rect width="512" height="512" rx="44" fill="#fffaf7"/>
-  <circle cx="256" cy="256" r="169" fill="#f26a21"/>
-  <path d="M122 129c41-37 88-57 141-57 46 0 89 14 126 40-58-10-102-5-132 14-26 16-42 36-78 28-22-5-39-14-57-25z" fill="#050505" opacity=".95"/>
-  <path d="M183 354c45 17 101 12 151-14-25 45-71 75-126 81-12-19-21-41-25-67z" fill="#050505" opacity=".95"/>
-  <path d="M56 284c108 70 265 38 398-90" fill="none" stroke="#050505" stroke-width="34" stroke-linecap="round"/>
-  <path d="M73 319c98 61 238 38 345-57" fill="none" stroke="#fffaf7" stroke-width="47" stroke-linecap="round"/>
-  <path d="M351 137l103-45-46 105z" fill="#050505"/>
-  <path d="M399 174l58 13-50 26z" fill="#050505"/>
-  <path d="M55 269c6-68 43-130 99-168" fill="none" stroke="#f26a21" stroke-width="9" stroke-linecap="round"/>
-  <path d="M451 200c15 51 13 105-7 154" fill="none" stroke="#f26a21" stroke-width="9" stroke-linecap="round"/>
-  <text x="256" y="54" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="900" letter-spacing="9" fill="#050505">CF CONSULTING</text>
-  <text x="256" y="469" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="900" letter-spacing="13" fill="#050505">TRAVEL</text>
-</svg>`;
+const logoPngBase64 = "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";
 
 await mkdir("deploy-inline/images/sgve", { recursive: true });
-await copyFile(logoSource, logoMainTarget).catch(() => undefined);
-await copyFile(logoSource, logoFallbackTarget).catch(() => undefined);
-await writeFile("deploy-inline/images/cf-logo.svg", visibleSvgLogo, "utf8");
-await writeFile("deploy-inline/images/sgve/logo-cf-consulting.svg", visibleSvgLogo, "utf8");
+await mkdir("deploy-inline/images", { recursive: true });
+const logoBuffer = Buffer.from(logoPngBase64, "base64");
+await writeFile("deploy-inline/images/sgve/logo-cf-consulting.png", logoBuffer);
+await writeFile("deploy-inline/images/cf-logo.png", logoBuffer);
 
 const htmlPath = "deploy-inline/index.html";
 let html = await readFile(htmlPath, "utf8");
 html = html
   .replaceAll("/images/cf-logo.svg", logoPlaceholder)
+  .replaceAll("/images/cf-logo.png", logoPlaceholder)
   .replaceAll("/images/sgve/logo-cf-consulting.png", logoPlaceholder)
   .replaceAll("/images/sgve/logo-cf-consulting.svg", logoPlaceholder)
   .replaceAll(logoPlaceholder, logoPath);
 await writeFile(htmlPath, html, "utf8");
 
-const cssPath = "deploy-inline/styles.css";
-let css = await readFile(cssPath, "utf8");
-css = css
-  .replace(
-    ".brand img,.footer img{width:56px}",
-    ".brand img,.footer img{width:72px;height:72px;object-fit:contain;background:transparent;border-radius:12px;padding:0;box-shadow:none;flex:0 0 auto}"
-  )
-  .replace(
-    ".brand img{width:44px}",
-    ".brand img{width:56px;height:56px;object-fit:contain;background:transparent;border-radius:10px;padding:0;flex:0 0 auto}"
-  );
-await writeFile(cssPath, css, "utf8");
-
-console.log("SGVE image rules applied successfully");
+console.log("SGVE provided logo applied successfully");

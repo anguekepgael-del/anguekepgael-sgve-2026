@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/fetch-preview.mjs"
+  command = "node scripts/build-with-image-rules.mjs"
   publish = "deploy-inline"
 
 [functions]

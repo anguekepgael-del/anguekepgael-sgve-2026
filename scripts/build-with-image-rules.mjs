@@ -3,15 +3,19 @@ import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 await import("./fetch-preview.mjs");
 
 const logoSource = "public/images/sgve/logo-cf-consulting.png";
-const logoTarget = "deploy-inline/images/sgve/logo-cf-consulting.png";
-const logoPath = "/images/sgve/logo-cf-consulting.png";
+const logoMainTarget = "deploy-inline/images/sgve/logo-cf-consulting.png";
+const logoFallbackTarget = "deploy-inline/images/cf-logo.png";
+const logoPath = "/images/sgve/logo-cf-consulting.png?v=20260427";
 
 await mkdir("deploy-inline/images/sgve", { recursive: true });
-await copyFile(logoSource, logoTarget);
+await copyFile(logoSource, logoMainTarget);
+await copyFile(logoSource, logoFallbackTarget);
 
 const htmlPath = "deploy-inline/index.html";
 let html = await readFile(htmlPath, "utf8");
-html = html.replaceAll("/images/cf-logo.svg", logoPath);
+html = html
+  .replaceAll("/images/cf-logo.svg", logoPath)
+  .replaceAll("/images/sgve/logo-cf-consulting.png", logoPath);
 await writeFile(htmlPath, html, "utf8");
 
 const cssPath = "deploy-inline/styles.css";

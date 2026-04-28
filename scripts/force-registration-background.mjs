@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -6,23 +6,20 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const cssPath = path.join(root, "deploy-inline", "styles.css");
-const sourceImagePath = path.join(root, "public", "images", "sgve-audience-hero.png");
 const outputImageDir = path.join(root, "deploy-inline", "images");
-const outputImagePath = path.join(outputImageDir, "registration-salle-conference.png");
-const outputImageUrl = 'url("/images/registration-salle-conference.png?v=20260427-registration-bg")';
+const outputImagePath = path.join(outputImageDir, "registration-salle-conference.jpg");
+const outputImageUrl = 'url("/images/registration-salle-conference.jpg?v=20260428-registration-bg")';
 
 const marker = "/* SGVE registration background override */";
+const registrationBgBase64 = "__PLACEHOLDER__";
 
 async function forceRegistrationBackground() {
   if (!existsSync(cssPath)) {
     throw new Error(`Missing generated CSS: ${cssPath}`);
   }
-  if (!existsSync(sourceImagePath)) {
-    throw new Error(`Missing local registration background image: ${sourceImagePath}`);
-  }
 
   await mkdir(outputImageDir, { recursive: true });
-  await copyFile(sourceImagePath, outputImagePath);
+  await writeFile(outputImagePath, Buffer.from(registrationBgBase64, "base64"));
 
   let css = await readFile(cssPath, "utf8");
 

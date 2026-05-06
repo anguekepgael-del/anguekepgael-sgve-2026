@@ -2,7 +2,18 @@
 
 Site officiel de CF Consulting Travel, deploye sur Netlify pour `cfconsultingtravel.org`.
 
-SGVE 2026 est conserve comme page evenementielle dediee : `/sgve-2026/`.
+Architecture principale :
+
+- `/` : accueil CF Consulting Travel.
+- `/a-propos/` : presentation de l'agence.
+- `/services/` : services principaux.
+- `/visa-etudiant/` : accompagnement visa etudiant.
+- `/visa-tourisme/` : accompagnement visa tourisme.
+- `/recours-visa/` : accompagnement apres refus.
+- `/sgve-2026/` : page evenementielle SGVE 2026.
+- `/temoignages/` : signaux de confiance.
+- `/blog/` : conseils et ressources.
+- `/contact/` : coordonnees et WhatsApp.
 
 ## Build Netlify
 

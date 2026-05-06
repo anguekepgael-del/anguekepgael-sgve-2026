@@ -7,7 +7,15 @@ Le domaine `cfconsultingtravel.org` doit presenter CF Consulting Travel comme si
 ## Pages publiees
 
 - `/` : accueil institutionnel CF Consulting Travel.
+- `/a-propos/` : presentation de l'approche CF Consulting Travel.
+- `/services/` : vue d'ensemble des services.
+- `/visa-etudiant/` : accompagnement visa etudiant.
+- `/visa-tourisme/` : accompagnement visa tourisme.
+- `/recours-visa/` : analyse et accompagnement apres refus.
 - `/sgve-2026/` : page evenement SGVE 2026 avec inscription.
+- `/temoignages/` : retours d'experience et signaux de confiance.
+- `/blog/` : conseils et contenus editoriaux.
+- `/contact/` : coordonnees et CTA WhatsApp.
 - `/mentions-legales/` : mentions legales.
 - `/politique-confidentialite/` : traitement des donnees personnelles.
 - `/conditions-utilisation/` : conditions d'utilisation et limitation de responsabilite.

@@ -34,12 +34,15 @@ type SeatState = {
 };
 
 const seatStateKey = "seat-state";
-const defaultTotalSeats = 250;
+const defaultTotalSeats = 400;
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json; charset=utf-8" },
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store, max-age=0",
+    },
   });
 }
 
@@ -137,9 +140,9 @@ function createCalendarAttachment(ticketId: string, data: RegistrationData) {
     "DTSTAMP:20260426T060000Z",
     "DTSTART:20260912T140000Z",
     "DTEND:20260912T170000Z",
-    "SUMMARY:SGVE 2026 - Stratégie Gagnante Visa Étudiant",
+    "SUMMARY:SGVE 2026 - Strat\u00e9gie Gagnante Visa \u00c9tudiant",
     "LOCATION:Krystal Palace Douala, Douala, Cameroun",
-    `DESCRIPTION:Billet d'invitation ${ticketId} pour ${attendee}. Accès gratuit sur inscription. Présentez ce billet à l'accueil.`,
+    `DESCRIPTION:Billet d'invitation ${ticketId} pour ${attendee}. Acc\u00e8s gratuit sur inscription. Pr\u00e9sentez ce billet \u00e0 l'accueil.`,
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\r\n");
@@ -170,12 +173,12 @@ function createEmailHtml(ticketId: string, data: RegistrationData) {
               <td style="background:#082B46;padding:34px 30px;color:#ffffff;">
                 <p style="margin:0 0 10px;color:#ffb083;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">Billet d'invitation officiel</p>
                 <h1 style="margin:0;font-size:34px;line-height:1.1;">SGVE 2026</h1>
-                <p style="margin:10px 0 0;font-size:18px;color:#e5eef5;">Stratégie Gagnante Visa Étudiant</p>
+                <p style="margin:10px 0 0;font-size:18px;color:#e5eef5;">Strat\u00e9gie Gagnante Visa \u00c9tudiant</p>
               </td>
             </tr>
             <tr>
               <td style="padding:30px;">
-                <p style="margin:0 0 22px;font-size:16px;line-height:1.7;">Bonjour <strong>${name}</strong>, votre inscription à SGVE 2026 a bien été enregistrée. Ce message constitue votre billet d'invitation.</p>
+                <p style="margin:0 0 22px;font-size:16px;line-height:1.7;">Bonjour <strong>${name}</strong>, votre inscription \u00e0 SGVE 2026 a bien \u00e9t\u00e9 enregistr\u00e9e. Ce message constitue votre billet d'invitation.</p>
                 <div style="border:2px dashed #F26A21;border-radius:20px;padding:24px;background:#fff7ed;">
                   <p style="margin:0;color:#9a3412;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">Code billet</p>
                   <p style="margin:8px 0 0;color:#082B46;font-size:28px;font-weight:900;">${ticketId}</p>
@@ -184,23 +187,23 @@ function createEmailHtml(ticketId: string, data: RegistrationData) {
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Date</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">12 septembre 2026</td></tr>
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Heure</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">15h00</td></tr>
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Lieu</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Krystal Palace Douala</td></tr>
-                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Accès</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Gratuit, sur inscription</td></tr>
+                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Acc\u00e8s</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Gratuit, sur inscription</td></tr>
                 </table>
                 <h2 style="margin:26px 0 12px;color:#082B46;font-size:18px;">Informations du participant</h2>
                 <p style="margin:0;line-height:1.8;color:#374151;">
                   Statut : <strong>${status}</strong><br />
                   Ville : <strong>${city}</strong><br />
-                  Pays visé : <strong>${targetCountry}</strong><br />
+                  Pays vis\u00e9 : <strong>${targetCountry}</strong><br />
                   Accompagnants : <strong>${companions}</strong><br />
                   Email : <strong>${email}</strong><br />
                   WhatsApp : <strong>${phone}</strong>
                 </p>
-                <p style="margin:26px 0 0;line-height:1.7;color:#475467;">Présentez ce billet à l'accueil de la conférence. L'équipe CF Consulting Travel vous contactera avec les informations pratiques.</p>
+                <p style="margin:26px 0 0;line-height:1.7;color:#475467;">Pr\u00e9sentez ce billet \u00e0 l'accueil de la conf\u00e9rence. L'\u00e9quipe CF Consulting Travel vous contactera avec les informations pratiques.</p>
               </td>
             </tr>
             <tr>
               <td style="background:#061f33;padding:22px 30px;color:#cbd5e1;font-size:13px;line-height:1.6;">
-                CF Consulting Travel · contact@cfconsultingtravel.org · France : +33 6 56 73 72 25 · Cameroun : +237 657 605 017
+                CF Consulting Travel \u00b7 contact@cfconsultingtravel.org \u00b7 France : +33 6 56 73 72 25 \u00b7 Cameroun : +237 657 605 017
               </td>
             </tr>
           </table>
@@ -215,15 +218,15 @@ function createEmailText(ticketId: string, data: RegistrationData) {
   return [
     `Bonjour ${clean(data.name) || "Participant"},`,
     "",
-    "Votre inscription à SGVE 2026 - Stratégie Gagnante Visa Étudiant a bien été enregistrée.",
+    "Votre inscription \u00e0 SGVE 2026 - Strat\u00e9gie Gagnante Visa \u00c9tudiant a bien \u00e9t\u00e9 enregistr\u00e9e.",
     `Code billet : ${ticketId}`,
     "",
     "Date : 12 septembre 2026",
     "Heure : 15h00",
     "Lieu : Krystal Palace Douala, Douala, Cameroun",
-    "Accès : gratuit, sur inscription",
+    "Acc\u00e8s : gratuit, sur inscription",
     "",
-    "Présentez ce billet à l'accueil de la conférence.",
+    "Pr\u00e9sentez ce billet \u00e0 l'accueil de la conf\u00e9rence.",
     "CF Consulting Travel vous contactera avec les informations pratiques.",
   ].join("\n");
 }
@@ -257,7 +260,7 @@ async function sendTicketEmail(ticketId: string, data: RegistrationData) {
   if (!response.ok) {
     const details = await response.text();
     console.error("Email provider error", details);
-    throw new Error("Le billet n'a pas pu être envoyé par email.");
+    throw new Error("Le billet n'a pas pu \u00eatre envoy\u00e9 par email.");
   }
 
   return { configured: true, sent: true };
@@ -274,14 +277,14 @@ export default async (req: Request) => {
   }
 
   if (req.method !== "POST") {
-    return jsonResponse({ message: "Méthode non autorisée." }, 405);
+    return jsonResponse({ message: "M\u00e9thode non autoris\u00e9e." }, 405);
   }
 
   let data: RegistrationData;
   try {
     data = await req.json();
   } catch {
-    return jsonResponse({ message: "Données d'inscription invalides." }, 400);
+    return jsonResponse({ message: "Donn\u00e9es d'inscription invalides." }, 400);
   }
 
   const name = clean(data.name);
@@ -290,12 +293,12 @@ export default async (req: Request) => {
   const missingFields: string[] = [];
 
   if (!name) missingFields.push("nom complet");
-  if (!phone) missingFields.push("numéro de téléphone WhatsApp");
+  if (!phone) missingFields.push("num\u00e9ro de t\u00e9l\u00e9phone WhatsApp");
   if (!email) missingFields.push("adresse email");
 
   if (missingFields.length > 0) {
     return jsonResponse({
-      message: `Veuillez renseigner les champs obligatoires marqués d'un astérisque : ${missingFields.join(", ")}.`,
+      message: `Veuillez renseigner les champs obligatoires marqu\u00e9s d'un ast\u00e9risque : ${missingFields.join(", ")}.`,
     }, 400);
   }
 
@@ -309,7 +312,7 @@ export default async (req: Request) => {
   if (!reservation.ok) {
     return jsonResponse({
       ok: false,
-      message: "Les places disponibles sont épuisées.",
+      message: "Les places disponibles sont \u00e9puis\u00e9es.",
       totalSeats: reservation.state.totalSeats,
       remainingSeats: reservation.state.remainingSeats,
       registrations: reservation.state.registrations,
@@ -330,13 +333,14 @@ export default async (req: Request) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Erreur lors de l'envoi du billet.";
     return jsonResponse({
-      ok: false,
+      ok: true,
       ticketId,
-      message,
+      emailSent: false,
+      message: `${message} Votre inscription est enregistr\u00e9e, mais l'envoi automatique du billet doit \u00eatre v\u00e9rifi\u00e9 par l'\u00e9quipe CF Consulting Travel.`,
       totalSeats: reservation.state.totalSeats,
       remainingSeats: reservation.state.remainingSeats,
       registrations: reservation.state.registrations,
-    }, 502);
+    }, 202);
   }
 };
 

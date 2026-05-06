@@ -1,26 +1,32 @@
-# SGVE 2026
+# CF Consulting Travel
 
-Landing page officielle de la conférence SGVE 2026 — Stratégie Gagnante Visa Étudiant.
+Site officiel de CF Consulting Travel, deploye sur Netlify pour `cfconsultingtravel.org`.
 
-Ce dépôt est prêt pour Netlify. Il publie la landing page SGVE actuelle et déploie la fonction serveur `/register` pour :
+SGVE 2026 est conserve comme page evenementielle dediee : `/sgve-2026/`.
 
-- enregistrer les inscriptions ;
-- générer un code billet ;
-- envoyer un billet d’invitation par email via Resend ;
-- gérer un compteur persistant de places restantes avec Netlify Blobs.
+## Build Netlify
 
-## Déploiement Netlify
+```bash
+node scripts/build-cf-site.mjs
+```
 
-1. Connecter ce dépôt GitHub à Netlify.
-2. Utiliser les réglages du fichier `netlify.toml`.
-3. Ajouter les variables d’environnement :
-   - `RESEND_API_KEY`
-   - `SGVE_EMAIL_FROM`
-   - `SGVE_EMAIL_REPLY_TO`
-   - `SGVE_TOTAL_SEATS`
-   - `SGVE_SOURCE_URL` si vous souhaitez changer la source de la landing page.
-4. Lancer un deploy de production.
+Le build genere le dossier statique `deploy-inline`.
 
-Par défaut, `scripts/fetch-preview.mjs` récupère la landing page actuelle depuis `https://sgve-2026-preview.netlify.app`, puis Netlify publie le dossier `deploy-inline` et active les fonctions serveur.
+## Fonctions serveur
 
-Dernière synchronisation email : configuration Resend active pour `contact@cfconsultingtravel.org`.
+- `/register` : inscription SGVE 2026, billet email et compteur de places.
+- `/admin/registrations` : export protege de la base des inscrits.
+
+## Variables d'environnement Netlify
+
+- `RESEND_API_KEY`
+- `SGVE_EMAIL_FROM`
+- `SGVE_EMAIL_REPLY_TO`
+- `SGVE_TOTAL_SEATS`
+- `SGVE_ADMIN_TOKEN`
+
+Ne jamais ajouter de cle API dans le code source.
+
+## Documentation
+
+Voir `docs/ARCHITECTURE-CF-CONSULTING.md`.

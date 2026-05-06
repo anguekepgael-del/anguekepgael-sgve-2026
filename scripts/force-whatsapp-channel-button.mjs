@@ -21,8 +21,13 @@ async function forceWhatsappChannelButton() {
     `<a$1href="${channelUrl}"$2>Rejoindre la cha&icirc;ne WhatsApp</a>`,
   );
 
+  html = html.replace(
+    /<a([^>]*?)href="[^"]*"([^>]*?)>J'ai une question sur WhatsApp<\/a>/g,
+    `<a$1href="${channelUrl}"$2>Rejoindre la cha&icirc;ne WhatsApp</a>`,
+  );
+
   if (html === before) {
-    throw new Error("WhatsApp channel button was not found in the generated page.");
+    throw new Error("WhatsApp channel buttons were not found in the generated page.");
   }
 
   await writeFile(htmlPath, html, "utf8");

@@ -15,11 +15,25 @@ const site = {
   fallbackEmail: "cfconsultingtravel@outlook.fr",
   phoneFr: "+33 6 56 73 72 25",
   phoneCm: "+237 657 605 017",
-  address: "8 rue du Dauphine, Massy, 91300, France",
+  address: "8 rue du Dauphiné, Massy, 91300, France",
   owner: "[A COMPLETER : nom du proprietaire ou representant legal]",
-  expert: "https://wa.me/message/6IY6D2ZHRNX7C1",
+  whatsappFr: "https://wa.me/33656737225",
+  whatsappCm: "https://wa.me/237657605017",
   channel: "https://whatsapp.com/channel/0029VasTv9O8PgsLD3HxvW22",
 };
+
+const contactAddressSchema = {
+  "@type": "PostalAddress",
+  streetAddress: "8 rue du Dauphiné",
+  addressLocality: "Massy",
+  postalCode: "91300",
+  addressCountry: "FR",
+};
+
+const contactPointsSchema = [
+  { "@type": "ContactPoint", telephone: site.phoneFr, contactType: "customer support", areaServed: "FR" },
+  { "@type": "ContactPoint", telephone: site.phoneCm, contactType: "customer support", areaServed: "CM" },
+];
 
 const ev = {
   title: "SGVE 2026",
@@ -84,20 +98,20 @@ function esc(value) {
 }
 
 function header() {
-  return `<header class="top"><a class="brand" href="/" aria-label="Accueil CF Consulting Travel"><img src="/images/sgve/logo-cf-consulting-full.png" alt="Logo CF Consulting Travel" /><span><strong>${site.name}</strong><small>Mobilite internationale</small></span></a><button class="menu-btn" data-menu-button type="button" aria-label="Ouvrir le menu principal" aria-expanded="false" aria-controls="navigation-principale">Menu</button><nav id="navigation-principale" aria-label="Navigation principale" data-menu>${navLinks.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}<a class="nav-cta" href="${site.expert}" target="_blank" rel="noreferrer" aria-label="Discuter avec CF Consulting Travel sur WhatsApp">WhatsApp</a></nav></header>`;
+  return `<header class="top"><a class="brand" href="/" aria-label="Accueil CF Consulting Travel"><img src="/images/sgve/logo-cf-consulting-full.png" alt="Logo CF Consulting Travel" /><span><strong>${site.name}</strong><small>Mobilite internationale</small></span></a><button class="menu-btn" data-menu-button type="button" aria-label="Ouvrir le menu principal" aria-expanded="false" aria-controls="navigation-principale">Menu</button><nav id="navigation-principale" aria-label="Navigation principale" data-menu>${navLinks.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}<a class="nav-cta" href="${site.whatsappFr}" target="_blank" rel="noreferrer" aria-label="Écrire sur WhatsApp France">Écrire sur WhatsApp France</a></nav></header>`;
 }
 
 function footer() {
-  return `<footer id="contact"><div><a class="brand" href="/"><img src="/images/sgve/logo-cf-consulting-full.png" alt="Logo CF Consulting Travel" /><span><strong>${site.name}</strong><small>Mobilite internationale</small></span></a><p>Aucun resultat de visa n'est garanti : chaque dossier depend des criteres des institutions competentes.</p><div class="actions"><a class="btn primary" href="${site.expert}" target="_blank" rel="noreferrer">Discuter sur WhatsApp</a><a class="btn secondary light" href="/sgve-2026/">SGVE 2026</a></div></div><div><h2>Services</h2>${serviceLinks.slice(0, 3).map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}<a href="/services/">Tous les services</a><a href="/temoignages/">Temoignages</a><a href="/blog/">Blog / conseils</a></div><div><h2>Contacts</h2><a href="mailto:${site.email}">${site.email}</a><a href="mailto:${site.fallbackEmail}">${site.fallbackEmail}</a><a href="tel:+33656737225">France : ${site.phoneFr}</a><a href="tel:+237657605017">Cameroun : ${site.phoneCm}</a><p>${site.address}</p></div><div><h2>Cadre legal</h2><a href="/mentions-legales/">Mentions legales</a><a href="/politique-confidentialite/">Politique de confidentialite</a><a href="/conditions-utilisation/">Conditions d'utilisation</a><a href="/donnees-inscriptions-sgve-2026/">Donnees inscriptions SGVE 2026</a><a href="${site.channel}" target="_blank" rel="noreferrer">Chaîne WhatsApp SGVE 2026</a></div></footer>`;
+  return `<footer id="contact"><div><a class="brand" href="/"><img src="/images/sgve/logo-cf-consulting-full.png" alt="Logo CF Consulting Travel" /><span><strong>${site.name}</strong><small>Mobilite internationale</small></span></a><p>Aucun resultat de visa n'est garanti : chaque dossier depend des criteres des institutions competentes.</p><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Écrire sur WhatsApp France</a><a class="btn secondary light" href="${site.whatsappCm}" target="_blank" rel="noreferrer">Écrire sur WhatsApp Cameroun</a></div></div><div><h2>Services</h2>${serviceLinks.slice(0, 3).map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}<a href="/services/">Tous les services</a><a href="/temoignages/">Temoignages</a><a href="/blog/">Blog / conseils</a></div><div><h2>Contacts</h2><a href="mailto:${site.email}">Email principal : ${site.email}</a><a href="mailto:${site.fallbackEmail}">Email secondaire : ${site.fallbackEmail}</a><a href="tel:+33656737225">Téléphone France : ${site.phoneFr}</a><a href="tel:+237657605017">Téléphone Cameroun : ${site.phoneCm}</a><p>Adresse France : ${site.address}</p></div><div><h2>Cadre legal</h2><a href="/mentions-legales/">Mentions legales</a><a href="/politique-confidentialite/">Politique de confidentialite</a><a href="/conditions-utilisation/">Conditions d'utilisation</a><a href="/donnees-inscriptions-sgve-2026/">Donnees inscriptions SGVE 2026</a><a href="${site.channel}" target="_blank" rel="noreferrer">Chaîne WhatsApp SGVE 2026</a></div></footer>`;
 }
 
 function page({ title, desc, route = "/", kind = "site", body }) {
   const canonical = `${site.url}${route === "/" ? "/" : route}`;
   const schema = kind === "event"
-    ? { "@context": "https://schema.org", "@type": "Event", name: `${ev.title} - ${ev.long}`, description: desc, startDate: ev.iso, eventStatus: "https://schema.org/EventScheduled", isAccessibleForFree: true, location: { "@type": "Place", name: ev.place, address: { "@type": "PostalAddress", addressLocality: "Douala", addressCountry: "CM" } }, organizer: { "@type": "Organization", name: site.name, email: site.email, url: site.url } }
-    : { "@context": "https://schema.org", "@type": "TravelAgency", name: site.name, url: site.url, email: site.email, telephone: site.phoneCm, address: site.address };
+    ? { "@context": "https://schema.org", "@type": "Event", name: `${ev.title} - ${ev.long}`, description: desc, startDate: ev.iso, eventStatus: "https://schema.org/EventScheduled", isAccessibleForFree: true, location: { "@type": "Place", name: ev.place, address: { "@type": "PostalAddress", addressLocality: "Douala", addressCountry: "CM" } }, organizer: { "@type": "Organization", name: site.name, email: site.email, telephone: [site.phoneFr, site.phoneCm], url: site.url, address: contactAddressSchema, contactPoint: contactPointsSchema } }
+    : { "@context": "https://schema.org", "@type": "TravelAgency", name: site.name, url: site.url, email: site.email, telephone: [site.phoneFr, site.phoneCm], address: contactAddressSchema, contactPoint: contactPointsSchema };
 
-  return `<!doctype html><html lang="fr"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${esc(title)}</title><meta name="description" content="${esc(desc)}" /><meta name="robots" content="index, follow" /><meta name="theme-color" content="#0A0A0A" /><link rel="canonical" href="${canonical}" /><link rel="stylesheet" href="/styles.css" /><meta property="og:type" content="${kind === "event" ? "event" : "website"}" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(desc)}" /><meta property="og:url" content="${canonical}" /><meta property="og:site_name" content="${site.name}" /><script type="application/ld+json">${JSON.stringify(schema)}</script></head><body data-page="${kind}"><a class="skip" href="#contenu">Aller au contenu</a>${header()}<main id="contenu">${body}</main>${footer()}<a class="float" href="${site.expert}" target="_blank" rel="noreferrer" aria-label="Discuter avec un expert CF Consulting Travel sur WhatsApp">Discuter avec un expert</a><script src="/script.js" defer></script></body></html>`;
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${esc(title)}</title><meta name="description" content="${esc(desc)}" /><meta name="robots" content="index, follow" /><meta name="theme-color" content="#0A0A0A" /><link rel="canonical" href="${canonical}" /><link rel="stylesheet" href="/styles.css" /><meta property="og:type" content="${kind === "event" ? "event" : "website"}" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(desc)}" /><meta property="og:url" content="${canonical}" /><meta property="og:site_name" content="${site.name}" /><script type="application/ld+json">${JSON.stringify(schema)}</script></head><body data-page="${kind}"><a class="skip" href="#contenu">Aller au contenu</a>${header()}<main id="contenu">${body}</main>${footer()}<a class="float" href="${site.whatsappFr}" target="_blank" rel="noreferrer" aria-label="Écrire sur WhatsApp France">Écrire sur WhatsApp France</a><script src="/script.js" defer></script></body></html>`;
 }
 
 function card(title, text) {
@@ -105,18 +119,20 @@ function card(title, text) {
 }
 
 function linkCard(title, text, href) {
-  return `<article><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">En savoir plus</a></article>`;
+  const isExternal = href.startsWith("http");
+  const cta = href.includes("wa.me") ? title : "En savoir plus";
+  return `<article><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}" ${isExternal ? `target="_blank" rel="noreferrer"` : ""}>${cta}</a></article>`;
 }
 
 function home() {
   return page({
     title: `${site.name} - Mobilite internationale et accompagnement etudiant`,
     desc: `Site officiel de ${site.name} : orientation, admissions, preparation de dossiers et accompagnement pour les projets d'etudes a l'etranger.`,
-    body: `<section class="hero home"><div><p class="eyebrow">Site officiel</p><h1>CF Consulting Travel accompagne vos projets de mobilite internationale.</h1><p class="lead">Orientation, preparation de dossiers, accompagnement visa et conseils strategiques pour avancer avec clarte, sans promesse d'obtention garantie.</p><div class="actions"><a class="btn primary" href="/services/">Voir nos services</a><a class="btn secondary" href="${site.expert}" target="_blank" rel="noreferrer">Discuter avec un expert</a><a class="btn secondary" href="/sgve-2026/">SGVE 2026</a></div><p class="note">Une approche premium, sobre et methodique pour les etudiants, familles, voyageurs et porteurs de projets.</p></div><figure><img src="/images/mobility-visual.jfif" alt="Projet de mobilite internationale accompagne par CF Consulting Travel" /></figure></section><section class="section" id="services"><p class="eyebrow">Services principaux</p><h2>Un site clair pour chaque besoin : etudes, voyage, recours et conseil.</h2><div class="grid four">${serviceLinks.map(([title, href, text]) => linkCard(title, text, href)).join("")}</div></section><section class="section split" id="methode"><div><p class="eyebrow">Methode CF</p><h2>Diagnostiquer, structurer, preparer.</h2><p>CF Consulting Travel aide chaque candidat a mieux comprendre son profil, ses objectifs, ses justificatifs et les limites de son dossier avant toute demarche importante.</p><div class="actions"><a class="btn primary" href="/contact/">Contacter l'equipe</a><a class="btn secondary" href="/a-propos/">A propos de CF</a></div></div><ol class="timeline"><li><strong>Diagnostic</strong><span>Analyse du profil, de la destination et du besoin reel.</span></li><li><strong>Feuille de route</strong><span>Priorites, documents, calendrier et points de vigilance.</span></li><li><strong>Preparation</strong><span>Conseils, relecture et accompagnement jusqu'aux etapes cles.</span></li></ol></section><section class="banner"><div><p class="eyebrow">Evenement officiel</p><h2>SGVE 2026 - ${ev.long}</h2><p>${ev.date} a ${ev.time} - ${ev.place}. Conference gratuite sur inscription.</p></div><a class="btn primary" href="/sgve-2026/">Reserver ma place</a></section>`,
+    body: `<section class="hero home"><div><p class="eyebrow">Site officiel</p><h1>CF Consulting Travel accompagne vos projets de mobilite internationale.</h1><p class="lead">Orientation, preparation de dossiers, accompagnement visa et conseils strategiques pour avancer avec clarte, sans promesse d'obtention garantie.</p><div class="actions"><a class="btn primary" href="/services/">Voir nos services</a><a class="btn secondary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Écrire sur WhatsApp France</a><a class="btn secondary" href="${site.whatsappCm}" target="_blank" rel="noreferrer">Écrire sur WhatsApp Cameroun</a><a class="btn secondary" href="/sgve-2026/">SGVE 2026</a></div><p class="note">Une approche premium, sobre et methodique pour les etudiants, familles, voyageurs et porteurs de projets.</p></div><figure><img src="/images/mobility-visual.jfif" alt="Projet de mobilite internationale accompagne par CF Consulting Travel" /></figure></section><section class="section" id="services"><p class="eyebrow">Services principaux</p><h2>Un site clair pour chaque besoin : etudes, voyage, recours et conseil.</h2><div class="grid four">${serviceLinks.map(([title, href, text]) => linkCard(title, text, href)).join("")}</div></section><section class="section split" id="methode"><div><p class="eyebrow">Methode CF</p><h2>Diagnostiquer, structurer, preparer.</h2><p>CF Consulting Travel aide chaque candidat a mieux comprendre son profil, ses objectifs, ses justificatifs et les limites de son dossier avant toute demarche importante.</p><div class="actions"><a class="btn primary" href="/contact/">Contacter l'equipe</a><a class="btn secondary" href="/a-propos/">A propos de CF</a></div></div><ol class="timeline"><li><strong>Diagnostic</strong><span>Analyse du profil, de la destination et du besoin reel.</span></li><li><strong>Feuille de route</strong><span>Priorites, documents, calendrier et points de vigilance.</span></li><li><strong>Preparation</strong><span>Conseils, relecture et accompagnement jusqu'aux etapes cles.</span></li></ol></section><section class="banner"><div><p class="eyebrow">Evenement officiel</p><h2>SGVE 2026 - ${ev.long}</h2><p>${ev.date} a ${ev.time} - ${ev.place}. Conference gratuite sur inscription.</p></div><a class="btn primary" href="/sgve-2026/">Reserver ma place</a></section>`,
   });
 }
 
-function standardHero(eyebrow, title, text, primaryLabel = "Discuter avec un expert", primaryHref = site.expert) {
+function standardHero(eyebrow, title, text, primaryLabel = "Écrire sur WhatsApp France", primaryHref = site.whatsappFr) {
   return `<section class="hero home"><div><p class="eyebrow">${eyebrow}</p><h1>${title}</h1><p class="lead">${text}</p><div class="actions"><a class="btn primary" href="${primaryHref}" target="${primaryHref.startsWith("http") ? "_blank" : "_self"}" rel="${primaryHref.startsWith("http") ? "noreferrer" : ""}">${primaryLabel}</a><a class="btn secondary" href="/contact/">Contacter CF Consulting Travel</a></div></div><figure><img src="/images/krystal-auditorium-side.jpeg" alt="Cadre professionnel pour un accompagnement en mobilite internationale" /></figure></section>`;
 }
 
@@ -134,7 +150,7 @@ function servicesPage() {
     title: `Services - ${site.name}`,
     desc: `Decouvrez les services CF Consulting Travel : visa etudiant, visa tourisme, recours visa, orientation et accompagnement.`,
     route: "/services/",
-    body: `${standardHero("Services", "Des services structurés pour preparer votre projet international.", "Le site est organise autour des besoins principaux : etudes a l'etranger, voyage touristique, recours apres refus et conseil strategique.")}<section class="section"><p class="eyebrow">Offres CF</p><h2>Choisissez le parcours adapte a votre situation.</h2><div class="grid four">${serviceLinks.map(([title, href, text]) => linkCard(title, text, href)).join("")}</div></section><section class="banner"><div><p class="eyebrow">Besoin d'orientation ?</p><h2>Un premier echange permet de mieux comprendre votre dossier.</h2><p>Expliquez votre situation a l'equipe CF Consulting Travel avant de vous engager.</p></div><a class="btn primary" href="${site.expert}" target="_blank" rel="noreferrer">WhatsApp</a></section>`,
+    body: `${standardHero("Services", "Des services structurés pour preparer votre projet international.", "Le site est organise autour des besoins principaux : etudes a l'etranger, voyage touristique, recours apres refus et conseil strategique.")}<section class="section"><p class="eyebrow">Offres CF</p><h2>Choisissez le parcours adapte a votre situation.</h2><div class="grid four">${serviceLinks.map(([title, href, text]) => linkCard(title, text, href)).join("")}</div></section><section class="banner"><div><p class="eyebrow">Besoin d'orientation ?</p><h2>Un premier echange permet de mieux comprendre votre dossier.</h2><p>Expliquez votre situation a l'equipe CF Consulting Travel avant de vous engager.</p></div><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Écrire sur WhatsApp France</a><a class="btn secondary light" href="${site.whatsappCm}" target="_blank" rel="noreferrer">Écrire sur WhatsApp Cameroun</a></div></section>`,
   });
 }
 
@@ -188,7 +204,7 @@ function contactPage() {
     title: `Contact - ${site.name}`,
     desc: `Contactez CF Consulting Travel par email, telephone ou WhatsApp pour votre projet de mobilite internationale.`,
     route: "/contact/",
-    body: `${standardHero("Contact", "Parlez-nous de votre projet avant de vous engager.", "L'equipe CF Consulting Travel peut vous orienter vers le bon parcours : visa etudiant, visa tourisme, recours visa, SGVE 2026 ou conseil personnalise.")}<section class="section split"><div><p class="eyebrow">Coordonnees</p><h2>Contacts officiels.</h2><p>Email : <a class="text-link" href="mailto:${site.email}">${site.email}</a></p><p>Email secondaire : <a class="text-link" href="mailto:${site.fallbackEmail}">${site.fallbackEmail}</a></p><p>France : <a class="text-link" href="tel:+33656737225">${site.phoneFr}</a></p><p>Cameroun : <a class="text-link" href="tel:+237657605017">${site.phoneCm}</a></p><p>${site.address}</p></div><div class="grid two">${linkCard("Discuter avec un expert", "Echange WhatsApp professionnel pour presenter votre situation.", site.expert)}${linkCard("S'inscrire a SGVE 2026", "Conference gratuite sur inscription pour les projets visa etudiant.", "/sgve-2026/")}</div></section>`,
+    body: `${standardHero("Contact", "Parlez-nous de votre projet avant de vous engager.", "L'equipe CF Consulting Travel peut vous orienter vers le bon parcours : visa etudiant, visa tourisme, recours visa, SGVE 2026 ou conseil personnalise.")}<section class="section split"><div><p class="eyebrow">Coordonnees</p><h2>Contacts officiels.</h2><p>Email principal : <a class="text-link" href="mailto:${site.email}">${site.email}</a></p><p>Email secondaire : <a class="text-link" href="mailto:${site.fallbackEmail}">${site.fallbackEmail}</a></p><p>Téléphone France : <a class="text-link" href="tel:+33656737225">${site.phoneFr}</a></p><p>Téléphone Cameroun : <a class="text-link" href="tel:+237657605017">${site.phoneCm}</a></p><p>Adresse France : ${site.address}</p></div><div class="grid two">${linkCard("Écrire sur WhatsApp France", "Echange WhatsApp professionnel avec le contact France.", site.whatsappFr)}${linkCard("Écrire sur WhatsApp Cameroun", "Echange WhatsApp professionnel avec le contact Cameroun.", site.whatsappCm)}${linkCard("S'inscrire a SGVE 2026", "Conference gratuite sur inscription pour les projets visa etudiant.", "/sgve-2026/")}</div></section>`,
   });
 }
 
@@ -233,10 +249,10 @@ function legal(kind) {
       route: "/mentions-legales/",
       desc: "Mentions legales du site officiel CF Consulting Travel.",
       sections: [
-        ["Editeur du site", [`Le site ${site.url} est edite par ${site.name}.`, `Adresse : ${site.address}.`, `Email : ${site.email}.`, `Telephone France : ${site.phoneFr}.`, `Telephone Cameroun : ${site.phoneCm}.`, `Proprietaire ou representant legal : ${site.owner}.`]],
+        ["Editeur du site", [`Le site ${site.url} est edite par ${site.name}.`, `Adresse France : ${site.address}.`, `Email principal : ${site.email}.`, `Email secondaire : ${site.fallbackEmail}.`, `Telephone France : ${site.phoneFr}.`, `Telephone Cameroun : ${site.phoneCm}.`, `Proprietaire ou representant legal : ${site.owner}.`]],
         ["Hebergement", ["Le site est heberge par Netlify, Inc.", "Adresse de l'hebergeur : 44 Montgomery Street, Suite 300, San Francisco, California 94104, Etats-Unis.", "Site web : https://www.netlify.com/"]],
         ["Responsabilite", ["Les informations publiees sur ce site sont fournies a titre informatif et peuvent etre mises a jour.", "CF Consulting Travel ne garantit jamais l'obtention d'un visa, d'une admission, d'une decision administrative favorable ou d'un resultat consulaire."]],
-        ["Contact", [`Pour toute demande concernant le site : ${site.email}.`]],
+        ["Contact", [`Pour toute demande concernant le site : ${site.email}. L'adresse ${site.fallbackEmail} est conservee comme email secondaire.`]],
       ],
     },
     privacy: {
@@ -244,7 +260,7 @@ function legal(kind) {
       route: "/politique-confidentialite/",
       desc: "Politique de confidentialite du site CF Consulting Travel.",
       sections: [
-        ["Responsable du traitement", [`Le responsable du traitement est ${site.name}.`, `Contact donnees personnelles : ${site.email}.`, `Adresse : ${site.address}.`, `Proprietaire ou representant legal : ${site.owner}.`]],
+        ["Responsable du traitement", [`Le responsable du traitement est ${site.name}.`, `Contact donnees personnelles principal : ${site.email}.`, `Email secondaire : ${site.fallbackEmail}.`, `Adresse France : ${site.address}.`, `Proprietaire ou representant legal : ${site.owner}.`]],
         ["Finalites de collecte", ["Les donnees transmises via le site servent a repondre aux demandes de contact, gerer les inscriptions SGVE 2026, envoyer les confirmations et billets, transmettre les informations pratiques et assurer le suivi administratif lie aux services demandes."]],
         ["Donnees collectees", ["Selon le formulaire utilise, les donnees peuvent inclure : nom complet, email, telephone WhatsApp, ville, statut, organisation, pays vise, niveau d'etudes, informations d'accompagnement, message, consentement, date d'inscription et elements techniques anti-spam non sensibles."]],
         ["Emails", ["L'adresse email peut etre utilisee pour confirmer une inscription, envoyer un billet d'invitation, transmettre des informations pratiques ou repondre a une demande directe."]],

@@ -101,6 +101,13 @@ const maxTextLength = 1200;
 const maxRequestBytes = 12_000;
 const rateLimitWindowMs = 10 * 60 * 1000;
 const maxFailedAttempts = 5;
+const contactEmail = "contact@cfconsultingtravel.org";
+const contactSecondaryEmail = "cfconsultingtravel@outlook.fr";
+const contactPhoneFr = "+33 6 56 73 72 25";
+const contactPhoneCm = "+237 657 605 017";
+const contactAddressFr = "8 rue du Dauphiné, Massy, 91300, France";
+const whatsappFr = "https://wa.me/33656737225";
+const whatsappCm = "https://wa.me/237657605017";
 const allowedOrigins = new Set([
   "cfconsultingtravel.org",
   "www.cfconsultingtravel.org",
@@ -454,11 +461,21 @@ function createEmailHtml(ticketId: string, data: RegistrationData, seatState: Se
                   WhatsApp : <strong>${phone}</strong>
                 </p>
                 <p style="margin:26px 0 0;line-height:1.7;color:#475467;">Presentez ce billet a l'accueil de la conference. L'equipe CF Consulting Travel vous contactera avec les informations pratiques.</p>
+                <div style="margin-top:22px;border-radius:18px;background:#f8fafc;border:1px solid #e5e7eb;padding:18px;color:#374151;line-height:1.7;">
+                  <p style="margin:0 0 8px;font-weight:800;color:#082B46;">Contacts officiels CF Consulting Travel</p>
+                  Email principal : <a href="mailto:${contactEmail}" style="color:#082B46;">${contactEmail}</a><br />
+                  Email secondaire : <a href="mailto:${contactSecondaryEmail}" style="color:#082B46;">${contactSecondaryEmail}</a><br />
+                  Téléphone France : <a href="tel:+33656737225" style="color:#082B46;">${contactPhoneFr}</a><br />
+                  Téléphone Cameroun : <a href="tel:+237657605017" style="color:#082B46;">${contactPhoneCm}</a><br />
+                  Adresse France : ${contactAddressFr}<br />
+                  <a href="${whatsappFr}" style="color:#C9470B;font-weight:800;">Écrire sur WhatsApp France</a> |
+                  <a href="${whatsappCm}" style="color:#C9470B;font-weight:800;">Écrire sur WhatsApp Cameroun</a>
+                </div>
               </td>
             </tr>
             <tr>
               <td style="background:#061f33;padding:22px 30px;color:#cbd5e1;font-size:13px;line-height:1.6;">
-                CF Consulting Travel - contact@cfconsultingtravel.org - France : +33 6 56 73 72 25 - Cameroun : +237 657 605 017
+                CF Consulting Travel - Email principal : ${contactEmail} - Email secondaire : ${contactSecondaryEmail} - France : ${contactPhoneFr} - Cameroun : ${contactPhoneCm} - Adresse France : ${contactAddressFr}
               </td>
             </tr>
           </table>
@@ -484,13 +501,22 @@ function createEmailText(ticketId: string, data: RegistrationData, seatState: Se
     "",
     "Presentez ce billet a l'accueil de la conference.",
     "CF Consulting Travel vous contactera avec les informations pratiques.",
+    "",
+    "Contacts officiels CF Consulting Travel :",
+    `Email principal : ${contactEmail}`,
+    `Email secondaire : ${contactSecondaryEmail}`,
+    `Téléphone France : ${contactPhoneFr}`,
+    `Téléphone Cameroun : ${contactPhoneCm}`,
+    `Adresse France : ${contactAddressFr}`,
+    `Écrire sur WhatsApp France : ${whatsappFr}`,
+    `Écrire sur WhatsApp Cameroun : ${whatsappCm}`,
   ].join("\n");
 }
 
 async function sendTicketEmail(ticketId: string, data: RegistrationData, seatState: SeatState) {
   const apiKey = env("RESEND_API_KEY");
-  const from = env("SGVE_EMAIL_FROM") || "CF Consulting Travel <contact@cfconsultingtravel.org>";
-  const replyTo = env("SGVE_EMAIL_REPLY_TO") || "contact@cfconsultingtravel.org";
+  const from = env("SGVE_EMAIL_FROM") || `CF Consulting Travel <${contactEmail}>`;
+  const replyTo = env("SGVE_EMAIL_REPLY_TO") || contactEmail;
 
   if (!apiKey) {
     return { configured: false, sent: false };

@@ -28,6 +28,14 @@ Le build genere le dossier statique `deploy-inline`.
 - `/register` : inscription SGVE 2026, billet email et compteur de places.
 - `/admin/registrations` : export protege de la base des inscrits.
 
+## Securite du formulaire
+
+La fonction `/register` applique un honeypot invisible, une limitation des tentatives echouees, une validation stricte des champs, une detection des doublons email/telephone et un rollback du compteur si l'envoi du billet par email echoue.
+
+```bash
+npm test
+```
+
 ## Nommage officiel
 
 - Nom public unique : `SGVE 2026`.

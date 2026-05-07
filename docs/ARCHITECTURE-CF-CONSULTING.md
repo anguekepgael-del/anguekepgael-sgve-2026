@@ -41,10 +41,17 @@ La fonction `netlify/functions/register.mts` :
 - valide les champs obligatoires : nom, telephone WhatsApp, email ;
 - ajoute un champ anti-spam invisible ;
 - verifie le format email et un minimum de chiffres dans le telephone ;
+- nettoie les donnees entrantes avant stockage ;
+- refuse les requetes POST non JSON, trop volumineuses ou venant d'une origine explicitement non autorisee ;
+- applique une limitation simple des tentatives echouees par empreinte IP + navigateur ;
+- bloque les doublons par adresse email et par numero WhatsApp ;
 - reserve une place ;
 - cree un identifiant billet ;
 - tente l'envoi email via Resend ;
+- annule la reservation si l'envoi email echoue ou si le stockage initial echoue ;
 - enregistre une base des inscrits dans Netlify Blobs.
+
+La logique de securite reste volontairement simple pour ne pas bloquer les vrais participants : le honeypot piege les robots basiques, le rate limit ne se declenche qu'apres plusieurs echecs, et les doublons sont detectes avant toute consommation de place.
 
 ## Export des inscrits
 

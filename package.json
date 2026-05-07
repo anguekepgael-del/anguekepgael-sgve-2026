@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-cf-site.mjs"
+    "build": "node scripts/build-cf-site.mjs",
+    "test": "node --test tests/register-security.test.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^8.2.0"

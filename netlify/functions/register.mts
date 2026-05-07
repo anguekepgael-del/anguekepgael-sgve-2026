@@ -1,4 +1,5 @@
 import { getStore } from "@netlify/blobs";
+import { createHash } from "node:crypto";
 
 declare const Netlify: {
   env: {
@@ -59,10 +60,30 @@ type RegistrationRecord = {
   source: string;
 };
 
+type RateLimitState = {
+  count: number;
+  resetAt: string;
+};
+
 const seatStateKey = "seat-state";
 const registrationIndexKey = "registration-index";
 const defaultTotalSeats = 400;
 const maxTextLength = 1200;
+const maxRequestBytes = 12_000;
+const rateLimitWindowMs = 10 * 60 * 1000;
+const maxFailedAttempts = 5;
+const allowedOrigins = new Set([
+  "cfconsultingtravel.org",
+  "www.cfconsultingtravel.org",
+  "sgve-2026-preview.netlify.app",
+  "localhost",
+  "127.0.0.1",
+]);
+
+const allowedStatus = new Set(["", "Eleve", "Etudiant", "Parent", "Jeune diplome", "Partenaire educatif"]);
+const allowedTargetCountries = new Set(["", "France", "Canada", "Espagne", "Russie", "Allemagne", "Autre"]);
+const allowedVisaRefusal = new Set(["", "Non", "Oui", "Je prefere en parler avec un conseiller"]);
+const allowedAccompanied = new Set(["", "Non", "Oui"]);
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -75,7 +96,11 @@ function jsonResponse(body: Record<string, unknown>, status = 200) {
 }
 
 function clean(value: unknown, maxLength = maxTextLength) {
-  return String(value ?? "").trim().slice(0, maxLength);
+  return String(value ?? "")
+    .replace(/[\u0000-\u001f\u007f]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength);
 }
 
 function escapeHtml(value: unknown) {
@@ -88,11 +113,16 @@ function escapeHtml(value: unknown) {
 }
 
 function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  return email.length <= 180 && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+}
+
+function normalizePhone(phone: string) {
+  return phone.replace(/\D/g, "");
 }
 
 function hasUsablePhone(phone: string) {
-  return phone.replace(/\D/g, "").length >= 8;
+  const normalized = normalizePhone(phone);
+  return normalized.length >= 8 && normalized.length <= 18;
 }
 
 function createTicketId() {
@@ -117,6 +147,10 @@ function getSeatsStore() {
 
 function getRegistrationsStore() {
   return getStore("sgve-2026-registrations", { consistency: "strong" });
+}
+
+function getSecurityStore() {
+  return getStore("sgve-2026-security", { consistency: "strong" });
 }
 
 async function getSeatState(): Promise<SeatState> {
@@ -163,6 +197,25 @@ async function reserveSeat() {
   return { ok: true, state: nextState };
 }
 
+async function rollbackSeat(state: SeatState) {
+  const store = getSeatsStore();
+  const current = await getSeatState();
+  const nextState = {
+    ...current,
+    remainingSeats: Math.min(current.totalSeats, current.remainingSeats + 1),
+    registrations: Math.max(0, current.registrations - 1),
+    updatedAt: new Date().toISOString(),
+  };
+
+  if (current.updatedAt !== state.updatedAt || current.remainingSeats !== state.remainingSeats) {
+    nextState.remainingSeats = Math.min(current.totalSeats, current.remainingSeats + 1);
+    nextState.registrations = Math.max(0, current.registrations - 1);
+  }
+
+  await store.setJSON(seatStateKey, nextState);
+  return nextState;
+}
+
 function sanitizeRegistration(data: RegistrationData) {
   return {
     name: clean(data.name, 160),
@@ -181,14 +234,77 @@ function sanitizeRegistration(data: RegistrationData) {
   };
 }
 
+function validateRegistration(attendee: ReturnType<typeof sanitizeRegistration>) {
+  const errors: string[] = [];
+
+  if (attendee.name && attendee.name.length < 2) errors.push("Le nom complet doit contenir au moins 2 caracteres.");
+  if (attendee.age) {
+    const age = Number.parseInt(attendee.age, 10);
+    if (!Number.isFinite(age) || age < 10 || age > 80) errors.push("Veuillez renseigner un age valide.");
+  }
+  if (!allowedStatus.has(attendee.status)) errors.push("Veuillez selectionner un statut valide.");
+  if (!allowedTargetCountries.has(attendee.targetCountry)) errors.push("Veuillez selectionner un pays vise valide.");
+  if (!allowedVisaRefusal.has(attendee.visaRefusal)) errors.push("Veuillez selectionner une reponse valide pour le refus de visa.");
+  if (!allowedAccompanied.has(attendee.accompanied)) errors.push("Veuillez selectionner une reponse valide pour les accompagnants.");
+  if (attendee.companions) {
+    const companions = Number.parseInt(attendee.companions, 10);
+    if (!Number.isFinite(companions) || companions < 0 || companions > 10) errors.push("Veuillez renseigner un nombre d'accompagnants valide.");
+  }
+
+  return errors;
+}
+
+function emailIndexKey(email: string) {
+  return `email-${email}`;
+}
+
+function phoneIndexKey(phone: string) {
+  return `phone-${phone}`;
+}
+
 async function saveRegistrationRecord(record: RegistrationRecord) {
   const store = getRegistrationsStore();
   await store.setJSON(`registration-${record.ticketId}`, record);
+  await store.setJSON(emailIndexKey(record.attendee.email), record.ticketId);
+  await store.setJSON(phoneIndexKey(normalizePhone(record.attendee.phone)), record.ticketId);
 
   const index = await store.get(registrationIndexKey, { type: "json" }) as string[] | null;
   const nextIndex = Array.isArray(index) ? index.filter((id) => id !== record.ticketId) : [];
   nextIndex.unshift(record.ticketId);
   await store.setJSON(registrationIndexKey, nextIndex.slice(0, 5000));
+}
+
+async function deleteRegistrationRecord(record: RegistrationRecord) {
+  const store = getRegistrationsStore();
+  await store.delete(`registration-${record.ticketId}`);
+  await store.delete(emailIndexKey(record.attendee.email));
+  await store.delete(phoneIndexKey(normalizePhone(record.attendee.phone)));
+
+  const index = await store.get(registrationIndexKey, { type: "json" }) as string[] | null;
+  if (Array.isArray(index)) {
+    await store.setJSON(registrationIndexKey, index.filter((id) => id !== record.ticketId));
+  }
+}
+
+async function findDuplicateRegistration(attendee: ReturnType<typeof sanitizeRegistration>) {
+  const store = getRegistrationsStore();
+  const emailHit = await store.get(emailIndexKey(attendee.email), { type: "json" }) as string | null;
+  if (emailHit) return { field: "email" };
+
+  const phoneHit = await store.get(phoneIndexKey(normalizePhone(attendee.phone)), { type: "json" }) as string | null;
+  if (phoneHit) return { field: "phone" };
+
+  const index = await store.get(registrationIndexKey, { type: "json" }) as string[] | null;
+  if (!Array.isArray(index)) return null;
+
+  for (const ticketId of index.slice(0, 5000)) {
+    const record = await store.get(`registration-${ticketId}`, { type: "json" }) as RegistrationRecord | null;
+    if (!record?.attendee) continue;
+    if (record.attendee.email === attendee.email) return { field: "email" };
+    if (normalizePhone(record.attendee.phone) === normalizePhone(attendee.phone)) return { field: "phone" };
+  }
+
+  return null;
 }
 
 function createCalendarAttachment(ticketId: string, data: RegistrationData) {
@@ -329,12 +445,96 @@ async function sendTicketEmail(ticketId: string, data: RegistrationData, seatSta
   });
 
   if (!response.ok) {
-    const details = await response.text();
-    console.error("Email provider error", details);
+    console.error("Email provider error", {
+      status: response.status,
+      statusText: response.statusText,
+    });
     throw new Error("Le billet n'a pas pu etre envoye par email.");
   }
 
   return { configured: true, sent: true };
+}
+
+function getRequestIp(req: Request) {
+  const forwarded = req.headers.get("x-forwarded-for")?.split(",")[0];
+  return clean(
+    req.headers.get("x-nf-client-connection-ip")
+      || req.headers.get("cf-connecting-ip")
+      || req.headers.get("x-real-ip")
+      || forwarded
+      || "unknown",
+    120,
+  );
+}
+
+function hashValue(value: string) {
+  return createHash("sha256").update(value).digest("hex");
+}
+
+async function getRateLimitKey(req: Request) {
+  const fingerprint = [
+    getRequestIp(req),
+    clean(req.headers.get("user-agent"), 240),
+    clean(req.headers.get("accept-language"), 120),
+  ].join("|");
+  return `rate-${await hashValue(fingerprint)}`;
+}
+
+async function getRateLimitState(key: string) {
+  const store = getSecurityStore();
+  const stored = await store.get(key, { type: "json" }) as RateLimitState | null;
+  const now = Date.now();
+
+  if (!stored || Date.parse(stored.resetAt) <= now) {
+    return {
+      count: 0,
+      resetAt: new Date(now + rateLimitWindowMs).toISOString(),
+    };
+  }
+
+  return {
+    count: Math.max(0, Number(stored.count || 0)),
+    resetAt: clean(stored.resetAt),
+  };
+}
+
+async function isRateLimited(key: string) {
+  const state = await getRateLimitState(key);
+  return state.count >= maxFailedAttempts;
+}
+
+async function recordFailedAttempt(key: string) {
+  const store = getSecurityStore();
+  const state = await getRateLimitState(key);
+  await store.setJSON(key, {
+    count: state.count + 1,
+    resetAt: state.resetAt,
+  });
+}
+
+async function clearFailedAttempts(key: string) {
+  await getSecurityStore().delete(key);
+}
+
+function isAllowedRequestOrigin(req: Request) {
+  const rawOrigin = req.headers.get("origin") || req.headers.get("referer");
+  if (!rawOrigin) return true;
+
+  try {
+    const hostname = new URL(rawOrigin).hostname;
+    return allowedOrigins.has(hostname) || hostname.endsWith(".netlify.app");
+  } catch {
+    return false;
+  }
+}
+
+function isJsonRequest(req: Request) {
+  return (req.headers.get("content-type") || "").toLowerCase().includes("application/json");
+}
+
+function isOversizedRequest(req: Request) {
+  const length = Number.parseInt(req.headers.get("content-length") || "0", 10);
+  return Number.isFinite(length) && length > maxRequestBytes;
 }
 
 export default async (req: Request) => {
@@ -351,14 +551,37 @@ export default async (req: Request) => {
     return jsonResponse({ message: "Methode non autorisee." }, 405);
   }
 
+  if (!isAllowedRequestOrigin(req)) {
+    console.warn("Blocked register request from disallowed origin", {
+      origin: req.headers.get("origin") || req.headers.get("referer") || "unknown",
+      ipHash: await hashValue(getRequestIp(req)),
+    });
+    return jsonResponse({ message: "Requete non autorisee." }, 403);
+  }
+
+  if (!isJsonRequest(req)) {
+    return jsonResponse({ message: "Le format de la requete est invalide." }, 415);
+  }
+
+  if (isOversizedRequest(req)) {
+    return jsonResponse({ message: "La requete est trop volumineuse." }, 413);
+  }
+
+  const rateLimitKey = await getRateLimitKey(req);
+  if (await isRateLimited(rateLimitKey)) {
+    return jsonResponse({ message: "Trop de tentatives. Veuillez patienter quelques minutes avant de reessayer." }, 429);
+  }
+
   let data: RegistrationData;
   try {
     data = await req.json();
   } catch {
+    await recordFailedAttempt(rateLimitKey);
     return jsonResponse({ message: "Donnees d'inscription invalides." }, 400);
   }
 
   if (clean(data.companyWebsite, 200)) {
+    await recordFailedAttempt(rateLimitKey);
     return jsonResponse({ ok: true, message: "Inscription recue." }, 202);
   }
 
@@ -370,17 +593,42 @@ export default async (req: Request) => {
   if (!attendee.email) missingFields.push("adresse email");
 
   if (missingFields.length > 0) {
+    await recordFailedAttempt(rateLimitKey);
     return jsonResponse({
       message: `Veuillez renseigner les champs obligatoires marques d'un asterisque : ${missingFields.join(", ")}.`,
     }, 400);
   }
 
   if (!isValidEmail(attendee.email)) {
+    await recordFailedAttempt(rateLimitKey);
     return jsonResponse({ message: "Veuillez renseigner une adresse email valide." }, 400);
   }
 
   if (!hasUsablePhone(attendee.phone)) {
+    await recordFailedAttempt(rateLimitKey);
     return jsonResponse({ message: "Veuillez renseigner un numero WhatsApp valide." }, 400);
+  }
+
+  const validationErrors = validateRegistration(attendee);
+  if (validationErrors.length > 0) {
+    await recordFailedAttempt(rateLimitKey);
+    return jsonResponse({ message: validationErrors[0] }, 400);
+  }
+
+  const duplicate = await findDuplicateRegistration(attendee);
+  if (duplicate?.field === "email") {
+    await recordFailedAttempt(rateLimitKey);
+    return jsonResponse({ message: "Cette adresse email est deja inscrite pour SGVE 2026." }, 409);
+  }
+
+  if (duplicate?.field === "phone") {
+    await recordFailedAttempt(rateLimitKey);
+    return jsonResponse({ message: "Ce numero WhatsApp est deja inscrit pour SGVE 2026." }, 409);
+  }
+
+  if (!env("RESEND_API_KEY")) {
+    console.error("Register email provider missing configuration");
+    return jsonResponse({ message: "L'envoi du billet n'est pas configure. Veuillez contacter l'equipe CF Consulting Travel." }, 503);
   }
 
   const ticketId = createTicketId();
@@ -396,47 +644,58 @@ export default async (req: Request) => {
     }, 409);
   }
 
-  let emailSent = false;
-  let configurationRequired = false;
-  let emailError: string | undefined;
-
-  try {
-    const emailResult = await sendTicketEmail(ticketId, attendee, reservation.state);
-    emailSent = emailResult.sent;
-    configurationRequired = !emailResult.configured;
-  } catch (error) {
-    emailError = error instanceof Error ? error.message : "Erreur lors de l'envoi du billet.";
-  }
-
   const record: RegistrationRecord = {
     ticketId,
     event: "SGVE 2026",
     createdAt: new Date().toISOString(),
     attendee,
     seatSnapshot: reservation.state,
-    emailSent,
-    emailError,
+    emailSent: false,
     source: "cfconsultingtravel.org",
   };
 
   try {
     await saveRegistrationRecord(record);
   } catch (error) {
-    console.error("Registration storage error", error);
+    await rollbackSeat(reservation.state);
+    console.error("Registration storage error", {
+      ticketId,
+      error: error instanceof Error ? error.message : "unknown storage error",
+    });
+    return jsonResponse({ message: "L'inscription n'a pas pu etre enregistree. Veuillez reessayer." }, 500);
+  }
+
+  try {
+    await sendTicketEmail(ticketId, attendee, reservation.state);
+    record.emailSent = true;
+    await saveRegistrationRecord(record);
+    await clearFailedAttempts(rateLimitKey);
+  } catch (error) {
+    await rollbackSeat(reservation.state);
+    await deleteRegistrationRecord(record);
+    await recordFailedAttempt(rateLimitKey);
+    console.error("Ticket email error", {
+      ticketId,
+      error: error instanceof Error ? error.message : "unknown email error",
+    });
+    return jsonResponse({
+      ok: false,
+      message: "L'envoi du billet par email n'a pas pu etre confirme. Aucune place n'a ete consommee. Veuillez reessayer ou contacter l'equipe CF Consulting Travel.",
+      totalSeats: reservation.state.totalSeats,
+      remainingSeats: Math.min(reservation.state.totalSeats, reservation.state.remainingSeats + 1),
+      registrations: Math.max(0, reservation.state.registrations - 1),
+    }, 502);
   }
 
   return jsonResponse({
     ok: true,
     ticketId,
-    emailSent,
-    configurationRequired,
-    message: emailError
-      ? `${emailError} Votre inscription est enregistree, mais l'envoi automatique du billet doit etre verifie par l'equipe CF Consulting Travel.`
-      : undefined,
+    emailSent: true,
+    configurationRequired: false,
     totalSeats: reservation.state.totalSeats,
     remainingSeats: reservation.state.remainingSeats,
     registrations: reservation.state.registrations,
-  }, emailSent ? 200 : 202);
+  }, 200);
 };
 
 export const config = {

@@ -46,3 +46,18 @@ test("generated pages expose premium social proof content across key conversion 
   assert.match(testimonials, /Yaoundé/);
   assert.match(testimonials, /Canada/);
 });
+
+test("generated pages use the single official WhatsApp contact and footer copyright", async () => {
+  await execFileAsync(process.execPath, ["scripts/build-cf-site.mjs"], { cwd: root });
+
+  const routes = [".", "a-propos", "services", "visa-etudiant", "recours-visa", "contact", "sgve-2026"];
+  for (const route of routes) {
+    const html = await page(route);
+    assert.doesNotMatch(html, /Écrire sur WhatsApp Cameroun/);
+    assert.doesNotMatch(html, /Écrire sur WhatsApp France/);
+    assert.match(html, /Nous joindre sur WhatsApp/);
+    assert.match(html, /https:\/\/wa\.me\/33758262034/);
+    assert.match(html, /\+33 7 58 26 20 34/);
+    assert.match(html, /© 2026 CF Consulting Travel\. Tous droits réservés\./);
+  }
+});

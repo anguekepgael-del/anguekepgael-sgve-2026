@@ -42,8 +42,9 @@ function mapSiteSettings(doc, fallback) {
     phoneCm: pick(doc.phoneCameroon, fallback.phoneCm),
     address: pick(doc.addressFrance, fallback.address),
     owner: pick(doc.owner, fallback.owner),
-    whatsappFr: pick(doc.whatsappFrance, fallback.whatsappFr),
-    whatsappCm: pick(doc.whatsappCameroon, fallback.whatsappCm),
+    whatsappFr: "https://wa.me/33758262034",
+    whatsappCm: "https://wa.me/33758262034",
+    whatsappPhone: "+33 7 58 26 20 34",
     channel: pick(doc.whatsappChannel, fallback.channel),
   };
 }

@@ -19,6 +19,7 @@ Le domaine `cfconsultingtravel.org` doit presenter CF Consulting Travel comme si
 - `/mentions-legales/` : mentions legales.
 - `/politique-confidentialite/` : traitement des donnees personnelles.
 - `/conditions-utilisation/` : conditions d'utilisation et limitation de responsabilite.
+- `/donnees-inscriptions-sgve-2026/` : gestion des donnees collectees pour les inscriptions SGVE 2026.
 
 ## Build Netlify
 

@@ -14,6 +14,10 @@ Architecture principale :
 - `/temoignages/` : signaux de confiance.
 - `/blog/` : conseils et ressources.
 - `/contact/` : coordonnees et WhatsApp.
+- `/mentions-legales/` : mentions legales.
+- `/politique-confidentialite/` : politique de confidentialite.
+- `/conditions-utilisation/` : conditions d'utilisation.
+- `/donnees-inscriptions-sgve-2026/` : politique de gestion des donnees d'inscription SGVE 2026.
 
 ## Build Netlify
 

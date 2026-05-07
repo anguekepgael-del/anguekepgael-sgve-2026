@@ -78,10 +78,116 @@ const serviceLinks = [
   ["Orientation études à l'étranger", "/orientation-etudes-etranger/", "Choisir une destination, une école et une formation compatibles avec le profil du candidat."],
 ];
 
-const posts = [
-  ["Bien choisir son pays d'etudes", "Les criteres a comparer avant de s'engager : projet, budget, langue, niveau et debouches."],
-  ["Comprendre les refus de visa etudiant", "Un refus ne se resume pas a un document manquant. La coherence globale du dossier compte."],
-  ["Preparer son entretien avec methode", "Savoir expliquer son parcours et son projet aide a defendre une candidature plus claire."],
+const blogCategories = [
+  ["Campus France", "campus-france"],
+  ["Visa étudiant", "visa-etudiant"],
+  ["Refus de visa", "refus-de-visa"],
+  ["Recours", "recours"],
+  ["Études en France", "etudes-en-france"],
+  ["Études au Canada", "etudes-au-canada"],
+  ["Études en Espagne", "etudes-en-espagne"],
+  ["Études en Russie", "etudes-en-russie"],
+  ["Vie après le visa", "vie-apres-le-visa"],
+  ["Conseils parents", "conseils-parents"],
+];
+
+const blogArticles = [
+  {
+    title: "Comment préparer un bon projet d'études à l'étranger ?",
+    slug: "preparer-bon-projet-etudes-etranger",
+    category: "Visa étudiant",
+    desc: "Comprendre comment structurer un projet d'études à l'étranger cohérent, crédible et défendable.",
+    intro: "Un projet d'études solide ne se limite pas au choix d'une école. Il doit expliquer une trajectoire, un objectif et une cohérence entre le profil du candidat, la formation visée et le projet professionnel.",
+    sections: [
+      ["Clarifier son objectif", "Avant de choisir un pays ou une école, le candidat doit pouvoir expliquer ce qu'il veut étudier, pourquoi cette orientation est logique et comment elle s'inscrit dans son avenir."],
+      ["Comparer les options", "Le choix doit tenir compte du niveau académique, du budget, de la langue, du calendrier, des exigences d'admission et des perspectives après la formation."],
+      ["Construire une feuille de route", "Une bonne préparation organise les étapes : orientation, candidature, justificatifs, financement, logement, entretien et dépôt du dossier."],
+    ],
+  },
+  {
+    title: "Les erreurs fréquentes dans un dossier visa étudiant",
+    slug: "erreurs-frequentes-dossier-visa-etudiant",
+    category: "Visa étudiant",
+    desc: "Les erreurs courantes qui fragilisent un dossier visa étudiant et les points à vérifier avant le dépôt.",
+    intro: "Un dossier peut être complet sur le papier mais rester fragile si les informations ne racontent pas une histoire cohérente.",
+    sections: [
+      ["Un projet mal défendu", "Le choix de formation doit être relié au parcours précédent et au projet professionnel. Une réorientation doit être expliquée avec précision."],
+      ["Des justificatifs peu lisibles", "Les documents financiers, académiques ou administratifs doivent être cohérents entre eux et faciles à comprendre."],
+      ["Un discours différent du dossier", "Les réponses données à l'entretien doivent correspondre aux pièces déposées. L'improvisation peut créer des contradictions."],
+    ],
+  },
+  {
+    title: "Que faire après un refus de visa étudiant ?",
+    slug: "que-faire-apres-refus-visa-etudiant",
+    category: "Refus de visa",
+    desc: "Les premières étapes à suivre après un refus de visa étudiant, sans précipitation ni promesse irréaliste.",
+    intro: "Un refus doit être analysé avec méthode. Réagir trop vite peut conduire à répéter les mêmes erreurs.",
+    sections: [
+      ["Lire la décision", "Il faut d'abord comprendre les motifs indiqués et relire le dossier initial avec recul."],
+      ["Identifier les fragilités", "Les faiblesses peuvent concerner le projet, les ressources, les justificatifs, les délais ou la cohérence générale."],
+      ["Choisir la bonne stratégie", "Selon la situation, un recours, une correction ou un nouveau dépôt peut être envisagé. La décision doit rester prudente et documentée."],
+    ],
+  },
+  {
+    title: "Campus France Cameroun : les étapes à comprendre",
+    slug: "campus-france-cameroun-etapes-comprendre",
+    category: "Campus France",
+    desc: "Comprendre les grandes étapes d'un parcours Campus France Cameroun sans remplacer les sources officielles.",
+    intro: "Campus France demande une préparation académique sérieuse. Les procédures pouvant évoluer, les candidats doivent toujours vérifier les informations sur les canaux officiels.",
+    sections: [
+      ["Préparer son projet académique", "Le candidat doit clarifier son parcours, ses choix de formations et son objectif professionnel."],
+      ["Organiser ses documents", "Les relevés, diplômes, CV, motivations et justificatifs doivent être lisibles et cohérents."],
+      ["Préparer l'entretien", "L'entretien sert à expliquer le projet. Il faut savoir présenter ses choix sans réciter un texte appris par cœur."],
+    ],
+  },
+  {
+    title: "Comment choisir une école cohérente avec son parcours ?",
+    slug: "choisir-ecole-coherente-avec-son-parcours",
+    category: "Visa étudiant",
+    desc: "Méthode pour choisir une école et une formation alignées avec son profil académique et son projet professionnel.",
+    intro: "Le choix d'une école influence la crédibilité du projet. Une formation mal alignée peut fragiliser toute la démarche.",
+    sections: [
+      ["Analyser son profil", "Le niveau, les résultats, la filière, les expériences et le budget doivent orienter les choix."],
+      ["Vérifier la cohérence", "La formation choisie doit avoir un lien défendable avec le parcours et l'objectif professionnel."],
+      ["Anticiper les questions", "Le candidat doit pouvoir expliquer pourquoi cette école, cette formation et cette destination sont pertinentes."],
+    ],
+  },
+  {
+    title: "Visa étudiant : pourquoi un dossier complet peut être refusé ?",
+    slug: "visa-etudiant-dossier-complet-peut-etre-refuse",
+    category: "Refus de visa",
+    desc: "Pourquoi la complétude administrative ne suffit pas toujours à rendre un dossier visa étudiant convaincant.",
+    intro: "Un dossier complet n'est pas automatiquement un dossier convaincant. Les institutions analysent aussi la cohérence et la crédibilité globale.",
+    sections: [
+      ["La cohérence du projet", "Le parcours, la formation, le financement et l'objectif doivent former un ensemble logique."],
+      ["La lisibilité des preuves", "Des documents présents mais mal expliqués peuvent laisser des zones d'ombre."],
+      ["La préparation du candidat", "Un candidat doit comprendre son propre dossier et pouvoir l'expliquer clairement."],
+    ],
+  },
+  {
+    title: "Étudier en France : ce qu'il faut préparer avant le départ",
+    slug: "etudier-en-france-preparer-avant-depart",
+    category: "Études en France",
+    desc: "Points de préparation avant un départ pour études en France : organisation, budget, logement et adaptation.",
+    intro: "La préparation ne s'arrête pas à l'obtention d'une admission ou d'un visa. Le départ doit être organisé avec sérieux.",
+    sections: [
+      ["Préparer le budget", "Il faut anticiper les frais d'inscription, le logement, le transport, la vie quotidienne et les imprévus."],
+      ["Organiser l'arrivée", "Le logement, les documents importants, les contacts utiles et le calendrier d'installation doivent être préparés."],
+      ["Se préparer à l'adaptation", "La réussite dépend aussi de l'organisation personnelle, du rythme académique et de l'intégration progressive."],
+    ],
+  },
+  {
+    title: "Parents : comment accompagner le projet d'études de votre enfant ?",
+    slug: "parents-accompagner-projet-etudes-enfant",
+    category: "Conseils parents",
+    desc: "Conseils aux parents pour accompagner un projet d'études à l'étranger avec méthode et lucidité.",
+    intro: "Les parents jouent souvent un rôle central dans la réussite d'un projet d'études à l'étranger : soutien, budget, documents et décisions importantes.",
+    sections: [
+      ["Comprendre le projet", "Avant de financer ou d'encourager une démarche, il faut comprendre le pays, l'école, la formation et les débouchés."],
+      ["Aider sans décider à la place", "Le candidat doit pouvoir défendre son projet lui-même. Le rôle du parent est de soutenir la préparation."],
+      ["Garder une approche réaliste", "Aucune agence sérieuse ne peut garantir un visa. L'objectif est de mieux préparer le dossier et les étapes."],
+    ],
+  },
 ];
 
 const proofStats = [
@@ -126,13 +232,15 @@ function footer() {
   return `<footer id="contact"><div><a class="brand" href="/"><img src="/images/sgve/logo-cf-consulting-full.png" alt="Logo CF Consulting Travel" /><span><strong>${site.name}</strong><small>Mobilite internationale</small></span></a><p>Aucun resultat de visa n'est garanti : chaque dossier depend des criteres des institutions competentes.</p><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Écrire sur WhatsApp France</a><a class="btn secondary light" href="${site.whatsappCm}" target="_blank" rel="noreferrer">Écrire sur WhatsApp Cameroun</a></div></div><div><h2>Services</h2>${serviceLinks.slice(0, 3).map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}<a href="/services/">Tous les services</a><a href="/temoignages/">Temoignages</a><a href="/blog/">Blog / conseils</a></div><div><h2>Contacts</h2><a href="mailto:${site.email}">Email principal : ${site.email}</a><a href="mailto:${site.fallbackEmail}">Email secondaire : ${site.fallbackEmail}</a><a href="tel:+33656737225">Téléphone France : ${site.phoneFr}</a><a href="tel:+237657605017">Téléphone Cameroun : ${site.phoneCm}</a><p>Adresse France : ${site.address}</p></div><div><h2>Cadre legal</h2><a href="/mentions-legales/">Mentions legales</a><a href="/politique-confidentialite/">Politique de confidentialite</a><a href="/conditions-utilisation/">Conditions d'utilisation</a><a href="/donnees-inscriptions-sgve-2026/">Donnees inscriptions SGVE 2026</a><a href="${site.channel}" target="_blank" rel="noreferrer">Chaîne WhatsApp SGVE 2026</a></div></footer>`;
 }
 
-function page({ title, desc, route = "/", kind = "site", body }) {
+function page({ title, desc, route = "/", kind = "site", body, article = null }) {
   const canonical = `${site.url}${route === "/" ? "/" : route}`;
-  const schema = kind === "event"
+  const schema = kind === "article" && article
+    ? { "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.desc, datePublished: "2026-05-07", dateModified: "2026-05-07", author: { "@type": "Organization", name: site.name }, publisher: { "@type": "Organization", name: site.name, url: site.url }, mainEntityOfPage: canonical }
+    : kind === "event"
     ? { "@context": "https://schema.org", "@type": "Event", name: `${ev.title} - ${ev.long}`, description: desc, startDate: ev.iso, eventStatus: "https://schema.org/EventScheduled", isAccessibleForFree: true, location: { "@type": "Place", name: ev.place, address: { "@type": "PostalAddress", addressLocality: "Douala", addressCountry: "CM" } }, organizer: { "@type": "Organization", name: site.name, email: site.email, telephone: [site.phoneFr, site.phoneCm], url: site.url, address: contactAddressSchema, contactPoint: contactPointsSchema } }
     : { "@context": "https://schema.org", "@type": "TravelAgency", name: site.name, url: site.url, email: site.email, telephone: [site.phoneFr, site.phoneCm], address: contactAddressSchema, contactPoint: contactPointsSchema };
 
-  return `<!doctype html><html lang="fr"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${esc(title)}</title><meta name="description" content="${esc(desc)}" /><meta name="robots" content="index, follow" /><meta name="theme-color" content="#0A0A0A" /><link rel="canonical" href="${canonical}" /><link rel="stylesheet" href="/styles.css" /><meta property="og:type" content="${kind === "event" ? "event" : "website"}" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(desc)}" /><meta property="og:url" content="${canonical}" /><meta property="og:site_name" content="${site.name}" /><script type="application/ld+json">${JSON.stringify(schema)}</script></head><body data-page="${kind}"><a class="skip" href="#contenu">Aller au contenu</a>${header()}<main id="contenu">${body}</main>${footer()}<a class="float" href="${site.whatsappFr}" target="_blank" rel="noreferrer" aria-label="Écrire sur WhatsApp France">Écrire sur WhatsApp France</a><script src="/script.js" defer></script></body></html>`;
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${esc(title)}</title><meta name="description" content="${esc(desc)}" /><meta name="robots" content="index, follow" /><meta name="theme-color" content="#0A0A0A" /><link rel="canonical" href="${canonical}" /><link rel="stylesheet" href="/styles.css" /><meta property="og:type" content="${kind === "event" ? "event" : kind === "article" ? "article" : "website"}" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(desc)}" /><meta property="og:url" content="${canonical}" /><meta property="og:site_name" content="${site.name}" /><script type="application/ld+json">${JSON.stringify(schema)}</script></head><body data-page="${kind}"><a class="skip" href="#contenu">Aller au contenu</a>${header()}<main id="contenu">${body}</main>${footer()}<a class="float" href="${site.whatsappFr}" target="_blank" rel="noreferrer" aria-label="Écrire sur WhatsApp France">Écrire sur WhatsApp France</a><script src="/script.js" defer></script></body></html>`;
 }
 
 function card(title, text) {
@@ -364,10 +472,32 @@ function testimonialsPage() {
 
 function blogPage() {
   return page({
-    title: `Blog et conseils - ${site.name}`,
-    desc: `Conseils CF Consulting Travel sur visa etudiant, visa tourisme, recours et mobilite internationale.`,
+    title: `Blog et conseils mobilité internationale - ${site.name}`,
+    desc: `Conseils CF Consulting Travel sur Campus France, visa étudiant, refus de visa, recours et études à l'étranger.`,
     route: "/blog/",
-    body: `${standardHero("Blog / Conseils", "Des conseils pratiques pour mieux preparer vos decisions.", "Les contenus du blog aident a comprendre les enjeux d'un projet international, sans remplacer un accompagnement personnalise.")}<section class="section"><p class="eyebrow">Articles a developper</p><h2>Guides prioritaires pour les candidats et familles.</h2><div class="grid three">${posts.map(([title, text]) => card(title, text)).join("")}</div></section>`,
+    body: `${standardHero("Blog / Conseils", "Des contenus pour mieux préparer votre mobilité internationale.", "Articles SEO et conseils pratiques sur Campus France, visa étudiant, refus, recours, choix d'école, départ à l'étranger et accompagnement des parents. Ces contenus ne remplacent pas les sources officielles ni un diagnostic personnalisé.")}<section class="section"><p class="eyebrow">Catégories</p><h2>Explorer les grands sujets.</h2><div class="grid four">${blogCategories.map(([label, slug]) => linkCard(label, "Rubrique éditoriale à enrichir avec des contenus validés.", `/blog/categorie/${slug}/`)).join("")}</div></section><section class="section"><p class="eyebrow">Articles initiaux</p><h2>Guides prioritaires pour les étudiants et familles.</h2><div class="grid three">${blogArticles.map((article) => linkCard(article.title, article.desc, `/blog/${article.slug}/`)).join("")}</div></section><section class="banner"><div><p class="eyebrow">Besoin d'un diagnostic ?</p><h2>Un article aide à comprendre. Un échange aide à décider.</h2><p>CF Consulting Travel peut analyser votre situation et vous orienter vers le bon parcours d'accompagnement.</p></div><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Écrire sur WhatsApp France</a><a class="btn secondary light" href="/contact/">Page contact</a></div></section>`,
+  });
+}
+
+function blogCategoryPage(category) {
+  const [label, slug] = category;
+  const articles = blogArticles.filter((article) => article.category === label);
+  return page({
+    title: `${label} - Blog ${site.name}`,
+    desc: `Articles et conseils CF Consulting Travel sur ${label.toLowerCase()}, mobilité internationale et préparation de dossier.`,
+    route: `/blog/categorie/${slug}/`,
+    body: `${standardHero("Catégorie blog", label, "Retrouvez les articles liés à cette thématique. Les informations sont rédigées avec prudence et doivent être complétées par les sources officielles lorsque la procédure administrative évolue.")}<section class="section"><p class="eyebrow">Articles</p><h2>${articles.length ? "Guides disponibles" : "Articles à venir"}</h2><div class="grid three">${(articles.length ? articles : [{ title: "Contenu à venir", desc: "Cette catégorie est prête à accueillir de nouveaux articles validés par l'équipe.", slug: "blog" }]).map((article) => linkCard(article.title, article.desc, article.slug === "blog" ? "/blog/" : `/blog/${article.slug}/`)).join("")}</div></section>`,
+  });
+}
+
+function blogArticlePage(article) {
+  return page({
+    title: `${article.title} - ${site.name}`,
+    desc: article.desc,
+    route: `/blog/${article.slug}/`,
+    kind: "article",
+    article,
+    body: `<article class="section legal"><p class="eyebrow">${article.category}</p><h1>${article.title}</h1><p class="lead">${article.intro}</p><p class="privacy">Contenu éditorial modifiable. Vérifiez toujours les sources officielles lorsque la procédure administrative, les délais ou les pièces exigées peuvent évoluer.</p>${article.sections.map(([heading, text]) => `<section><h2>${heading}</h2><p>${text}</p></section>`).join("")}<section><h2>À retenir</h2><p>La meilleure préparation consiste à construire un projet cohérent, à organiser les preuves et à éviter les promesses irréalistes. CF Consulting Travel peut vous aider à analyser votre situation avec méthode.</p></section><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Écrire sur WhatsApp France</a><a class="btn secondary" href="/blog/">Retour au blog</a></div></article>${internalServiceLinks("/")}`,
   });
 }
 
@@ -507,6 +637,12 @@ async function build() {
   await write("sgve-2026", sgve());
   await write("temoignages", testimonialsPage());
   await write("blog", blogPage());
+  for (const category of blogCategories) {
+    await write(path.join("blog", "categorie", category[1]), blogCategoryPage(category));
+  }
+  for (const article of blogArticles) {
+    await write(path.join("blog", article.slug), blogArticlePage(article));
+  }
   await write("contact", contactPage());
   await write("mentions-legales", legal("mentions"));
   await write("politique-confidentialite", legal("privacy"));

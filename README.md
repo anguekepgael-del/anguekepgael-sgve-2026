@@ -2,7 +2,20 @@
 
 Site officiel de CF Consulting Travel, deploye sur Netlify pour `cfconsultingtravel.org`.
 
-Architecture principale :
+## Architecture
+
+Le projet suit une architecture volontairement simple :
+
+- `scripts/build-cf-site.mjs` : generateur statique unique du site.
+- `public/images/` : actifs images copies tels quels dans le build.
+- `deploy-inline/` : dossier genere et publie par Netlify.
+- `netlify/functions/` : fonctions serveur conservees pour les inscriptions, le compteur et l'export.
+- `tests/` : tests Node de la fonction d'inscription.
+- `docs/` : documentation technique et decisions d'architecture.
+
+Le site n'utilise plus de scripts successifs de patch apres generation. Les donnees du site, les routes, les contenus, les composants HTML, le CSS et le JavaScript client sont centralises dans `scripts/build-cf-site.mjs`.
+
+## Routes principales
 
 - `/` : accueil CF Consulting Travel.
 - `/a-propos/` : presentation de l'agence.
@@ -10,9 +23,12 @@ Architecture principale :
 - `/visa-etudiant/` : accompagnement visa etudiant.
 - `/visa-tourisme/` : accompagnement visa tourisme.
 - `/recours-visa/` : accompagnement apres refus.
+- `/accompagnement-campus-france/` : accompagnement Campus France.
+- `/preparation-entretien/` : preparation entretien.
+- `/orientation-etudes-etranger/` : orientation etudes a l'etranger.
 - `/sgve-2026/` : page evenementielle SGVE 2026.
 - `/temoignages/` : signaux de confiance.
-- `/blog/` : conseils et ressources.
+- `/blog/` : conseils et ressources SEO.
 - `/contact/` : coordonnees et WhatsApp.
 - `/mentions-legales/` : mentions legales.
 - `/politique-confidentialite/` : politique de confidentialite.
@@ -21,11 +37,37 @@ Architecture principale :
 
 ## Build Netlify
 
+Netlify execute une seule commande standard :
+
+```bash
+npm run build
+```
+
+Cette commande lance :
+
 ```bash
 node scripts/build-cf-site.mjs
 ```
 
-Le build genere le dossier statique `deploy-inline`.
+Le build genere `deploy-inline`, copie les images, cree les pages HTML, `styles.css`, `script.js`, `_redirects` et `build-ok.txt`.
+
+## Scripts conserves
+
+- `npm run build` : generation complete du site statique.
+- `npm test` : tests de securite et de comportement de `/register`.
+
+## Scripts supprimes
+
+Les scripts suivants etaient des correctifs historiques non appeles par `netlify.toml` ni par `package.json`. Ils ont ete remplaces par le generateur unique `scripts/build-cf-site.mjs` :
+
+- `scripts/build-with-image-rules.mjs`
+- `scripts/fetch-preview.mjs`
+- `scripts/final-site-quality-pass.mjs`
+- `scripts/force-country-destinations.mjs`
+- `scripts/force-mobile-hero-panel.mjs`
+- `scripts/force-registration-background.mjs`
+- `scripts/force-whatsapp-channel-button.mjs`
+- `scripts/inject-floating-whatsapp.mjs`
 
 ## Fonctions serveur
 
@@ -66,6 +108,10 @@ Ne jamais ajouter de cle API dans le code source.
 
 `SGVE_TOTAL_SEATS` est la source de verite du nombre total de places. Le site recupere le nombre restant via `/register` et affiche `Places limitees` si l'API est indisponible.
 
-## Documentation
+## Maintenance
 
-Voir `docs/ARCHITECTURE-CF-CONSULTING.md`.
+Pour modifier le contenu, privilegier les constantes au debut de `scripts/build-cf-site.mjs` : `site`, `ev`, `speakers`, `countries`, `navLinks`, `serviceLinks`, `blogCategories`, `blogArticles`, `proofStats`, `testimonials` et `caseStudies`.
+
+Pour modifier le rendu, utiliser les fonctions de templates du meme fichier : `header`, `footer`, `page`, `standardHero`, `card`, `linkCard`, `serviceDetailPage`, `faq` et les pages dediees.
+
+Voir aussi `docs/ARCHITECTURE-CF-CONSULTING.md`.

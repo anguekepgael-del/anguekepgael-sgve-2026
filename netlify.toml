@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/build-cf-site.mjs"
+  command = "npm run build"
   publish = "deploy-inline"
 
 [functions]

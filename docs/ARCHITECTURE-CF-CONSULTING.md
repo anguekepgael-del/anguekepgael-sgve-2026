@@ -23,7 +23,13 @@ Le domaine `cfconsultingtravel.org` doit presenter CF Consulting Travel comme si
 
 ## Build Netlify
 
-Le build Netlify execute :
+Le build Netlify execute une seule commande standard :
+
+```bash
+npm run build
+```
+
+Cette commande appelle :
 
 ```bash
 node scripts/build-cf-site.mjs
@@ -32,6 +38,42 @@ node scripts/build-cf-site.mjs
 Le script genere le site statique dans `deploy-inline`, copie les images depuis `public/images`, cree les pages, le CSS, le JavaScript et les redirections techniques historiques.
 
 Les anciennes variantes `/svge` et `/sgva` restent uniquement des redirections techniques vers `/sgve-2026/` pour ne pas casser d'anciens liens. Elles ne doivent pas etre affichees dans les contenus publics.
+
+### Architecture de generation
+
+Le projet ne doit plus empiler plusieurs scripts de correction apres build. La source de generation est :
+
+- `scripts/build-cf-site.mjs` pour les donnees, les templates HTML, le CSS, le JavaScript client et la liste des pages ;
+- `public/images/` pour les actifs images ;
+- `netlify/functions/` pour les comportements serveur.
+
+Les anciens scripts de patch ont ete supprimes car ils n'etaient plus references par `netlify.toml` ni par `package.json` :
+
+- `scripts/build-with-image-rules.mjs`
+- `scripts/fetch-preview.mjs`
+- `scripts/final-site-quality-pass.mjs`
+- `scripts/force-country-destinations.mjs`
+- `scripts/force-mobile-hero-panel.mjs`
+- `scripts/force-registration-background.mjs`
+- `scripts/force-whatsapp-channel-button.mjs`
+- `scripts/inject-floating-whatsapp.mjs`
+
+Toute nouvelle evolution visuelle ou fonctionnelle doit etre integree dans les donnees ou templates du generateur unique, pas via un script d'injection supplementaire.
+
+### Donnees centralisees
+
+Les donnees a modifier en priorite se trouvent au debut de `scripts/build-cf-site.mjs` :
+
+- `site` : contacts, domaine, WhatsApp, adresse et liens officiels ;
+- `ev` : informations SGVE 2026 ;
+- `speakers` : intervenants et photos ;
+- `countries` : destinations ;
+- `navLinks` : navigation principale ;
+- `serviceLinks` et `servicePages` : services ;
+- `blogCategories` et `blogArticles` : rubrique Blog / Conseils ;
+- `proofStats`, `testimonials` et `caseStudies` : preuve sociale.
+
+Les templates reutilisables sont dans le meme fichier : `header`, `footer`, `page`, `standardHero`, `card`, `linkCard`, `serviceDetailPage`, `shortFaq` et `faq`.
 
 ## Inscriptions
 

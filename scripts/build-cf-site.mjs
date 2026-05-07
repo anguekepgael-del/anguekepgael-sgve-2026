@@ -70,10 +70,12 @@ const navLinks = [
 ];
 
 const serviceLinks = [
-  ["Visa etudiant", "/visa-etudiant/", "Structurer un projet d'etudes coherent, comprendre les attentes et preparer les pieces cles."],
-  ["Visa tourisme", "/visa-tourisme/", "Preparer un dossier de sejour court avec des justificatifs lisibles et une intention de voyage claire."],
-  ["Recours visa", "/recours-visa/", "Relire une decision, identifier les fragilites du dossier et preparer une reponse methodique."],
-  ["Orientation academique", "/services/", "Choisir une destination, une ecole et une formation compatibles avec le profil du candidat."],
+  ["Visa étudiant", "/visa-etudiant/", "Structurer un projet d'études cohérent, comprendre les attentes et préparer les pièces clés."],
+  ["Visa tourisme", "/visa-tourisme/", "Préparer un dossier de séjour court avec des justificatifs lisibles et une intention de voyage claire."],
+  ["Recours visa", "/recours-visa/", "Relire une décision, identifier les fragilités du dossier et préparer une réponse méthodique."],
+  ["Campus France", "/accompagnement-campus-france/", "Préparer son parcours Campus France avec un projet académique clair et défendable."],
+  ["Préparation entretien", "/preparation-entretien/", "S'entraîner à présenter son parcours, son projet et ses motivations avec cohérence."],
+  ["Orientation études à l'étranger", "/orientation-etudes-etranger/", "Choisir une destination, une école et une formation compatibles avec le profil du candidat."],
 ];
 
 const posts = [
@@ -148,37 +150,176 @@ function aboutPage() {
 function servicesPage() {
   return page({
     title: `Services - ${site.name}`,
-    desc: `Decouvrez les services CF Consulting Travel : visa etudiant, visa tourisme, recours visa, orientation et accompagnement.`,
+    desc: `Découvrez les services CF Consulting Travel : visa étudiant, visa tourisme, recours visa, Campus France, préparation entretien et orientation.`,
     route: "/services/",
-    body: `${standardHero("Services", "Des services structurés pour preparer votre projet international.", "Le site est organise autour des besoins principaux : etudes a l'etranger, voyage touristique, recours apres refus et conseil strategique.")}<section class="section"><p class="eyebrow">Offres CF</p><h2>Choisissez le parcours adapte a votre situation.</h2><div class="grid four">${serviceLinks.map(([title, href, text]) => linkCard(title, text, href)).join("")}</div></section><section class="banner"><div><p class="eyebrow">Besoin d'orientation ?</p><h2>Un premier echange permet de mieux comprendre votre dossier.</h2><p>Expliquez votre situation a l'equipe CF Consulting Travel avant de vous engager.</p></div><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Écrire sur WhatsApp France</a><a class="btn secondary light" href="${site.whatsappCm}" target="_blank" rel="noreferrer">Écrire sur WhatsApp Cameroun</a></div></section>`,
+    body: `${standardHero("Services", "Des services structurés pour préparer votre projet international.", "CF Consulting Travel accompagne les candidats avec une méthode claire : comprendre le profil, cadrer le projet, organiser les preuves et préparer les étapes importantes, sans promesse d'obtention garantie.")}<section class="section"><p class="eyebrow">Offres CF</p><h2>Choisissez le parcours adapté à votre situation.</h2><div class="grid four">${serviceLinks.map(([title, href, text]) => linkCard(title, text, href)).join("")}</div></section><section class="banner"><div><p class="eyebrow">Besoin d'orientation ?</p><h2>Un premier échange permet de mieux comprendre votre dossier.</h2><p>Expliquez votre situation à l'équipe CF Consulting Travel avant de vous engager.</p></div><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Écrire sur WhatsApp France</a><a class="btn secondary light" href="${site.whatsappCm}" target="_blank" rel="noreferrer">Écrire sur WhatsApp Cameroun</a></div></section>`,
   });
 }
 
-function visaEtudiantPage() {
+function bullets(items) {
+  return `<div class="checks">${items.map((item) => `<p><b>OK</b>${item}</p>`).join("")}</div>`;
+}
+
+function numbered(items) {
+  return `<ol class="timeline">${items.map((item) => `<li><strong>${item[0]}</strong><span>${item[1]}</span></li>`).join("")}</ol>`;
+}
+
+function shortFaq(items) {
+  return `<section class="section faq"><p class="eyebrow">FAQ</p><h2>Questions fréquentes.</h2>${items.map(([q, a]) => faq(q, a)).join("")}</section>`;
+}
+
+function internalServiceLinks(currentRoute) {
+  return `<section class="section"><p class="eyebrow">Services liés</p><h2>Continuez votre préparation avec les bons parcours.</h2><div class="grid three">${serviceLinks.filter(([, href]) => href !== currentRoute).slice(0, 3).map(([title, href, text]) => linkCard(title, text, href)).join("")}</div></section>`;
+}
+
+function serviceDetailPage(data) {
   return page({
-    title: `Visa etudiant - ${site.name}`,
-    desc: `Accompagnement visa etudiant : projet academique, choix de formation, dossier et preparation des justificatifs.`,
-    route: "/visa-etudiant/",
-    body: `${standardHero("Visa etudiant", "Construire un projet d'etudes coherent et defendable.", "CF Consulting Travel aide les candidats a clarifier leur parcours, choisir une formation compatible, organiser les justificatifs et se preparer avec methode.")}<section class="section"><p class="eyebrow">Accompagnement</p><h2>Les points cles du dossier etudiant.</h2><div class="grid four">${card("Choix du pays", "Comparer destination, budget, langue et opportunites.")}${card("Projet academique", "Relier parcours, formation et projet professionnel.")}${card("Pieces justificatives", "Organiser les documents administratifs et financiers.")}${card("Preparation", "Savoir expliquer son projet avec clarte et coherence.")}</div></section><section class="banner"><div><p class="eyebrow">Conference SGVE 2026</p><h2>Approfondissez votre strategie visa etudiant lors de SGVE 2026.</h2><p>${ev.date} a ${ev.time} - ${ev.place}.</p></div><a class="btn primary" href="/sgve-2026/">Reserver ma place</a></section>`,
+    title: data.metaTitle,
+    desc: data.metaDescription,
+    route: data.route,
+    body: `${standardHero(data.eyebrow, data.h1, data.lead)}<section class="section split"><div><p class="eyebrow">Promesse réaliste</p><h2>${data.promiseTitle}</h2><p>${data.promise}</p></div><div>${bullets(data.valuePoints)}</div></section><section class="section split"><div><p class="eyebrow">Problème client</p><h2>${data.problemTitle}</h2><p>${data.problem}</p></div><div><p class="eyebrow">Solution CF Consulting Travel</p><h2>${data.solutionTitle}</h2><p>${data.solution}</p></div></section><section class="section"><p class="eyebrow">Étapes</p><h2>Comment se déroule l'accompagnement.</h2>${numbered(data.steps)}</section><section class="section split"><div><p class="eyebrow">Documents généralement nécessaires</p><h2>Les pièces varient selon le pays et le profil.</h2>${bullets(data.documents)}</div><div><p class="eyebrow">Erreurs à éviter</p><h2>Les incohérences fragilisent souvent les dossiers.</h2>${bullets(data.errors)}</div></section>${shortFaq(data.faqs)}${internalServiceLinks(data.route)}<section class="banner"><div><p class="eyebrow">Passer à l'action</p><h2>Présentez votre situation à CF Consulting Travel.</h2><p>Un échange permet d'identifier le service adapté et les prochaines étapes raisonnables, sans garantie artificielle de résultat.</p></div><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Écrire sur WhatsApp France</a><a class="btn secondary light" href="/contact/">Page contact</a></div></section>`,
   });
+}
+
+const servicePages = {
+  visaEtudiant: {
+    route: "/visa-etudiant/",
+    metaTitle: `Visa étudiant - ${site.name}`,
+    metaDescription: "Accompagnement visa étudiant : projet académique, choix de formation, justificatifs, préparation du dossier et entretien.",
+    eyebrow: "Visa étudiant",
+    h1: "Préparer un dossier étudiant cohérent, crédible et défendable.",
+    lead: "CF Consulting Travel aide les candidats à structurer leur projet d'études, à organiser les justificatifs et à préparer leur discours avec méthode. Aucune obtention de visa n'est garantie.",
+    promiseTitle: "Vous aider à présenter un projet lisible.",
+    promise: "L'objectif est de rendre le parcours, le choix de formation, le financement et le projet professionnel plus cohérents aux yeux des institutions compétentes.",
+    valuePoints: ["Diagnostic du profil académique", "Choix de pays et formation plus cohérents", "Préparation des justificatifs clés", "Méthode pour défendre son projet"],
+    problemTitle: "Beaucoup de dossiers sont fragilisés par un projet mal expliqué.",
+    problem: "Un candidat peut avoir une vraie ambition mais présenter un choix d'école, un budget ou un parcours qui paraît incohérent.",
+    solutionTitle: "Une préparation stratégique avant le dépôt.",
+    solution: "Nous aidons à clarifier le projet, à organiser les preuves et à préparer les réponses aux questions sensibles.",
+    steps: [["Diagnostic", "Analyse du profil, du niveau, du pays visé et des risques."], ["Cadrage du projet", "Lien entre parcours, formation, destination et objectif professionnel."], ["Documents", "Organisation des pièces académiques, financières et administratives."], ["Préparation", "Conseils pour expliquer le projet avec clarté et cohérence."]],
+    documents: ["Passeport valide", "Relevés de notes et diplômes", "Admission ou échanges avec l'établissement", "Justificatifs financiers", "Projet d'études et projet professionnel", "Preuves d'hébergement si nécessaires"],
+    errors: ["Choisir une formation sans lien avec son parcours", "Sous-estimer le budget réel", "Présenter des documents incomplets", "Tenir un discours différent du dossier", "Promettre ou inventer des éléments invérifiables"],
+    faqs: [["Garantissez-vous le visa étudiant ?", "Non. La décision appartient aux autorités compétentes."], ["Puis-je venir sans admission ?", "Oui, un diagnostic peut aider à structurer les étapes avant l'admission."], ["Travaillez-vous plusieurs destinations ?", "Oui, notamment France, Canada, Espagne, Russie et Allemagne."]],
+  },
+  visaTourisme: {
+    route: "/visa-tourisme/",
+    metaTitle: `Visa tourisme - ${site.name}`,
+    metaDescription: "Accompagnement visa tourisme : motif de voyage, ressources, hébergement, garanties de retour et cohérence du séjour.",
+    eyebrow: "Visa tourisme",
+    h1: "Préparer un dossier de voyage clair, cohérent et documenté.",
+    lead: "Un dossier touristique doit expliquer le motif du voyage, la durée, les ressources, l'hébergement et les garanties de retour de manière lisible.",
+    promiseTitle: "Vous aider à présenter un séjour crédible.",
+    promise: "Nous travaillons la cohérence entre le motif, le calendrier, les moyens financiers et les attaches personnelles ou professionnelles.",
+    valuePoints: ["Clarification du motif de voyage", "Organisation des preuves de ressources", "Lecture des garanties de retour", "Préparation d'un dossier plus lisible"],
+    problemTitle: "Un séjour mal justifié peut être mal compris.",
+    problem: "Les refus peuvent venir d'un motif imprécis, de ressources peu lisibles ou d'attaches insuffisamment démontrées.",
+    solutionTitle: "Structurer les preuves autour d'une histoire logique.",
+    solution: "CF Consulting Travel aide à présenter un dossier qui explique clairement pourquoi, quand, comment et avec quels moyens le voyage est prévu.",
+    steps: [["Analyse du voyage", "Motif, dates, destination, hébergement et cohérence générale."], ["Budget", "Lecture des ressources disponibles et justificatifs utiles."], ["Attaches", "Identification des preuves de retour pertinentes."], ["Relecture", "Vérification de la lisibilité du dossier avant dépôt."]],
+    documents: ["Passeport valide", "Réservation ou projet d'hébergement", "Itinéraire ou calendrier du séjour", "Justificatifs de ressources", "Attestation de travail ou d'activité", "Preuves d'attaches familiales, professionnelles ou patrimoniales"],
+    errors: ["Présenter un motif vague", "Déclarer un budget irréaliste", "Oublier les preuves d'attaches", "Fournir des justificatifs contradictoires", "Changer de discours selon les documents"],
+    faqs: [["Un billet d'avion payé est-il obligatoire ?", "Cela dépend des exigences de la procédure. Il faut éviter les dépenses risquées sans analyse préalable."], ["Pouvez-vous vérifier mes justificatifs ?", "Oui, l'accompagnement peut inclure une relecture structurée."], ["Le visa tourisme est-il garanti ?", "Non. Nous préparons le dossier, mais la décision reste institutionnelle."]],
+  },
+  recoursVisa: {
+    route: "/recours-visa/",
+    metaTitle: `Recours visa - ${site.name}`,
+    metaDescription: "Accompagnement recours visa : analyse du refus, diagnostic des points faibles, stratégie de réponse et préparation d'un nouveau dossier.",
+    eyebrow: "Recours visa",
+    h1: "Comprendre un refus avant de répondre ou de redéposer.",
+    lead: "Un refus doit être analysé avec calme. L'objectif est d'identifier les fragilités du dossier, de corriger les incohérences et de choisir une réponse adaptée.",
+    promiseTitle: "Vous aider à prendre une décision lucide après un refus.",
+    promise: "Nous ne promettons pas l'annulation d'un refus. Nous aidons à comprendre les motifs possibles et à choisir une stratégie raisonnable.",
+    valuePoints: ["Lecture objective de la décision", "Identification des faiblesses du dossier", "Choix entre recours ou nouveau dépôt", "Préparation des corrections utiles"],
+    problemTitle: "Réagir trop vite peut aggraver la situation.",
+    problem: "Après un refus, beaucoup de candidats redéposent le même dossier ou répondent sans traiter les vraies fragilités.",
+    solutionTitle: "Analyser avant d'agir.",
+    solution: "CF Consulting Travel relit le dossier, met en évidence les incohérences et propose une feuille de route pour corriger ce qui peut l'être.",
+    steps: [["Collecte", "Rassembler décision, formulaire, pièces et échanges utiles."], ["Analyse", "Identifier les motifs explicites et les fragilités probables."], ["Stratégie", "Choisir entre recours, correction ou nouveau dépôt."], ["Préparation", "Renforcer les preuves et la cohérence globale."]],
+    documents: ["Lettre ou notification de refus", "Dossier déposé initialement", "Formulaire ou informations de demande", "Justificatifs financiers et administratifs", "Admission ou motif de voyage", "Tout élément nouveau ou correctif"],
+    errors: ["Redéposer sans correction", "Ignorer les motifs du refus", "Ajouter des documents non cohérents", "Rédiger un recours émotionnel", "Promettre des informations impossibles à prouver"],
+    faqs: [["Faut-il toujours faire un recours ?", "Non. Parfois un nouveau dépôt mieux préparé est plus pertinent."], ["Pouvez-vous garantir l'acceptation du recours ?", "Non. Nous aidons à structurer l'analyse et la réponse."], ["Quand faut-il agir ?", "Le plus tôt possible, surtout si un délai officiel s'applique."]],
+  },
+  campusFrance: {
+    route: "/accompagnement-campus-france/",
+    metaTitle: `Accompagnement Campus France - ${site.name}`,
+    metaDescription: "Accompagnement Campus France : choix de formations, dossier pédagogique, projet d'études, entretien et cohérence du parcours.",
+    eyebrow: "Campus France",
+    h1: "Préparer Campus France avec un projet académique clair.",
+    lead: "CF Consulting Travel accompagne les candidats dans la structuration du dossier Campus France, le choix des formations et la préparation de l'entretien.",
+    promiseTitle: "Vous aider à défendre un parcours académique cohérent.",
+    promise: "L'accompagnement vise à rendre le projet plus clair : pourquoi cette formation, pourquoi cette destination, pourquoi maintenant et avec quel objectif professionnel.",
+    valuePoints: ["Choix de formations alignées", "Projet d'études mieux formulé", "Préparation de l'entretien Campus France", "Organisation des pièces académiques"],
+    problemTitle: "Un bon profil peut être affaibli par des choix mal justifiés.",
+    problem: "Les formations sélectionnées, les motivations et le projet professionnel doivent former un ensemble crédible.",
+    solutionTitle: "Construire une candidature lisible.",
+    solution: "Nous aidons à relier le parcours passé, les choix de formation, le pays visé et le projet futur dans un discours professionnel.",
+    steps: [["Profil académique", "Analyse du niveau, des résultats et du parcours."], ["Choix des formations", "Sélection cohérente avec le profil et l'objectif."], ["Dossier pédagogique", "Travail sur motivations, CV, pièces et cohérence."], ["Entretien", "Préparation aux questions fréquentes et sensibles."]],
+    documents: ["Passeport", "Diplômes et relevés de notes", "CV académique", "Lettres de motivation", "Liste des formations ciblées", "Justificatifs de niveau linguistique si disponibles"],
+    errors: ["Choisir trop de formations incohérentes", "Copier une motivation générique", "Ignorer le projet professionnel", "Mal expliquer une réorientation", "Arriver à l'entretien sans préparation"],
+    faqs: [["Campus France garantit-il l'admission ?", "Non. Les établissements et institutions restent décisionnaires."], ["Pouvez-vous aider au choix des formations ?", "Oui, selon le profil, le niveau et le projet."], ["L'entretien est-il important ?", "Oui, il permet d'évaluer la cohérence du projet présenté."]],
+  },
+  entretien: {
+    route: "/preparation-entretien/",
+    metaTitle: `Préparation entretien visa et Campus France - ${site.name}`,
+    metaDescription: "Préparation entretien visa étudiant, Campus France ou projet de voyage : discours, questions fréquentes, cohérence et simulation.",
+    eyebrow: "Préparation entretien",
+    h1: "Savoir présenter son projet avec clarté et cohérence.",
+    lead: "Un entretien ne se prépare pas par mémorisation. Il se prépare par compréhension du dossier, maîtrise du parcours et cohérence des réponses.",
+    promiseTitle: "Vous aider à parler de votre projet sans improvisation.",
+    promise: "Nous travaillons la structure du discours, les questions sensibles et la cohérence entre ce que vous dites et ce que vos documents montrent.",
+    valuePoints: ["Simulation de questions", "Clarification du parcours", "Préparation des points sensibles", "Discours plus naturel et crédible"],
+    problemTitle: "Le stress vient souvent d'un dossier mal compris.",
+    problem: "Un candidat peut perdre en crédibilité s'il ne sait pas expliquer son choix d'école, son budget, son retour ou son projet professionnel.",
+    solutionTitle: "Transformer le dossier en discours clair.",
+    solution: "CF Consulting Travel prépare les réponses autour des faits réels du dossier, sans inventer ni promettre d'éléments impossibles à défendre.",
+    steps: [["Lecture du dossier", "Comprendre les pièces, les dates, les choix et les incohérences possibles."], ["Questions clés", "Préparer les thèmes fréquents selon le type d'entretien."], ["Simulation", "S'entraîner à répondre avec précision et calme."], ["Ajustement", "Corriger les réponses trop vagues, contradictoires ou risquées."]],
+    documents: ["Dossier déposé ou en préparation", "CV ou parcours académique", "Admission ou preuve de projet", "Justificatifs financiers", "Projet professionnel", "Historique de voyage ou refus si concerné"],
+    errors: ["Apprendre des réponses par cœur", "Répondre différemment du dossier", "Être vague sur le financement", "Minimiser une réorientation", "Inventer des informations non prouvables"],
+    faqs: [["Faites-vous des simulations ?", "Oui, selon le type d'entretien et le profil du candidat."], ["Combien de temps faut-il pour se préparer ?", "Cela dépend du niveau de clarté du dossier et des points sensibles."], ["L'entretien garantit-il le visa ?", "Non. Il aide à mieux présenter le projet, sans garantir la décision."]],
+  },
+  orientation: {
+    route: "/orientation-etudes-etranger/",
+    metaTitle: `Orientation études à l'étranger - ${site.name}`,
+    metaDescription: "Orientation études à l'étranger : choix du pays, école, formation, budget, projet professionnel et stratégie de candidature.",
+    eyebrow: "Orientation études à l'étranger",
+    h1: "Choisir une destination et une formation compatibles avec votre profil.",
+    lead: "Un bon projet commence avant le visa : il commence par un choix réaliste de pays, d'école, de formation, de budget et d'objectif professionnel.",
+    promiseTitle: "Vous aider à prendre une décision stratégique.",
+    promise: "L'accompagnement vise à éviter les choix impulsifs et à construire une trajectoire académique crédible.",
+    valuePoints: ["Comparaison des destinations", "Analyse du profil académique", "Choix de formation cohérent", "Vision claire du budget et des étapes"],
+    problemTitle: "Un mauvais choix d'école peut fragiliser tout le projet.",
+    problem: "Une destination ou une formation mal alignée avec le profil peut créer des incohérences dans la candidature et le futur dossier visa.",
+    solutionTitle: "Orienter avant de déposer.",
+    solution: "CF Consulting Travel aide à comparer les options et à sélectionner un parcours plus cohérent avec les objectifs du candidat.",
+    steps: [["Diagnostic", "Profil, niveau, budget, langue, objectifs et contraintes."], ["Comparaison", "Pays, écoles, programmes, coûts et débouchés."], ["Sélection", "Choix d'options réalistes et défendables."], ["Feuille de route", "Étapes de candidature, documents et calendrier."]],
+    documents: ["Relevés de notes", "Diplômes", "CV ou parcours", "Budget approximatif", "Objectifs professionnels", "Pays ou programmes déjà envisagés"],
+    errors: ["Choisir uniquement selon la mode", "Ignorer le budget réel", "Négliger la langue d'enseignement", "Candidater sans projet professionnel", "Choisir une formation sans lien avec son parcours"],
+    faqs: [["Pouvez-vous recommander un pays ?", "Oui, après analyse du profil, du budget et du projet."], ["Faut-il choisir l'école avant le visa ?", "Oui, le choix académique influence fortement la cohérence du dossier."], ["Travaillez-vous avec plusieurs destinations ?", "Oui, notamment France, Canada, Espagne, Russie et Allemagne."]],
+  },
+};
+
+function visaEtudiantPage() {
+  return serviceDetailPage(servicePages.visaEtudiant);
 }
 
 function visaTourismePage() {
-  return page({
-    title: `Visa tourisme - ${site.name}`,
-    desc: `Accompagnement visa tourisme : intention de voyage, justificatifs, hebergement, ressources et coherence du sejour.`,
-    route: "/visa-tourisme/",
-    body: `${standardHero("Visa tourisme", "Preparer un dossier de voyage clair, coherent et documente.", "Un dossier touristique doit expliquer le motif du voyage, la duree, les moyens, l'hebergement et les garanties de retour de maniere lisible.")}<section class="section"><p class="eyebrow">Points de vigilance</p><h2>Ce que nous aidons a structurer.</h2><div class="grid four">${card("Motif du voyage", "Clarifier l'objectif et le calendrier du sejour.")}${card("Ressources", "Presenter des justificatifs financiers comprehensibles.")}${card("Hebergement", "Organiser les preuves de sejour et d'accueil.")}${card("Retour", "Montrer les attaches personnelles, familiales ou professionnelles.")}</div></section>`,
-  });
+  return serviceDetailPage(servicePages.visaTourisme);
 }
 
 function recoursVisaPage() {
-  return page({
-    title: `Recours visa - ${site.name}`,
-    desc: `Accompagnement apres refus de visa : analyse, points faibles, strategie de recours et preparation d'un nouveau dossier.`,
-    route: "/recours-visa/",
-    body: `${standardHero("Recours visa", "Comprendre un refus avant de repondre ou redeposer.", "Un refus doit etre analyse avec calme. L'objectif est d'identifier les fragilites, corriger les incoherences et choisir une reponse adaptee.")}<section class="section"><p class="eyebrow">Methode recours</p><h2>Une lecture objective avant toute action.</h2><div class="grid four">${card("Analyse", "Lire la decision et les motifs possibles.")}${card("Diagnostic", "Identifier les faiblesses du dossier initial.")}${card("Strategie", "Choisir entre recours, correction ou nouveau depot.")}${card("Preparation", "Renforcer les preuves et la coherence globale.")}</div></section>`,
-  });
+  return serviceDetailPage(servicePages.recoursVisa);
+}
+
+function campusFrancePage() {
+  return serviceDetailPage(servicePages.campusFrance);
+}
+
+function preparationEntretienPage() {
+  return serviceDetailPage(servicePages.entretien);
+}
+
+function orientationEtudesPage() {
+  return serviceDetailPage(servicePages.orientation);
 }
 
 function testimonialsPage() {
@@ -329,6 +470,9 @@ async function build() {
   await write("visa-etudiant", visaEtudiantPage());
   await write("visa-tourisme", visaTourismePage());
   await write("recours-visa", recoursVisaPage());
+  await write("accompagnement-campus-france", campusFrancePage());
+  await write("preparation-entretien", preparationEntretienPage());
+  await write("orientation-etudes-etranger", orientationEtudesPage());
   await write("sgve-2026", sgve());
   await write("temoignages", testimonialsPage());
   await write("blog", blogPage());

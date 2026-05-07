@@ -51,6 +51,30 @@ La fonction `netlify/functions/register.mts` :
 - annule la reservation si l'envoi email echoue ou si le stockage initial echoue ;
 - enregistre une base des inscrits dans Netlify Blobs.
 
+### Source de verite des donnees
+
+La solution retenue est Netlify Blobs, car elle est compatible avec le deploiement Netlify actuel et ne demande pas de service externe supplementaire.
+
+Stores utilises :
+
+- `sgve-2026` : compteur de places (`seat-state`), alimente par `SGVE_TOTAL_SEATS`.
+- `sgve-2026-registrations` : dossiers d'inscription confirmes, index principal, index email et index telephone.
+- `sgve-2026-security` : etat de rate limiting non sensible.
+
+Chaque dossier d'inscription confirme contient :
+
+- `ticketId` : code billet SGVE 2026 ;
+- `registrationStatus` : statut de l'inscription, actuellement `confirmed` apres email envoye ;
+- `emailStatus` : statut de l'envoi du billet, actuellement `sent` apres confirmation Resend ;
+- `createdAt` et `confirmedAt` ;
+- `attendee` : nom, age, statut, organisation, ville, WhatsApp, email, pays vise, niveau d'etudes, refus de visa, accompagnants et message ;
+- `consent` : consentement explicite au traitement pour l'inscription et le billet ;
+- `sourceTraffic` : URL source, referrer et parametres UTM si presents ;
+- `security` : hash IP, hash user-agent et hash fingerprint, sans stocker l'adresse IP brute ;
+- `seatSnapshot` : etat du compteur au moment de la confirmation.
+
+Le compteur de places ne diminue que pour une inscription stockee et dont l'email de billet a ete envoye. En cas d'echec email, l'inscription est supprimee et la place est restituee.
+
 La logique de securite reste volontairement simple pour ne pas bloquer les vrais participants : le honeypot piege les robots basiques, le rate limit ne se declenche qu'apres plusieurs echecs, et les doublons sont detectes avant toute consommation de place.
 
 ## Export des inscrits
@@ -60,6 +84,19 @@ Un endpoint protege existe :
 ```text
 GET /admin/registrations
 Authorization: Bearer <SGVE_ADMIN_TOKEN>
+```
+
+Export CSV protege :
+
+```text
+GET /admin/registrations?format=csv
+Authorization: Bearer <SGVE_ADMIN_TOKEN>
+```
+
+Exemple :
+
+```bash
+curl -H "Authorization: Bearer $SGVE_ADMIN_TOKEN" "https://cfconsultingtravel.org/admin/registrations?format=csv" -o sgve-2026-inscriptions.csv
 ```
 
 La variable `SGVE_ADMIN_TOKEN` doit etre creee dans Netlify. Ne jamais l'exposer dans le code, dans GitHub ou dans le navigateur.

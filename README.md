@@ -26,14 +26,21 @@ Le build genere le dossier statique `deploy-inline`.
 ## Fonctions serveur
 
 - `/register` : inscription SGVE 2026, billet email et compteur de places.
-- `/admin/registrations` : export protege de la base des inscrits.
+- `/admin/registrations` : consultation JSON protegee de la base des inscrits.
+- `/admin/registrations?format=csv` : export CSV protege de la base des inscrits.
 
 ## Securite du formulaire
 
-La fonction `/register` applique un honeypot invisible, une limitation des tentatives echouees, une validation stricte des champs, une detection des doublons email/telephone et un rollback du compteur si l'envoi du billet par email echoue.
+La fonction `/register` applique un honeypot invisible, une limitation des tentatives echouees, une validation stricte des champs, une detection des doublons email/telephone et un rollback du compteur si l'envoi du billet par email echoue. Les inscriptions confirmees sont stockees dans Netlify Blobs avec code billet, donnees participant, consentement, source de trafic, statut email, statut inscription et empreintes anti-spam non sensibles.
 
 ```bash
 npm test
+```
+
+Exporter les inscrits :
+
+```bash
+curl -H "Authorization: Bearer $SGVE_ADMIN_TOKEN" "https://cfconsultingtravel.org/admin/registrations?format=csv" -o sgve-2026-inscriptions.csv
 ```
 
 ## Nommage officiel

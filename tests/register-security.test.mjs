@@ -21,6 +21,7 @@ async function createHarness({ totalSeats = 3, emailOk = true } = {}) {
   })).toString("base64");
   process.env.SGVE_TOTAL_SEATS = String(totalSeats);
   process.env.RESEND_API_KEY = "test-resend-key";
+  process.env.SGVE_ADMIN_TOKEN = "admin-test-token";
 
   const originalFetch = globalThis.fetch;
   const originalConsoleError = console.error;
@@ -61,6 +62,7 @@ async function createHarness({ totalSeats = 3, emailOk = true } = {}) {
       globalThis.fetch = originalFetch;
       console.error = originalConsoleError;
       delete process.env.RESEND_API_KEY;
+      delete process.env.SGVE_ADMIN_TOKEN;
       delete process.env.SGVE_TOTAL_SEATS;
       delete process.env.NETLIFY_BLOBS_CONTEXT;
       await server.stop();
@@ -72,6 +74,9 @@ const validRegistration = {
   name: "Test Participant",
   phone: "+237657605017",
   email: "participant@example.com",
+  consent: "yes",
+  sourceUrl: "https://cfconsultingtravel.org/sgve-2026/?utm_source=test&utm_medium=qa&utm_campaign=security",
+  referrer: "https://example.com/source",
 };
 
 test("rejects duplicate email and phone without consuming another seat", async () => {
@@ -131,6 +136,42 @@ test("rate limits repeated invalid submissions from the same client", async () =
     const state = await h.get();
     assert.equal(state.body.remainingSeats, 5);
     assert.equal(state.body.registrations, 0);
+  } finally {
+    await h.close();
+  }
+});
+
+test("stores validated registration records and exports them as CSV", async () => {
+  const h = await createHarness({ totalSeats: 4 });
+  try {
+    const saved = await h.post(validRegistration, "203.0.113.77");
+    assert.equal(saved.response.status, 200);
+
+    const { default: adminHandler } = await import(`../netlify/functions/registrations.mts?test=${Math.random()}`);
+    const jsonResponse = await adminHandler(new Request("http://localhost/admin/registrations", {
+      method: "GET",
+      headers: { authorization: "Bearer admin-test-token" },
+    }));
+    const json = await jsonResponse.json();
+
+    assert.equal(json.total, 1);
+    assert.equal(json.records[0].ticketId, saved.body.ticketId);
+    assert.equal(json.records[0].registrationStatus, "confirmed");
+    assert.equal(json.records[0].emailStatus, "sent");
+    assert.equal(json.records[0].consent.accepted, true);
+    assert.equal(typeof json.records[0].security.ipHash, "string");
+    assert.equal(json.records[0].sourceTraffic.utmSource, "test");
+
+    const csvResponse = await adminHandler(new Request("http://localhost/admin/registrations?format=csv", {
+      method: "GET",
+      headers: { authorization: "Bearer admin-test-token" },
+    }));
+    const csv = await csvResponse.text();
+
+    assert.equal(csvResponse.headers.get("Content-Type"), "text/csv; charset=utf-8");
+    assert.match(csv, /code_billet,nom_complet/);
+    assert.match(csv, new RegExp(saved.body.ticketId));
+    assert.match(csv, /participant@example.com/);
   } finally {
     await h.close();
   }

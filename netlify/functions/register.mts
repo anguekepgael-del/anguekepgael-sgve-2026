@@ -26,6 +26,12 @@ type RegistrationData = {
   companions?: string;
   message?: string;
   companyWebsite?: string;
+  consent?: string;
+  sourceUrl?: string;
+  referrer?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
 };
 
 type SeatState = {
@@ -36,9 +42,14 @@ type SeatState = {
 };
 
 type RegistrationRecord = {
+  schemaVersion: 2;
   ticketId: string;
   event: "SGVE 2026";
+  registrationStatus: "pending_email" | "confirmed" | "cancelled";
+  emailStatus: "pending" | "sent" | "failed";
   createdAt: string;
+  confirmedAt?: string;
+  cancelledAt?: string;
   attendee: {
     name: string;
     age: string;
@@ -53,6 +64,24 @@ type RegistrationRecord = {
     accompanied: string;
     companions: string;
     message: string;
+  };
+  consent: {
+    accepted: boolean;
+    acceptedAt: string;
+    label: string;
+  };
+  sourceTraffic: {
+    sourceUrl: string;
+    referrer: string;
+    utmSource: string;
+    utmMedium: string;
+    utmCampaign: string;
+  };
+  security: {
+    ipHash: string;
+    userAgentHash: string;
+    fingerprintHash: string;
+    honeypotTriggered: boolean;
   };
   seatSnapshot: SeatState;
   emailSent: boolean;
@@ -153,22 +182,31 @@ function getSecurityStore() {
   return getStore("sgve-2026-security", { consistency: "strong" });
 }
 
+async function getIndexedRegistrationCount() {
+  const index = await getRegistrationsStore().get(registrationIndexKey, { type: "json" }) as string[] | null;
+  return Array.isArray(index) ? index.length : null;
+}
+
 async function getSeatState(): Promise<SeatState> {
   const totalSeats = getConfiguredTotalSeats();
   const store = getSeatsStore();
   const stored = await store.get(seatStateKey, { type: "json" }) as SeatState | null;
+  const indexedRegistrations = await getIndexedRegistrationCount();
 
   if (!stored) {
+    const registrations = Math.max(0, indexedRegistrations ?? 0);
     return {
       totalSeats,
-      remainingSeats: totalSeats,
-      registrations: 0,
+      remainingSeats: Math.max(0, totalSeats - registrations),
+      registrations,
       updatedAt: new Date().toISOString(),
     };
   }
 
-  const remainingSeats = Math.max(0, Math.min(Number(stored.remainingSeats ?? totalSeats), totalSeats));
-  const registrations = Math.max(0, Number(stored.registrations ?? totalSeats - remainingSeats));
+  const storedRemainingSeats = Math.max(0, Math.min(Number(stored.remainingSeats ?? totalSeats), totalSeats));
+  const storedRegistrations = Math.max(0, Number(stored.registrations ?? totalSeats - storedRemainingSeats));
+  const registrations = Math.max(0, indexedRegistrations ?? storedRegistrations);
+  const remainingSeats = Math.max(0, totalSeats - registrations);
 
   return {
     totalSeats,
@@ -231,6 +269,37 @@ function sanitizeRegistration(data: RegistrationData) {
     accompanied: clean(data.accompanied, 80),
     companions: clean(data.companions, 20),
     message: clean(data.message),
+  };
+}
+
+function isConsentAccepted(value: unknown) {
+  return ["yes", "true", "on", "1", "accepted"].includes(clean(value, 40).toLowerCase());
+}
+
+function extractSourceTraffic(data: RegistrationData) {
+  const sourceUrl = clean(data.sourceUrl, 500);
+  const referrer = clean(data.referrer, 500);
+  let utmSource = clean(data.utmSource, 120);
+  let utmMedium = clean(data.utmMedium, 120);
+  let utmCampaign = clean(data.utmCampaign, 160);
+
+  if (sourceUrl) {
+    try {
+      const url = new URL(sourceUrl);
+      utmSource ||= clean(url.searchParams.get("utm_source"), 120);
+      utmMedium ||= clean(url.searchParams.get("utm_medium"), 120);
+      utmCampaign ||= clean(url.searchParams.get("utm_campaign"), 160);
+    } catch {
+      // Keep the sanitized raw source URL even if it is not a valid URL.
+    }
+  }
+
+  return {
+    sourceUrl,
+    referrer,
+    utmSource,
+    utmMedium,
+    utmCampaign,
   };
 }
 
@@ -471,6 +540,15 @@ function hashValue(value: string) {
   return createHash("sha256").update(value).digest("hex");
 }
 
+function createSecuritySnapshot(req: Request, fingerprintHash: string) {
+  return {
+    ipHash: hashValue(getRequestIp(req)),
+    userAgentHash: hashValue(clean(req.headers.get("user-agent"), 240)),
+    fingerprintHash,
+    honeypotTriggered: false,
+  };
+}
+
 async function getRateLimitKey(req: Request) {
   const fingerprint = [
     getRequestIp(req),
@@ -609,6 +687,11 @@ export default async (req: Request) => {
     return jsonResponse({ message: "Veuillez renseigner un numero WhatsApp valide." }, 400);
   }
 
+  if (!isConsentAccepted(data.consent)) {
+    await recordFailedAttempt(rateLimitKey);
+    return jsonResponse({ message: "Veuillez accepter l'utilisation de vos informations pour finaliser l'inscription." }, 400);
+  }
+
   const validationErrors = validateRegistration(attendee);
   if (validationErrors.length > 0) {
     await recordFailedAttempt(rateLimitKey);
@@ -644,11 +727,27 @@ export default async (req: Request) => {
     }, 409);
   }
 
+  const createdAt = new Date().toISOString();
+  const fingerprintHash = hashValue([
+    getRequestIp(req),
+    clean(req.headers.get("user-agent"), 240),
+    clean(req.headers.get("accept-language"), 120),
+  ].join("|"));
   const record: RegistrationRecord = {
+    schemaVersion: 2,
     ticketId,
     event: "SGVE 2026",
-    createdAt: new Date().toISOString(),
+    registrationStatus: "pending_email",
+    emailStatus: "pending",
+    createdAt,
     attendee,
+    consent: {
+      accepted: true,
+      acceptedAt: createdAt,
+      label: "J'accepte que mes informations soient utilisees pour gerer mon inscription SGVE 2026 et l'envoi de mon billet.",
+    },
+    sourceTraffic: extractSourceTraffic(data),
+    security: createSecuritySnapshot(req, fingerprintHash),
     seatSnapshot: reservation.state,
     emailSent: false,
     source: "cfconsultingtravel.org",
@@ -668,10 +767,16 @@ export default async (req: Request) => {
   try {
     await sendTicketEmail(ticketId, attendee, reservation.state);
     record.emailSent = true;
+    record.emailStatus = "sent";
+    record.registrationStatus = "confirmed";
+    record.confirmedAt = new Date().toISOString();
     await saveRegistrationRecord(record);
     await clearFailedAttempts(rateLimitKey);
   } catch (error) {
     await rollbackSeat(reservation.state);
+    record.emailStatus = "failed";
+    record.registrationStatus = "cancelled";
+    record.cancelledAt = new Date().toISOString();
     await deleteRegistrationRecord(record);
     await recordFailedAttempt(rateLimitKey);
     console.error("Ticket email error", {

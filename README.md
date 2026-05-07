@@ -55,6 +55,8 @@ Le build genere `deploy-inline`, copie les images, cree les pages HTML, `styles.
 
 - `npm run build` : generation complete du site statique.
 - `npm test` : tests de securite et de comportement de `/register`.
+- `npm run studio:dev` : lance le Studio Sanity en local.
+- `npm run studio:build` : build du Studio Sanity.
 
 ## Scripts supprimes
 
@@ -103,10 +105,38 @@ curl -H "Authorization: Bearer $SGVE_ADMIN_TOKEN" "https://cfconsultingtravel.or
 - `SGVE_EMAIL_REPLY_TO`
 - `SGVE_TOTAL_SEATS`
 - `SGVE_ADMIN_TOKEN`
+- `SANITY_PROJECT_ID`
+- `SANITY_DATASET`
+- `SANITY_API_VERSION`
+- `SANITY_USE_CDN`
+- `SANITY_READ_TOKEN`
+- `SANITY_STUDIO_PROJECT_ID`
+- `SANITY_STUDIO_DATASET`
 
 Ne jamais ajouter de cle API dans le code source.
 
 `SGVE_TOTAL_SEATS` est la source de verite du nombre total de places. Le site recupere le nombre restant via `/register` et affiche `Places limitees` si l'API est indisponible.
+
+## Sanity CMS
+
+Le projet contient un Studio Sanity et des schemas pour gerer les contenus principaux sans modifier le code :
+
+- pages ;
+- services ;
+- evenements, dont SGVE 2026 ;
+- intervenants ;
+- temoignages ;
+- FAQ ;
+- articles de blog ;
+- pays accompagnes ;
+- parametres du site ;
+- contacts ;
+- CTA ;
+- SEO global.
+
+Au build, le site lit Sanity si les variables `SANITY_PROJECT_ID` et `SANITY_DATASET` sont configurees. Sinon, il utilise les contenus locaux de secours pour proteger la production.
+
+Documentation : `docs/SANITY-CMS.md`.
 
 ## Maintenance
 

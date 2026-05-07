@@ -163,13 +163,33 @@ La variable `SGVE_ADMIN_TOKEN` doit etre creee dans Netlify. Ne jamais l'exposer
 
 ## Preparation CMS Sanity
 
-Le site est pret pour une future extraction des contenus vers Sanity. Les blocs a externaliser en priorite :
+Le projet contient maintenant un Studio Sanity et une passerelle de lecture CMS.
 
-- services CF Consulting Travel ;
-- contenu SGVE 2026 ;
+Fichiers principaux :
+
+- `sanity.config.ts` : configuration du Studio.
+- `sanity.cli.ts` : configuration CLI.
+- `sanity/schemaTypes/` : schemas editoriaux.
+- `scripts/sanity-content.mjs` : lecture Sanity pendant le build Netlify.
+
+Le build reste robuste : si les variables Sanity ne sont pas configurees, ou si Sanity est indisponible, le site utilise les contenus locaux de secours dans `scripts/build-cf-site.mjs`.
+
+Collections disponibles :
+
+- pages ;
+- services ;
+- evenements ;
 - intervenants ;
+- temoignages ;
 - FAQ ;
-- pages legales ;
-- informations de contact.
+- articles de blog ;
+- pays accompagnes ;
+- parametres du site ;
+- contacts ;
+- CTA ;
+- SEO global ;
+- chiffres cles ;
+- etudes de cas ;
+- categories blog.
 
-La prochaine etape propre consiste a creer un schema Sanity `event`, `speaker`, `service`, `faq`, `legalPage` et `siteSettings`.
+Documentation CMS : `docs/SANITY-CMS.md`.

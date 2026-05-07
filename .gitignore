@@ -1,6 +1,7 @@
 node_modules
 .netlify
 deploy-inline
+sanity-dist
 .env
 .env.*
 !.env.example

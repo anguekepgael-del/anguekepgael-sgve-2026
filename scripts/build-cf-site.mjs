@@ -2,13 +2,14 @@
 import { mkdir, readdir, rm, writeFile, copyFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadSiteContent } from "./sanity-content.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const out = path.join(root, "deploy-inline");
 const imgSrc = path.join(root, "public", "images");
 const imgOut = path.join(out, "images");
 
-const site = {
+let site = {
   name: "CF Consulting Travel",
   url: "https://cfconsultingtravel.org",
   email: "contact@cfconsultingtravel.org",
@@ -22,20 +23,27 @@ const site = {
   channel: "https://whatsapp.com/channel/0029VasTv9O8PgsLD3HxvW22",
 };
 
-const contactAddressSchema = {
+function makeContactAddressSchema() {
+  return {
   "@type": "PostalAddress",
   streetAddress: "8 rue du Dauphiné",
   addressLocality: "Massy",
   postalCode: "91300",
   addressCountry: "FR",
 };
+}
 
-const contactPointsSchema = [
-  { "@type": "ContactPoint", telephone: site.phoneFr, contactType: "customer support", areaServed: "FR" },
-  { "@type": "ContactPoint", telephone: site.phoneCm, contactType: "customer support", areaServed: "CM" },
-];
+function makeContactPointsSchema() {
+  return [
+    { "@type": "ContactPoint", telephone: site.phoneFr, contactType: "customer support", areaServed: "FR" },
+    { "@type": "ContactPoint", telephone: site.phoneCm, contactType: "customer support", areaServed: "CM" },
+  ];
+}
 
-const ev = {
+let contactAddressSchema = makeContactAddressSchema();
+let contactPointsSchema = makeContactPointsSchema();
+
+let ev = {
   title: "SGVE 2026",
   long: "Stratégie Gagnante Visa Étudiant",
   date: "12 septembre 2026",
@@ -44,7 +52,7 @@ const ev = {
   iso: "2026-09-12T15:00:00+01:00",
 };
 
-const speakers = [
+let speakers = [
   ["Reine Lea Kameni", "Orientation et preparation strategique", "/images/speakers/reine-lea-kameni.jpeg"],
   ["Jacques Pelabou", "Dossier, coherence et attentes institutionnelles", "/images/speakers/jacques-pelabou.jpeg"],
   ["Anguekep Gael", "Destinations, programmes et conseils pratiques", "/images/speakers/anguekep-gael.jpeg"],
@@ -52,7 +60,7 @@ const speakers = [
   ["Carene Nono", "Accompagnement des familles et questions cles", "/images/speakers/carene-nono.jpeg"],
 ];
 
-const countries = [
+let countries = [
   ["FR", "France", "Parcours academiques, admissions, preuves financieres et projet coherent."],
   ["CA", "Canada", "Province, budget, calendrier et justification du projet."],
   ["ES", "Espagne", "Programmes, langue, admission et organisation administrative."],
@@ -60,7 +68,7 @@ const countries = [
   ["DE", "Allemagne", "Projet d'etudes, niveau linguistique, financement et etapes cles."],
 ];
 
-const navLinks = [
+let navLinks = [
   ["Accueil", "/"],
   ["A propos", "/a-propos/"],
   ["Services", "/services/"],
@@ -69,7 +77,7 @@ const navLinks = [
   ["Contact", "/contact/"],
 ];
 
-const serviceLinks = [
+let serviceLinks = [
   ["Visa étudiant", "/visa-etudiant/", "Structurer un projet d'études cohérent, comprendre les attentes et préparer les pièces clés."],
   ["Visa tourisme", "/visa-tourisme/", "Préparer un dossier de séjour court avec des justificatifs lisibles et une intention de voyage claire."],
   ["Recours visa", "/recours-visa/", "Relire une décision, identifier les fragilités du dossier et préparer une réponse méthodique."],
@@ -78,7 +86,7 @@ const serviceLinks = [
   ["Orientation études à l'étranger", "/orientation-etudes-etranger/", "Choisir une destination, une école et une formation compatibles avec le profil du candidat."],
 ];
 
-const blogCategories = [
+let blogCategories = [
   ["Campus France", "campus-france"],
   ["Visa étudiant", "visa-etudiant"],
   ["Refus de visa", "refus-de-visa"],
@@ -91,7 +99,7 @@ const blogCategories = [
   ["Conseils parents", "conseils-parents"],
 ];
 
-const blogArticles = [
+let blogArticles = [
   {
     title: "Comment préparer un bon projet d'études à l'étranger ?",
     slug: "preparer-bon-projet-etudes-etranger",
@@ -190,7 +198,7 @@ const blogArticles = [
   },
 ];
 
-const proofStats = [
+let proofStats = [
   ["+150", "visas obtenus", "Retours positifs documentes par l'equipe a consolider dans la base officielle."],
   ["+30", "recours gagnés", "Situations de refus analysees, corrigees et accompagnees avec methode."],
   ["+1000", "étudiants orientés ou formés", "Etudiants, eleves et jeunes diplomes sensibilises a la mobilite internationale."],
@@ -199,7 +207,7 @@ const proofStats = [
   ["5", "destinations principales", "France, Canada, Espagne, Russie et Allemagne."],
 ];
 
-const testimonials = [
+let testimonials = [
   ["Avis étudiant", "Visa étudiant France", "Avant l'accompagnement, je ne savais pas comment expliquer mon projet. L'equipe m'a aide a rendre mon dossier plus clair et plus coherent.", "Muriel K.", "Etudiante, Douala", "Projet d'etudes mieux structure", "5/5"],
   ["Avis parent", "Accompagnement famille", "Nous avions beaucoup d'inquietudes. Les explications ont ete simples, les etapes bien organisees et nous avons compris le role de chaque document.", "Mme Ngono", "Parent, Yaoundé", "Famille rassuree avant le depot", "5/5"],
   ["Après un refus", "Recours visa", "J'avais recu un refus sans comprendre mes erreurs. L'analyse m'a permis d'identifier les incoherences et de repartir avec une strategie plus propre.", "Brice T.", "Candidat, Bafoussam", "Erreurs du premier dossier clarifiees", "4.8/5"],
@@ -208,7 +216,7 @@ const testimonials = [
   ["Retour participant SGVE", "SGVE 2026", "La conference m'a permis de comprendre que le visa etudiant se prepare comme un projet complet, pas comme une simple liste de documents.", "Participant SGVE", "Douala", "Vision plus claire du dossier", "5/5"],
 ];
 
-const caseStudies = [
+let caseStudies = [
   ["Visa étudiant France", "Projet academique a clarifier", "Douala", "Choix de formation peu coherent avec le parcours initial.", "Diagnostic du profil, reformulation du projet d'etudes et preparation des justificatifs.", "Dossier mieux defendu et candidat plus a l'aise pour expliquer ses choix."],
   ["Parent accompagne", "Famille a rassurer", "Yaoundé", "Parent inquiet sur le budget, les documents et les delais.", "Explication des etapes, priorisation des pieces et calendrier de preparation.", "Famille plus confiante et meilleure repartition des responsabilites."],
   ["Recours visa", "Refus a analyser", "Bafoussam", "Candidat pret a redeposer sans corriger les points faibles.", "Lecture du refus, identification des incoherences et feuille de route corrective.", "Nouvelle strategie plus prudente, structuree et documentee."],
@@ -331,7 +339,7 @@ function serviceDetailPage(data) {
   });
 }
 
-const servicePages = {
+let servicePages = {
   visaEtudiant: {
     route: "/visa-etudiant/",
     metaTitle: `Visa étudiant - ${site.name}`,
@@ -632,6 +640,36 @@ async function write(route, html) {
 }
 
 async function build() {
+  const content = await loadSiteContent({
+    site,
+    ev,
+    speakers,
+    countries,
+    navLinks,
+    serviceLinks,
+    servicePages,
+    blogCategories,
+    blogArticles,
+    proofStats,
+    testimonials,
+    caseStudies,
+  });
+
+  site = content.site;
+  ev = content.ev;
+  speakers = content.speakers;
+  countries = content.countries;
+  navLinks = content.navLinks;
+  serviceLinks = content.serviceLinks;
+  servicePages = content.servicePages;
+  blogCategories = content.blogCategories;
+  blogArticles = content.blogArticles;
+  proofStats = content.proofStats;
+  testimonials = content.testimonials;
+  caseStudies = content.caseStudies;
+  contactAddressSchema = makeContactAddressSchema();
+  contactPointsSchema = makeContactPointsSchema();
+
   await rm(out, { recursive: true, force: true });
   await mkdir(out, { recursive: true });
   await copyDir(imgSrc, imgOut);

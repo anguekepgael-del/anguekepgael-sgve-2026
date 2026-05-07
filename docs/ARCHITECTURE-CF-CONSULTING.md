@@ -62,7 +62,7 @@ La variable `SGVE_ADMIN_TOKEN` doit etre creee dans Netlify. Ne jamais l'exposer
 - `RESEND_API_KEY` : cle API Resend.
 - `SGVE_EMAIL_FROM` : exemple `CF Consulting Travel <contact@cfconsultingtravel.org>`.
 - `SGVE_EMAIL_REPLY_TO` : exemple `contact@cfconsultingtravel.org`.
-- `SGVE_TOTAL_SEATS` : facultatif, par defaut `400`.
+- `SGVE_TOTAL_SEATS` : source de verite du nombre total de places, exemple `400`.
 - `SGVE_ADMIN_TOKEN` : obligatoire pour acceder a l'export des inscrits.
 
 ## Regles editoriales

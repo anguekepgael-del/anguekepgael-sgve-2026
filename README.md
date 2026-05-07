@@ -45,6 +45,8 @@ Le build genere le dossier statique `deploy-inline`.
 
 Ne jamais ajouter de cle API dans le code source.
 
+`SGVE_TOTAL_SEATS` est la source de verite du nombre total de places. Le site recupere le nombre restant via `/register` et affiche `Places limitees` si l'API est indisponible.
+
 ## Documentation
 
 Voir `docs/ARCHITECTURE-CF-CONSULTING.md`.

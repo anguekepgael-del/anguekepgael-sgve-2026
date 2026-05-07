@@ -217,7 +217,11 @@ function createCalendarAttachment(ticketId: string, data: RegistrationData) {
   };
 }
 
-function createEmailHtml(ticketId: string, data: RegistrationData) {
+function createSeatsLabel(state: SeatState) {
+  return `${state.remainingSeats} places restantes sur ${state.totalSeats}`;
+}
+
+function createEmailHtml(ticketId: string, data: RegistrationData, seatState: SeatState) {
   const name = escapeHtml(data.name || "Participant");
   const email = escapeHtml(data.email);
   const phone = escapeHtml(data.phone);
@@ -225,6 +229,7 @@ function createEmailHtml(ticketId: string, data: RegistrationData) {
   const targetCountry = escapeHtml(data.targetCountry);
   const status = escapeHtml(data.status);
   const companions = escapeHtml(data.companions || "0");
+  const seatsLabel = escapeHtml(createSeatsLabel(seatState));
 
   return `<!doctype html>
 <html lang="fr">
@@ -252,6 +257,7 @@ function createEmailHtml(ticketId: string, data: RegistrationData) {
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Heure</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">15h00</td></tr>
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Lieu</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Krystal Palace Douala</td></tr>
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Acces</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Gratuit, sur inscription</td></tr>
+                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Disponibilite</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">${seatsLabel}</td></tr>
                 </table>
                 <h2 style="margin:26px 0 12px;color:#082B46;font-size:18px;">Informations du participant</h2>
                 <p style="margin:0;line-height:1.8;color:#374151;">
@@ -278,7 +284,7 @@ function createEmailHtml(ticketId: string, data: RegistrationData) {
 </html>`;
 }
 
-function createEmailText(ticketId: string, data: RegistrationData) {
+function createEmailText(ticketId: string, data: RegistrationData, seatState: SeatState) {
   return [
     `Bonjour ${clean(data.name) || "Participant"},`,
     "",
@@ -289,13 +295,14 @@ function createEmailText(ticketId: string, data: RegistrationData) {
     "Heure : 15h00",
     "Lieu : Krystal Palace Douala, Douala, Cameroun",
     "Acces : gratuit, sur inscription",
+    `Disponibilite : ${createSeatsLabel(seatState)}`,
     "",
     "Presentez ce billet a l'accueil de la conference.",
     "CF Consulting Travel vous contactera avec les informations pratiques.",
   ].join("\n");
 }
 
-async function sendTicketEmail(ticketId: string, data: RegistrationData) {
+async function sendTicketEmail(ticketId: string, data: RegistrationData, seatState: SeatState) {
   const apiKey = env("RESEND_API_KEY");
   const from = env("SGVE_EMAIL_FROM") || "CF Consulting Travel <contact@cfconsultingtravel.org>";
   const replyTo = env("SGVE_EMAIL_REPLY_TO") || "contact@cfconsultingtravel.org";
@@ -315,8 +322,8 @@ async function sendTicketEmail(ticketId: string, data: RegistrationData) {
       to: [clean(data.email)],
       reply_to: replyTo,
       subject: `Votre billet d'invitation SGVE 2026 - ${ticketId}`,
-      html: createEmailHtml(ticketId, data),
-      text: createEmailText(ticketId, data),
+      html: createEmailHtml(ticketId, data, seatState),
+      text: createEmailText(ticketId, data, seatState),
       attachments: [createCalendarAttachment(ticketId, data)],
     }),
   });
@@ -394,7 +401,7 @@ export default async (req: Request) => {
   let emailError: string | undefined;
 
   try {
-    const emailResult = await sendTicketEmail(ticketId, attendee);
+    const emailResult = await sendTicketEmail(ticketId, attendee, reservation.state);
     emailSent = emailResult.sent;
     configurationRequired = !emailResult.configured;
   } catch (error) {

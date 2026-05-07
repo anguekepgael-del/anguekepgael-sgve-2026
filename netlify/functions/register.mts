@@ -192,7 +192,7 @@ async function saveRegistrationRecord(record: RegistrationRecord) {
 }
 
 function createCalendarAttachment(ticketId: string, data: RegistrationData) {
-  const attendee = clean(data.name) || "Participant SGVE";
+  const attendee = clean(data.name) || "Participant SGVE 2026";
   const ics = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -204,7 +204,7 @@ function createCalendarAttachment(ticketId: string, data: RegistrationData) {
     "DTSTAMP:20260506T100000Z",
     "DTSTART:20260912T140000Z",
     "DTEND:20260912T170000Z",
-    "SUMMARY:SGVE 2026 - Strategie Gagnante Visa Etudiant",
+    "SUMMARY:SGVE 2026 - Stratégie Gagnante Visa Étudiant",
     "LOCATION:Krystal Palace Douala, Douala, Cameroun",
     `DESCRIPTION:Billet d'invitation ${ticketId} pour ${attendee}. Acces gratuit sur inscription. Presentez ce billet a l'accueil.`,
     "END:VEVENT",
@@ -237,7 +237,7 @@ function createEmailHtml(ticketId: string, data: RegistrationData) {
               <td style="background:#082B46;padding:34px 30px;color:#ffffff;">
                 <p style="margin:0 0 10px;color:#ffb083;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">Billet d'invitation officiel</p>
                 <h1 style="margin:0;font-size:34px;line-height:1.1;">SGVE 2026</h1>
-                <p style="margin:10px 0 0;font-size:18px;color:#e5eef5;">Strategie Gagnante Visa Etudiant</p>
+                <p style="margin:10px 0 0;font-size:18px;color:#e5eef5;">Stratégie Gagnante Visa Étudiant</p>
               </td>
             </tr>
             <tr>
@@ -282,7 +282,7 @@ function createEmailText(ticketId: string, data: RegistrationData) {
   return [
     `Bonjour ${clean(data.name) || "Participant"},`,
     "",
-    "Votre inscription a SGVE 2026 - Strategie Gagnante Visa Etudiant a bien ete enregistree.",
+    "Votre inscription à SGVE 2026 - Stratégie Gagnante Visa Étudiant a bien été enregistrée.",
     `Code billet : ${ticketId}`,
     "",
     "Date : 12 septembre 2026",

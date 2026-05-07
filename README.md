@@ -28,6 +28,13 @@ Le build genere le dossier statique `deploy-inline`.
 - `/register` : inscription SGVE 2026, billet email et compteur de places.
 - `/admin/registrations` : export protege de la base des inscrits.
 
+## Nommage officiel
+
+- Nom public unique : `SGVE 2026`.
+- Signification officielle : `Stratégie Gagnante Visa Étudiant`.
+- Les anciennes variantes `SVGE` et `SGVA` ne doivent pas apparaitre dans les contenus visibles. Elles peuvent rester uniquement comme redirections techniques pour ne pas casser d'anciens liens.
+- Le nom technique du projet, du depot ou de certaines variables peut rester en minuscules (`sgve-2026`) tant qu'il n'est pas affiche au visiteur.
+
 ## Variables d'environnement Netlify
 
 - `RESEND_API_KEY`

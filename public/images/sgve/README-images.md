@@ -1,4 +1,4 @@
-# Images SGVE
+# Images SGVE 2026
 
 ## logo-cf-consulting.png
 

@@ -28,11 +28,13 @@ Le build Netlify execute :
 node scripts/build-cf-site.mjs
 ```
 
-Le script genere le site statique dans `deploy-inline`, copie les images depuis `public/images`, cree les pages, le CSS, le JavaScript et les redirections SGVE/SVGE/SGVA.
+Le script genere le site statique dans `deploy-inline`, copie les images depuis `public/images`, cree les pages, le CSS, le JavaScript et les redirections techniques historiques.
+
+Les anciennes variantes `/svge` et `/sgva` restent uniquement des redirections techniques vers `/sgve-2026/` pour ne pas casser d'anciens liens. Elles ne doivent pas etre affichees dans les contenus publics.
 
 ## Inscriptions
 
-Le formulaire SGVE poste toujours vers `/register`.
+Le formulaire SGVE 2026 poste toujours vers `/register`.
 
 La fonction `netlify/functions/register.mts` :
 
@@ -65,8 +67,10 @@ La variable `SGVE_ADMIN_TOKEN` doit etre creee dans Netlify. Ne jamais l'exposer
 
 ## Regles editoriales
 
-- Utiliser uniquement `SGVE` pour `Strategie Gagnante Visa Etudiant`.
-- Ne pas utiliser `SVGE` ou `SGVA` dans les contenus publics, sauf redirections.
+- Utiliser uniquement `SGVE 2026` comme nom public de l'evenement.
+- Utiliser `Stratégie Gagnante Visa Étudiant` comme signification officielle.
+- Ne pas utiliser `SVGE` ou `SGVA` dans les contenus publics. Ces variantes sont reservees aux redirections techniques historiques.
+- Le nom technique du projet, du depot ou de certaines variables peut rester en minuscules (`sgve-2026`) tant qu'il n'est pas affiche au visiteur.
 - Ne jamais promettre l'obtention garantie d'un visa.
 - Les messages doivent parler d'accompagnement, de preparation et de coherence du dossier.
 

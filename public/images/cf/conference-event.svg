@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Conference professionnelle SGVE</title>
+  <desc id="desc">Illustration d'une salle de conference moderne avec public et scene.</desc>
+  <defs>
+    <linearGradient id="b" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#171717"/><stop offset=".64" stop-color="#2b160d"/><stop offset="1" stop-color="#070707"/></linearGradient>
+    <linearGradient id="o" x1="0" x2="1"><stop offset="0" stop-color="#f26a21"/><stop offset="1" stop-color="#ffb26b"/></linearGradient>
+  </defs>
+  <rect width="1200" height="820" fill="url(#b)"/>
+  <path d="M80 170h1040M170 260h860M250 350h700" stroke="#fff" stroke-opacity=".08" stroke-width="6"/>
+  <rect x="292" y="106" width="616" height="260" rx="28" fill="#fff" opacity=".08" stroke="#fff" stroke-opacity=".12"/>
+  <rect x="340" y="152" width="520" height="160" rx="18" fill="url(#o)" opacity=".92"/>
+  <path d="M470 230h260M470 268h180" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".72"/>
+  <circle cx="600" cy="405" r="40" fill="#fff" opacity=".9"/>
+  <path d="M560 452h80l44 120H516z" fill="#fff" opacity=".55"/>
+  <g fill="#f26a21">
+    <circle cx="236" cy="520" r="24"/><circle cx="312" cy="520" r="24"/><circle cx="388" cy="520" r="24"/><circle cx="464" cy="520" r="24"/><circle cx="540" cy="520" r="24"/><circle cx="616" cy="520" r="24"/><circle cx="692" cy="520" r="24"/><circle cx="768" cy="520" r="24"/><circle cx="844" cy="520" r="24"/><circle cx="920" cy="520" r="24"/>
+  </g>
+  <g fill="#fff" opacity=".82">
+    <rect x="206" y="564" width="60" height="72" rx="18"/><rect x="282" y="564" width="60" height="72" rx="18"/><rect x="358" y="564" width="60" height="72" rx="18"/><rect x="434" y="564" width="60" height="72" rx="18"/><rect x="510" y="564" width="60" height="72" rx="18"/><rect x="586" y="564" width="60" height="72" rx="18"/><rect x="662" y="564" width="60" height="72" rx="18"/><rect x="738" y="564" width="60" height="72" rx="18"/><rect x="814" y="564" width="60" height="72" rx="18"/><rect x="890" y="564" width="60" height="72" rx="18"/>
+  </g>
+  <path d="M90 735c270-72 741-72 1020 0" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="22" stroke-linecap="round"/>
+</svg>

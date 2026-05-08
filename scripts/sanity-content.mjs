@@ -75,7 +75,7 @@ function mapSpeakers(docs, fallback) {
   return docs.map((item) => [
     pick(item.name, "Intervenant"),
     pick(item.role || item.specialty || item.bio, "Intervenant SGVE 2026"),
-    pick(imageUrl(item.photo), "/images/speakers/reine-lea-kameni.jpeg"),
+    pick(imageUrl(item.photo), "/images/speakers/reine-lea-kameni.svg"),
   ]);
 }
 

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Preparation visa tourisme</title>
+  <desc id="desc">Illustration sobre d'un passeport, d'un itineraire et d'une destination internationale.</desc>
+  <rect width="1200" height="820" rx="44" fill="#fff7ed"/>
+  <path d="M120 620c230-220 430-220 650 0 92 91 182 110 310 40" fill="none" stroke="#111" stroke-width="14" stroke-linecap="round" opacity=".12"/>
+  <rect x="196" y="146" width="340" height="490" rx="34" fill="#111"/>
+  <circle cx="366" cy="372" r="98" fill="#f26a21"/>
+  <path d="M300 372h132M366 306c42 48 42 84 0 132M366 306c-42 48-42 84 0 132" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <rect x="276" y="526" width="180" height="16" rx="8" fill="#fff" opacity=".78"/>
+  <rect x="630" y="182" width="340" height="248" rx="30" fill="#fff" stroke="#e5e7eb" stroke-width="4"/>
+  <path d="M688 352l86-84 72 56 70-92" fill="none" stroke="#f26a21" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="774" cy="268" r="18" fill="#111"/>
+  <rect x="650" y="502" width="270" height="92" rx="22" fill="#fff" stroke="#e5e7eb" stroke-width="4"/>
+  <path d="M690 548h190" stroke="#111" stroke-width="16" stroke-linecap="round" opacity=".72"/>
+</svg>

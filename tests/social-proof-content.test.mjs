@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
@@ -59,5 +59,20 @@ test("generated pages use the single official WhatsApp contact and footer copyri
     assert.match(html, /https:\/\/wa\.me\/33758262034/);
     assert.match(html, /\+33 7 58 26 20 34/);
     assert.match(html, /© 2026 CF Consulting Travel\. Tous droits réservés\./);
+  }
+});
+
+test("generated pages reference local optimized visual assets that exist", async () => {
+  await execFileAsync(process.execPath, ["scripts/build-cf-site.mjs"], { cwd: root });
+
+  const routes = [".", "a-propos", "services", "visa-etudiant", "visa-tourisme", "recours-visa", "contact", "blog", "sgve-2026"];
+  for (const route of routes) {
+    const html = await page(route);
+    assert.doesNotMatch(html, /mobility-visual\.jfif|krystal-auditorium|registration-bg\.jfif/);
+    const sources = [...html.matchAll(/<img[^>]+src="([^"]+)"/g)].map((match) => match[1]).filter((src) => src.startsWith("/images/"));
+    assert.ok(sources.length > 0, `${route} should include local imagery`);
+    for (const src of sources) {
+      await access(path.join(root, "deploy-inline", src));
+    }
   }
 });

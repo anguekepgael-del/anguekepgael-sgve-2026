@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Conseils mobilite internationale</title>
+  <desc id="desc">Illustration editoriale pour les articles de conseils CF Consulting Travel.</desc>
+  <rect width="1200" height="820" rx="44" fill="#ffffff"/>
+  <rect x="146" y="120" width="908" height="570" rx="36" fill="#111"/>
+  <rect x="206" y="188" width="390" height="52" rx="26" fill="#f26a21"/>
+  <rect x="206" y="294" width="736" height="22" rx="11" fill="#fff" opacity=".8"/>
+  <rect x="206" y="348" width="640" height="20" rx="10" fill="#fff" opacity=".48"/>
+  <rect x="206" y="402" width="690" height="20" rx="10" fill="#fff" opacity=".28"/>
+  <rect x="206" y="506" width="224" height="118" rx="24" fill="#fff"/>
+  <rect x="488" y="506" width="224" height="118" rx="24" fill="#fff" opacity=".86"/>
+  <rect x="770" y="506" width="172" height="118" rx="24" fill="#fff" opacity=".64"/>
+  <path d="M244 566h148M526 566h130M808 566h92" stroke="#f26a21" stroke-width="14" stroke-linecap="round"/>
+</svg>

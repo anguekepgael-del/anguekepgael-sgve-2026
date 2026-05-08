@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Accompagnement professionnel en mobilite internationale</title>
+  <desc id="desc">Illustration premium d'un rendez-vous de conseil avec documents, passeport et repere international.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff7ed"/><stop offset=".55" stop-color="#ffffff"/><stop offset="1" stop-color="#f3f4f6"/></linearGradient>
+    <linearGradient id="ink" x1="0" x2="1"><stop offset="0" stop-color="#111111"/><stop offset="1" stop-color="#292524"/></linearGradient>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="28" stdDeviation="28" flood-color="#111827" flood-opacity=".16"/></filter>
+  </defs>
+  <rect width="1200" height="820" rx="46" fill="url(#bg)"/>
+  <circle cx="1050" cy="120" r="170" fill="#f26a21" opacity=".09"/>
+  <circle cx="160" cy="690" r="210" fill="#111111" opacity=".05"/>
+  <path d="M92 168c176-108 347-92 515 48 173 144 351 151 516 43" fill="none" stroke="#f26a21" stroke-width="10" stroke-linecap="round" opacity=".22"/>
+  <g filter="url(#s)">
+    <rect x="126" y="128" width="948" height="562" rx="36" fill="#fff"/>
+    <rect x="126" y="128" width="948" height="118" rx="36" fill="url(#ink)"/>
+    <circle cx="196" cy="187" r="15" fill="#f26a21"/>
+    <circle cx="238" cy="187" r="15" fill="#fff" opacity=".72"/>
+    <circle cx="280" cy="187" r="15" fill="#fff" opacity=".48"/>
+  </g>
+  <g transform="translate(188 298)">
+    <rect x="0" y="0" width="360" height="252" rx="24" fill="#f9fafb" stroke="#e5e7eb" stroke-width="3"/>
+    <rect x="32" y="34" width="144" height="92" rx="16" fill="#111111"/>
+    <path d="M55 96c28-34 72-40 110-17" fill="none" stroke="#f26a21" stroke-width="8" stroke-linecap="round"/>
+    <rect x="32" y="154" width="276" height="16" rx="8" fill="#111827" opacity=".24"/>
+    <rect x="32" y="188" width="214" height="16" rx="8" fill="#111827" opacity=".16"/>
+  </g>
+  <g transform="translate(610 294)">
+    <rect x="0" y="0" width="340" height="308" rx="28" fill="#111111"/>
+    <circle cx="110" cy="104" r="58" fill="#f26a21"/>
+    <path d="M86 126c22 22 55 22 76 0" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="232" cy="102" r="52" fill="#ffffff"/>
+    <path d="M214 120c18 16 43 16 60 0" fill="none" stroke="#f26a21" stroke-width="7" stroke-linecap="round"/>
+    <rect x="44" y="204" width="252" height="18" rx="9" fill="#fff" opacity=".84"/>
+    <rect x="44" y="242" width="188" height="18" rx="9" fill="#fff" opacity=".52"/>
+  </g>
+  <g transform="translate(442 560)">
+    <rect x="0" y="0" width="330" height="120" rx="26" fill="#fff" stroke="#e5e7eb" stroke-width="3"/>
+    <circle cx="64" cy="60" r="30" fill="#f26a21"/>
+    <path d="M116 44h158M116 76h112" stroke="#111111" stroke-width="14" stroke-linecap="round" opacity=".72"/>
+  </g>
+</svg>

@@ -49,7 +49,16 @@ Cette commande lance :
 node scripts/build-cf-site.mjs
 ```
 
-Le build genere `deploy-inline`, copie les images, cree les pages HTML, `styles.css`, `script.js`, `_redirects` et `build-ok.txt`.
+Le build genere `deploy-inline`, copie les images, cree les pages HTML, `styles.css`, `script.js`, `_redirects`, `_headers`, `robots.txt`, `sitemap.xml` et `build-ok.txt`.
+
+## SEO, partage social et securite
+
+Le generateur produit automatiquement :
+
+- `robots.txt` avec une reference au sitemap public ;
+- `sitemap.xml` avec les pages principales, categories et articles de blog ;
+- les balises Open Graph et Twitter Card sur chaque page ;
+- `_headers` pour les en-tetes de securite Netlify et le cache long des assets statiques.
 
 ## Scripts conserves
 

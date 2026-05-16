@@ -60,6 +60,18 @@ Le generateur produit automatiquement :
 - les balises Open Graph et Twitter Card sur chaque page ;
 - `_headers` pour les en-tetes de securite Netlify et le cache long des assets statiques.
 
+## Correctifs design premium
+
+La couche visuelle du generateur inclut une passe premium orientee agence :
+
+- hero d'accueil plus court, plus strategique et centre sur le diagnostic ;
+- CTA principaux recentres sur le diagnostic de dossier et SGVE 2026 ;
+- palette enrichie autour de l'orange, du graphite, de l'ivoire et d'un accent dore ;
+- grilles de services moins generiques et plus sobres ;
+- preuves sociales rendues plus credibles avec une note globale plutot qu'une reserve repetee dans chaque carte ;
+- page SGVE et bannieres assombries avec un rendu evenementiel plus haut de gamme ;
+- responsive mobile resserre pour reduire l'effet de repetition verticale.
+
 ## Scripts conserves
 
 - `npm run build` : generation complete du site statique.

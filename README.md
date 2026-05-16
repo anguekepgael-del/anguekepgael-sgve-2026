@@ -64,6 +64,12 @@ Le generateur produit automatiquement :
 
 La couche visuelle du generateur inclut une passe premium orientee agence :
 
+- redesign d'accueil inspire de la reference fournie : hero blanc/orange/noir, vague basse, CTA orange et bouton lecture ;
+- navigation renomme avec `Nos services`, `Conference SGVE` et `Ressources` pour se rapprocher de la maquette ;
+- cartes services illustrees avec icones circulaires noires et fleches orange ;
+- bloc `SGVE 2026` transforme en section evenementielle noire avec compteur integre ;
+- barre de chiffres cles ajoutee sous le bloc SGVE ;
+- bouton flottant WhatsApp masque sur ce design pour eviter l'effet widget et garder un rendu plus premium ;
 - hero d'accueil plus court, plus strategique et centre sur le diagnostic ;
 - CTA principaux recentres sur le diagnostic de dossier et SGVE 2026 ;
 - palette enrichie autour de l'orange, du graphite, de l'ivoire et d'un accent dore ;

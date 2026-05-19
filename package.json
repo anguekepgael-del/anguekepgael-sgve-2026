@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build-cf-site.mjs",
+    "verify:static": "node scripts/verify-static-site.mjs",
     "test": "node --test tests/*.test.mjs",
     "studio:dev": "sanity dev --host 0.0.0.0",
     "studio:build": "sanity build sanity-dist",

@@ -1123,18 +1123,26 @@ article:hover {
 
 .country .country-flag,
 .sgve-country-row .country-flag {
-  font-size: 1.45rem;
-  line-height: 1;
-  letter-spacing: 0;
+  display: block;
+  width: 54px;
+  height: 36px;
+  margin-right: 0;
+  margin-bottom: 14px;
+  padding: 2px;
+  object-fit: cover;
+  border: 2px solid var(--cf-orange);
+  border-radius: 10px;
+  background: var(--cf-white);
+  box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.12);
 }
 
 .sgve-country-row .country-flag {
-  width: auto;
-  height: auto;
+  width: 24px;
+  height: 16px;
   margin: 0;
   padding: 0;
   border: 0;
-  color: inherit;
+  border-radius: 3px;
   background: transparent;
 }
 

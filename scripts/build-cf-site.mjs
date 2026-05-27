@@ -334,17 +334,9 @@ function sectionVisual(src, alt, className = "") {
   return `<figure class="section-visual ${className}"><img src="${src}" alt="${esc(alt)}" loading="lazy" /></figure>`;
 }
 
-const countryFlags = {
-  FR: "🇫🇷",
-  CA: "🇨🇦",
-  ES: "🇪🇸",
-  RU: "🇷🇺",
-  DE: "🇩🇪",
-};
-
 function countryFlag(code, name) {
   const label = name ? `Drapeau ${name}` : `Drapeau ${code}`;
-  return `<span class="country-flag" role="img" aria-label="${esc(label)}">${countryFlags[code] || code}</span>`;
+  return `<img class="country-flag" src="/images/flags/${code.toLowerCase()}.svg" alt="${esc(label)}" loading="lazy" />`;
 }
 
 function blogCard(article) {

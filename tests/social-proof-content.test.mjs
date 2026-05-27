@@ -21,7 +21,8 @@ test("generated pages expose premium social proof content across key conversion 
 
   const sgve = await page("sgve-2026");
   assert.match(sgve, /Ils nous ont fait confiance/);
-  assert.match(sgve, /Retour participant SGVE/);
+  assert.doesNotMatch(sgve, /Retour participant SGVE/);
+  assert.doesNotMatch(sgve, /Participant SGVE - Douala/);
   assert.match(sgve, /Réserver ma place à SGVE 2026/);
 
   const services = await page("services");

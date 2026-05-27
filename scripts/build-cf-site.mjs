@@ -217,7 +217,6 @@ let testimonials = [
   ["Après un refus", "Recours visa", "J'avais recu un refus sans comprendre mes erreurs. L'analyse m'a permis d'identifier les incoherences et de repartir avec une strategie plus propre.", "Brice T.", "Candidat, Bafoussam", "Erreurs du premier dossier clarifiees", "4.8/5"],
   ["Orientation academique", "Choix d'ecole", "Je voulais partir vite, mais mon choix d'ecole n'etait pas coherent avec mon parcours. CF m'a aide a comparer les options plus serieusement.", "Kevin M.", "Jeune diplome, Douala", "Choix de formation mieux aligne", "4.9/5"],
   ["Canada", "Orientation Canada", "L'accompagnement m'a aide a mieux comprendre le budget, les provinces et le calendrier. J'ai avance avec une feuille de route beaucoup plus lisible.", "Ariane F.", "Etudiante, Douala", "Destination Canada mieux preparee", "5/5"],
-  ["Retour participant SGVE", "SGVE 2026", "La conference m'a permis de comprendre que le visa etudiant se prepare comme un projet complet, pas comme une simple liste de documents.", "Participant SGVE", "Douala", "Vision plus claire du dossier", "5/5"],
 ];
 
 let caseStudies = [

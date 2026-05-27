@@ -215,6 +215,8 @@ h3 {
   font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.16em;
+  line-height: 1.15;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -275,6 +277,7 @@ nav a:not(.nav-cta):hover::after {
   border: 1px solid transparent;
   font-weight: 950;
   line-height: 1;
+  white-space: nowrap;
   transition: transform var(--ease-standard), box-shadow var(--ease-standard), background-color var(--ease-standard), border-color var(--ease-standard);
 }
 
@@ -609,7 +612,10 @@ body.motion-ready .is-visible .section-visual img {
   margin-bottom: 18px;
 }
 
-.sgve-country-row span {
+.sgve-country-row > span {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
   padding: 7px 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-pill);
@@ -988,6 +994,11 @@ article:hover {
   align-items: start;
 }
 
+.mission-section {
+  grid-template-columns: minmax(300px, 0.62fr) minmax(0, 1.38fr);
+  gap: clamp(28px, 3.2vw, 46px);
+}
+
 .visual-split {
   background: linear-gradient(135deg, #ffffff, #faf7f2);
 }
@@ -995,6 +1006,25 @@ article:hover {
 .about-visual-stack {
   display: grid;
   gap: 22px;
+}
+
+.mission-values {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.3vw, 18px);
+}
+
+.mission-values article {
+  min-height: 220px;
+  padding: clamp(20px, 1.55vw, 24px);
+}
+
+.mission-values h3 {
+  font-size: clamp(1.04rem, 1.35vw, 1.32rem);
+}
+
+.mission-values p {
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  line-height: 1.55;
 }
 
 .about-visual {
@@ -1059,7 +1089,8 @@ article:hover {
 }
 
 .checks b,
-.country span {
+.country > article > span,
+.country .country-flag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1080,13 +1111,31 @@ article:hover {
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
-.country span {
+.country > article > span,
+.country .country-flag {
   width: 48px;
   height: 48px;
   margin-bottom: 14px;
   color: var(--cf-white);
   border: 2px solid var(--cf-orange);
   background: var(--cf-black);
+}
+
+.country .country-flag,
+.sgve-country-row .country-flag {
+  font-size: 1.45rem;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.sgve-country-row .country-flag {
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
 }
 
 .quote-head {
@@ -2160,9 +2209,9 @@ body[data-route="/contact/"] nav a[href="/contact/"]::before {
 }
 
 footer {
-  grid-template-columns: minmax(260px, 1.35fr) repeat(4, minmax(150px, 1fr));
+  grid-template-columns: minmax(330px, 1.28fr) repeat(3, minmax(150px, 0.8fr)) minmax(300px, 1.12fr);
   align-items: start;
-  column-gap: clamp(28px, 4vw, 58px);
+  column-gap: clamp(24px, 3.2vw, 48px);
 }
 
 footer h2 {
@@ -2179,12 +2228,37 @@ footer .actions {
 
 footer .btn {
   width: auto;
-  max-width: 280px;
+  max-width: none;
+  padding-right: 34px;
+  padding-left: 34px;
+  font-size: 0.92rem;
   line-height: 1.15;
 }
 
 footer > div {
   min-width: 0;
+}
+
+footer .brand {
+  align-items: flex-start;
+}
+
+footer .brand small {
+  font-size: clamp(0.58rem, 0.72vw, 0.68rem);
+  letter-spacing: 0.14em;
+}
+
+footer > div:first-child p {
+  max-width: 355px;
+}
+
+footer > div:last-of-type a,
+footer > div:last-of-type p {
+  white-space: nowrap;
+}
+
+footer > div:last-of-type {
+  font-size: clamp(0.84rem, 1.18vw, 0.95rem);
 }
 
 @media (max-width: 1180px) {
@@ -2270,6 +2344,10 @@ footer > div {
     grid-column: 1;
   }
 
+  .mission-values {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .final-cta {
     grid-template-columns: 1fr;
   }
@@ -2301,6 +2379,13 @@ footer > div {
 
   .brand small {
     display: none;
+  }
+
+  footer .brand small {
+    display: block;
+    font-size: clamp(0.5rem, 2vw, 0.58rem);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 
   .menu-btn {
@@ -2433,6 +2518,7 @@ footer > div {
   .actions .btn,
   .form .btn {
     width: 100%;
+    white-space: normal;
   }
 
   figure {
@@ -2462,6 +2548,10 @@ footer > div {
   .proof-compact,
   .agency-service-grid,
   .agency-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-values {
     grid-template-columns: 1fr;
   }
 
@@ -2621,6 +2711,25 @@ footer > div {
     padding-right: 16px;
     padding-bottom: 92px;
     padding-left: 16px;
+  }
+
+  footer .btn,
+  footer .actions .btn {
+    width: 100%;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: clamp(0.82rem, 3.8vw, 0.95rem);
+    white-space: nowrap;
+  }
+
+  footer > div:first-child p {
+    max-width: none;
+  }
+
+  footer > div:last-of-type a,
+  footer > div:last-of-type p {
+    font-size: clamp(0.82rem, 3.6vw, 0.95rem);
+    white-space: nowrap;
   }
 
   .float {

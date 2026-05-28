@@ -1,4 +1,4 @@
-export const assetVersion = "20260517";
+export const assetVersion = "20260528";
 
 export const redirectRules = [
   "/sgve /sgve-2026/ 301",

@@ -1456,7 +1456,7 @@ article:hover {
 }
 
 .sgve-strategy-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .strategy-card {
@@ -2356,6 +2356,10 @@ footer > div:last-of-type {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .sgve-strategy-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .final-cta {
     grid-template-columns: 1fr;
   }
@@ -2693,6 +2697,45 @@ footer > div:last-of-type {
     grid-template-columns: 0.82fr 1.18fr;
     align-items: start;
     gap: 12px;
+  }
+
+  .sgve-roadmap-layout {
+    gap: 22px;
+    margin-top: 22px;
+  }
+
+  .sgve-strategy-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .strategy-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 16px;
+    row-gap: 6px;
+    min-height: auto;
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .strategy-card span {
+    grid-row: 1 / span 2;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 0;
+  }
+
+  .strategy-card h3 {
+    margin: 0;
+    font-size: clamp(1.08rem, 5vw, 1.25rem);
+    line-height: 1.12;
+  }
+
+  .strategy-card p {
+    grid-column: 2;
+    margin: 0;
+    line-height: 1.55;
   }
 
   .glass {

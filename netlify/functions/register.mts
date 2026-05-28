@@ -86,6 +86,11 @@ type RegistrationRecord = {
   seatSnapshot: SeatState;
   emailSent: boolean;
   emailError?: string;
+  sheetSync?: {
+    status: "skipped" | "sent" | "failed";
+    syncedAt?: string;
+    error?: string;
+  };
   source: string;
 };
 
@@ -550,6 +555,61 @@ async function sendTicketEmail(ticketId: string, data: RegistrationData, seatSta
   return { configured: true, sent: true };
 }
 
+function createSheetPayload(record: RegistrationRecord) {
+  return {
+    event: record.event,
+    code_billet: record.ticketId,
+    date_inscription: record.createdAt,
+    date_confirmation: record.confirmedAt || "",
+    nom_complet: record.attendee.name,
+    age: record.attendee.age,
+    statut: record.attendee.status,
+    organisation: record.attendee.organization,
+    ville: record.attendee.city,
+    telephone_whatsapp: record.attendee.phone,
+    email: record.attendee.email,
+    pays_vise: record.attendee.targetCountry,
+    niveau_etudes: record.attendee.educationLevel,
+    refus_visa: record.attendee.visaRefusal,
+    accompagne: record.attendee.accompanied,
+    nombre_accompagnants: record.attendee.companions,
+    message: record.attendee.message,
+    consentement: record.consent.accepted ? "oui" : "non",
+    statut_email: record.emailStatus,
+    statut_inscription: record.registrationStatus,
+    places_total: record.seatSnapshot.totalSeats,
+    places_restantes: record.seatSnapshot.remainingSeats,
+    inscriptions: record.seatSnapshot.registrations,
+    source_url: record.sourceTraffic.sourceUrl,
+    referrer: record.sourceTraffic.referrer,
+    utm_source: record.sourceTraffic.utmSource,
+    utm_medium: record.sourceTraffic.utmMedium,
+    utm_campaign: record.sourceTraffic.utmCampaign,
+  };
+}
+
+async function syncRegistrationToGoogleSheet(record: RegistrationRecord) {
+  const webhookUrl = env("SGVE_GOOGLE_SHEET_WEBHOOK_URL");
+
+  if (!webhookUrl) {
+    return { status: "skipped" as const };
+  }
+
+  const response = await fetch(webhookUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(createSheetPayload(record)),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Google Sheet webhook failed with status ${response.status}`);
+  }
+
+  return { status: "sent" as const, syncedAt: new Date().toISOString() };
+}
+
 function getRequestIp(req: Request) {
   const forwarded = req.headers.get("x-forwarded-for")?.split(",")[0];
   return clean(
@@ -797,6 +857,20 @@ export default async (req: Request) => {
     record.registrationStatus = "confirmed";
     record.confirmedAt = new Date().toISOString();
     await saveRegistrationRecord(record);
+    try {
+      record.sheetSync = await syncRegistrationToGoogleSheet(record);
+      await saveRegistrationRecord(record);
+    } catch (sheetError) {
+      record.sheetSync = {
+        status: "failed",
+        error: sheetError instanceof Error ? sheetError.message : "unknown Google Sheet webhook error",
+      };
+      await saveRegistrationRecord(record);
+      console.error("Google Sheet sync error", {
+        ticketId,
+        error: record.sheetSync.error,
+      });
+    }
     await clearFailedAttempts(rateLimitKey);
   } catch (error) {
     await rollbackSeat(reservation.state);

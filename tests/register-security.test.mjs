@@ -5,8 +5,10 @@ import path from "node:path";
 import { test } from "node:test";
 import { BlobsServer } from "@netlify/blobs/server";
 
-async function createHarness({ totalSeats = 3, emailOk = true } = {}) {
+async function createHarness({ totalSeats = 3, emailOk = true, googleSheetWebhook = false, googleSheetOk = true } = {}) {
   const token = `token-${Math.random().toString(36).slice(2)}`;
+  const sheetWebhookUrl = "https://script.google.com/macros/s/test-webhook/exec";
+  const sheetPayloads = [];
   const server = new BlobsServer({
     directory: await mkdtemp(path.join(tmpdir(), "sgve-register-test-")),
     port: 0,
@@ -22,6 +24,9 @@ async function createHarness({ totalSeats = 3, emailOk = true } = {}) {
   process.env.SGVE_TOTAL_SEATS = String(totalSeats);
   process.env.RESEND_API_KEY = "test-resend-key";
   process.env.SGVE_ADMIN_TOKEN = "admin-test-token";
+  if (googleSheetWebhook) {
+    process.env.SGVE_GOOGLE_SHEET_WEBHOOK_URL = sheetWebhookUrl;
+  }
 
   const originalFetch = globalThis.fetch;
   const originalConsoleError = console.error;
@@ -34,6 +39,13 @@ async function createHarness({ totalSeats = 3, emailOk = true } = {}) {
         headers: { "Content-Type": "application/json" },
       });
     }
+    if (url === sheetWebhookUrl) {
+      sheetPayloads.push(JSON.parse(init?.body || "{}"));
+      return new Response(googleSheetOk ? "{\"ok\":true}" : "sheet failed", {
+        status: googleSheetOk ? 200 : 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
     return originalFetch(input, init);
   };
 
@@ -42,6 +54,7 @@ async function createHarness({ totalSeats = 3, emailOk = true } = {}) {
 
   return {
     handler,
+    sheetPayloads,
     async get() {
       const response = await handler(new Request("http://localhost/register", { method: "GET" }));
       return { response, body: await response.json() };
@@ -64,6 +77,7 @@ async function createHarness({ totalSeats = 3, emailOk = true } = {}) {
       delete process.env.RESEND_API_KEY;
       delete process.env.SGVE_ADMIN_TOKEN;
       delete process.env.SGVE_TOTAL_SEATS;
+      delete process.env.SGVE_GOOGLE_SHEET_WEBHOOK_URL;
       delete process.env.NETLIFY_BLOBS_CONTEXT;
       await server.stop();
     },
@@ -172,6 +186,61 @@ test("stores validated registration records and exports them as CSV", async () =
     assert.match(csv, /code_billet,nom_complet/);
     assert.match(csv, new RegExp(saved.body.ticketId));
     assert.match(csv, /participant@example.com/);
+  } finally {
+    await h.close();
+  }
+});
+
+test("syncs confirmed registrations to Google Sheets webhook without replacing primary storage", async () => {
+  const h = await createHarness({ totalSeats: 4, googleSheetWebhook: true });
+  try {
+    const saved = await h.post({
+      ...validRegistration,
+      targetCountry: "Canada",
+      city: "Douala",
+      message: "Je veux participer a la conference.",
+    }, "203.0.113.88");
+    assert.equal(saved.response.status, 200);
+
+    assert.equal(h.sheetPayloads.length, 1);
+    assert.equal(h.sheetPayloads[0].code_billet, saved.body.ticketId);
+    assert.equal(h.sheetPayloads[0].nom_complet, validRegistration.name);
+    assert.equal(h.sheetPayloads[0].email, validRegistration.email);
+    assert.equal(h.sheetPayloads[0].pays_vise, "Canada");
+    assert.equal(h.sheetPayloads[0].statut_inscription, "confirmed");
+
+    const { default: adminHandler } = await import(`../netlify/functions/registrations.mts?test=${Math.random()}`);
+    const jsonResponse = await adminHandler(new Request("http://localhost/admin/registrations", {
+      method: "GET",
+      headers: { authorization: "Bearer admin-test-token" },
+    }));
+    const json = await jsonResponse.json();
+
+    assert.equal(json.total, 1);
+    assert.equal(json.records[0].sheetSync.status, "sent");
+  } finally {
+    await h.close();
+  }
+});
+
+test("keeps registration confirmed when Google Sheets webhook fails", async () => {
+  const h = await createHarness({ totalSeats: 4, googleSheetWebhook: true, googleSheetOk: false });
+  try {
+    const saved = await h.post(validRegistration, "203.0.113.89");
+    assert.equal(saved.response.status, 200);
+    assert.equal(h.sheetPayloads.length, 1);
+
+    const { default: adminHandler } = await import(`../netlify/functions/registrations.mts?test=${Math.random()}`);
+    const jsonResponse = await adminHandler(new Request("http://localhost/admin/registrations", {
+      method: "GET",
+      headers: { authorization: "Bearer admin-test-token" },
+    }));
+    const json = await jsonResponse.json();
+
+    assert.equal(json.total, 1);
+    assert.equal(json.records[0].ticketId, saved.body.ticketId);
+    assert.equal(json.records[0].registrationStatus, "confirmed");
+    assert.equal(json.records[0].sheetSync.status, "failed");
   } finally {
     await h.close();
   }

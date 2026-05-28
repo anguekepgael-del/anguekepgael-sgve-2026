@@ -118,6 +118,64 @@ Exporter les inscrits :
 curl -H "Authorization: Bearer $SGVE_ADMIN_TOKEN" "https://cfconsultingtravel.org/admin/registrations?format=csv" -o sgve-2026-inscriptions.csv
 ```
 
+Synchronisation Google Sheets :
+
+Le site peut envoyer automatiquement chaque inscription confirmee vers un Google Sheet via un webhook Google Apps Script. Le stockage Netlify Blobs reste la base principale ; si Google Sheets est indisponible, l'inscription reste confirmee et l'erreur est journalisee.
+
+1. Creer un Google Sheet avec un onglet nomme `Inscriptions`.
+2. Dans Google Sheets, ouvrir `Extensions > Apps Script`.
+3. Coller le script suivant, puis deployer en `Application Web`.
+4. Donner l'acces a `Tout le monde` pour que Netlify puisse appeler l'URL du webhook.
+5. Ajouter l'URL de deploiement Apps Script dans Netlify : `SGVE_GOOGLE_SHEET_WEBHOOK_URL`.
+
+```js
+const SHEET_NAME = "Inscriptions";
+
+function doPost(e) {
+  const data = JSON.parse(e.postData.contents || "{}");
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  const headers = [
+    "date_inscription",
+    "date_confirmation",
+    "code_billet",
+    "nom_complet",
+    "age",
+    "statut",
+    "organisation",
+    "ville",
+    "telephone_whatsapp",
+    "email",
+    "pays_vise",
+    "niveau_etudes",
+    "refus_visa",
+    "accompagne",
+    "nombre_accompagnants",
+    "message",
+    "consentement",
+    "statut_email",
+    "statut_inscription",
+    "places_total",
+    "places_restantes",
+    "inscriptions",
+    "source_url",
+    "referrer",
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+  ];
+
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(headers);
+  }
+
+  sheet.appendRow(headers.map((key) => data[key] || ""));
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+```
+
 ## Nommage officiel
 
 - Nom public unique : `SGVE 2026`.
@@ -132,6 +190,7 @@ curl -H "Authorization: Bearer $SGVE_ADMIN_TOKEN" "https://cfconsultingtravel.or
 - `SGVE_EMAIL_REPLY_TO`
 - `SGVE_TOTAL_SEATS`
 - `SGVE_ADMIN_TOKEN`
+- `SGVE_GOOGLE_SHEET_WEBHOOK_URL`
 - `SANITY_PROJECT_ID`
 - `SANITY_DATASET`
 - `SANITY_API_VERSION`

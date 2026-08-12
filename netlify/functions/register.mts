@@ -426,7 +426,6 @@ function createEmailHtml(ticketId: string, data: RegistrationData, seatState: Se
   const targetCountry = escapeHtml(data.targetCountry);
   const status = escapeHtml(data.status);
   const companions = escapeHtml(data.companions || "0");
-  const seatsLabel = escapeHtml(createSeatsLabel(seatState));
 
   return `<!doctype html>
 <html lang="fr">
@@ -454,7 +453,6 @@ function createEmailHtml(ticketId: string, data: RegistrationData, seatState: Se
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Heure</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">14h00</td></tr>
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Lieu</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Krystal Palace Douala</td></tr>
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Acces</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Gratuit, sur inscription</td></tr>
-                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Disponibilite</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">${seatsLabel}</td></tr>
                 </table>
                 <h2 style="margin:26px 0 12px;color:#082B46;font-size:18px;">Informations du participant</h2>
                 <p style="margin:0;line-height:1.8;color:#374151;">
@@ -502,7 +500,6 @@ function createEmailText(ticketId: string, data: RegistrationData, seatState: Se
     "Heure : 14h00",
     "Lieu : Krystal Palace Douala, Douala, Cameroun",
     "Acces : gratuit, sur inscription",
-    `Disponibilite : ${createSeatsLabel(seatState)}`,
     "",
     "Presentez ce billet a l'accueil de la conference.",
     "CF Consulting Travel vous contactera avec les informations pratiques.",

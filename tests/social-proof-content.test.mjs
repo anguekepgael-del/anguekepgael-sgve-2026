@@ -23,7 +23,7 @@ test("generated pages expose premium social proof content across key conversion 
   assert.match(sgve, /Ils nous ont fait confiance/);
   assert.doesNotMatch(sgve, /Retour participant SGVE/);
   assert.doesNotMatch(sgve, /Participant SGVE - Douala/);
-  assert.match(sgve, /Réserver ma place à SGVE 2026/);
+  assert.match(sgve, /Réserver ma place pour la SGVE 2026/);
 
   const services = await page("services");
   assert.match(services, /Pourquoi les familles nous font confiance/);
@@ -31,11 +31,11 @@ test("generated pages expose premium social proof content across key conversion 
 
   const visaEtudiant = await page("visa-etudiant");
   assert.match(visaEtudiant, /Avis étudiant/);
-  assert.match(visaEtudiant, /Visa étudiant France/);
+  assert.match(visaEtudiant, /Visa étudiant pour la France/);
 
   const recoursVisa = await page("recours-visa");
   assert.match(recoursVisa, /Après un refus/);
-  assert.match(recoursVisa, /Recours visa/);
+  assert.match(recoursVisa, /Recours de visa/);
 
   const contact = await page("contact");
   assert.match(contact, /Ils nous ont fait confiance/);

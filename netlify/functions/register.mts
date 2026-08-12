@@ -121,9 +121,9 @@ const allowedOrigins = new Set([
   "127.0.0.1",
 ]);
 
-const allowedStatus = new Set(["", "Eleve", "Etudiant", "Parent", "Jeune diplome", "Partenaire educatif"]);
+const allowedStatus = new Set(["", "Élève", "Étudiant", "Parent", "Jeune diplômé", "Partenaire éducatif", "Eleve", "Etudiant", "Jeune diplome", "Partenaire educatif"]);
 const allowedTargetCountries = new Set(["", "France", "Canada", "Espagne", "Russie", "Allemagne", "Autre"]);
-const allowedVisaRefusal = new Set(["", "Non", "Oui", "Je prefere en parler avec un conseiller"]);
+const allowedVisaRefusal = new Set(["", "Non", "Oui", "Je préfère en parler avec un conseiller", "Je prefere en parler avec un conseiller"]);
 const allowedAccompanied = new Set(["", "Non", "Oui"]);
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {
@@ -318,15 +318,15 @@ function extractSourceTraffic(data: RegistrationData) {
 function validateRegistration(attendee: ReturnType<typeof sanitizeRegistration>) {
   const errors: string[] = [];
 
-  if (attendee.name && attendee.name.length < 2) errors.push("Le nom complet doit contenir au moins 2 caracteres.");
+  if (attendee.name && attendee.name.length < 2) errors.push("Le nom complet doit contenir au moins 2 caractères.");
   if (attendee.age) {
     const age = Number.parseInt(attendee.age, 10);
-    if (!Number.isFinite(age) || age < 10 || age > 80) errors.push("Veuillez renseigner un age valide.");
+    if (!Number.isFinite(age) || age < 10 || age > 80) errors.push("Veuillez renseigner un âge valide.");
   }
-  if (!allowedStatus.has(attendee.status)) errors.push("Veuillez selectionner un statut valide.");
-  if (!allowedTargetCountries.has(attendee.targetCountry)) errors.push("Veuillez selectionner un pays vise valide.");
-  if (!allowedVisaRefusal.has(attendee.visaRefusal)) errors.push("Veuillez selectionner une reponse valide pour le refus de visa.");
-  if (!allowedAccompanied.has(attendee.accompanied)) errors.push("Veuillez selectionner une reponse valide pour les accompagnants.");
+  if (!allowedStatus.has(attendee.status)) errors.push("Veuillez sélectionner un statut valide.");
+  if (!allowedTargetCountries.has(attendee.targetCountry)) errors.push("Veuillez sélectionner un pays visé valide.");
+  if (!allowedVisaRefusal.has(attendee.visaRefusal)) errors.push("Veuillez sélectionner une réponse valide pour le refus de visa.");
+  if (!allowedAccompanied.has(attendee.accompanied)) errors.push("Veuillez sélectionner une réponse valide pour les accompagnants.");
   if (attendee.companions) {
     const companions = Number.parseInt(attendee.companions, 10);
     if (!Number.isFinite(companions) || companions < 0 || companions > 10) errors.push("Veuillez renseigner un nombre d'accompagnants valide.");
@@ -401,9 +401,9 @@ function createCalendarAttachment(ticketId: string, data: RegistrationData) {
     "DTSTAMP:20260506T100000Z",
     "DTSTART:20260912T140000Z",
     "DTEND:20260912T170000Z",
-    "SUMMARY:SGVE 2026 - Stratégie Gagnante Visa Étudiant",
+    "SUMMARY:SGVE 2026 — Stratégie Gagnante Visa Étudiant",
     "LOCATION:Krystal Palace Douala, Douala, Cameroun",
-    `DESCRIPTION:Billet d'invitation ${ticketId} pour ${attendee}. Acces gratuit sur inscription. Presentez ce billet a l'accueil.`,
+    `DESCRIPTION:Billet d'invitation ${ticketId} pour ${attendee}. Accès gratuit sur inscription. Présentez ce billet à l'accueil.`,
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\r\n");
@@ -443,7 +443,7 @@ function createEmailHtml(ticketId: string, data: RegistrationData, seatState: Se
             </tr>
             <tr>
               <td style="padding:30px;">
-                <p style="margin:0 0 22px;font-size:16px;line-height:1.7;">Bonjour <strong>${name}</strong>, votre inscription a SGVE 2026 a bien ete enregistree. Ce message constitue votre billet d'invitation.</p>
+                <p style="margin:0 0 22px;font-size:16px;line-height:1.7;">Bonjour <strong>${name}</strong>, votre inscription à la SGVE 2026 a bien été enregistrée. Ce message constitue votre billet d'invitation.</p>
                 <div style="border:2px dashed #F26A21;border-radius:20px;padding:24px;background:#fff7ed;">
                   <p style="margin:0;color:#9a3412;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">Code billet</p>
                   <p style="margin:8px 0 0;color:#082B46;font-size:28px;font-weight:900;">${ticketId}</p>
@@ -452,25 +452,25 @@ function createEmailHtml(ticketId: string, data: RegistrationData, seatState: Se
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Date</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">12 septembre 2026</td></tr>
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Heure</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">14h00</td></tr>
                   <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Lieu</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Krystal Palace Douala</td></tr>
-                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Acces</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Gratuit, sur inscription</td></tr>
+                  <tr><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;color:#667085;">Accès</td><td style="padding:12px 0;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:800;color:#082B46;">Gratuit, sur inscription</td></tr>
                 </table>
                 <h2 style="margin:26px 0 12px;color:#082B46;font-size:18px;">Informations du participant</h2>
                 <p style="margin:0;line-height:1.8;color:#374151;">
                   Statut : <strong>${status}</strong><br />
                   Ville : <strong>${city}</strong><br />
-                  Pays vise : <strong>${targetCountry}</strong><br />
+                  Pays visé : <strong>${targetCountry}</strong><br />
                   Accompagnants : <strong>${companions}</strong><br />
                   Email : <strong>${email}</strong><br />
                   WhatsApp : <strong>${phone}</strong>
                 </p>
-                <p style="margin:26px 0 0;line-height:1.7;color:#475467;">Presentez ce billet a l'accueil de la conference. L'equipe CF Consulting Travel vous contactera avec les informations pratiques.</p>
+                <p style="margin:26px 0 0;line-height:1.7;color:#475467;">Présentez ce billet à l'accueil de la conférence. L'équipe CF Consulting Travel vous contactera avec les informations pratiques.</p>
                 <div style="margin-top:22px;border-radius:18px;background:#f8fafc;border:1px solid #e5e7eb;padding:18px;color:#374151;line-height:1.7;">
                   <p style="margin:0 0 8px;font-weight:800;color:#082B46;">Contacts officiels CF Consulting Travel</p>
                   Email principal : <a href="mailto:${contactEmail}" style="color:#082B46;">${contactEmail}</a><br />
                   Email secondaire : <a href="mailto:${contactSecondaryEmail}" style="color:#082B46;">${contactSecondaryEmail}</a><br />
                   Téléphone France : <a href="tel:+33656737225" style="color:#082B46;">${contactPhoneFr}</a><br />
                   Téléphone Cameroun : <a href="tel:+237657605017" style="color:#082B46;">${contactPhoneCm}</a><br />
-                  Adresse France : ${contactAddressFr}<br />
+                  Adresse en France : ${contactAddressFr}<br />
                   <a href="${whatsappFr}" style="color:#C9470B;font-weight:800;">Écrire sur WhatsApp France</a> |
                   <a href="${whatsappCm}" style="color:#C9470B;font-weight:800;">Écrire sur WhatsApp Cameroun</a>
                 </div>
@@ -478,7 +478,7 @@ function createEmailHtml(ticketId: string, data: RegistrationData, seatState: Se
             </tr>
             <tr>
               <td style="background:#061f33;padding:22px 30px;color:#cbd5e1;font-size:13px;line-height:1.6;">
-                CF Consulting Travel - Email principal : ${contactEmail} - Email secondaire : ${contactSecondaryEmail} - France : ${contactPhoneFr} - Cameroun : ${contactPhoneCm} - Adresse France : ${contactAddressFr}
+                CF Consulting Travel - Email principal : ${contactEmail} - Email secondaire : ${contactSecondaryEmail} - France : ${contactPhoneFr} - Cameroun : ${contactPhoneCm} - Adresse en France : ${contactAddressFr}
               </td>
             </tr>
           </table>
@@ -493,15 +493,15 @@ function createEmailText(ticketId: string, data: RegistrationData, seatState: Se
   return [
     `Bonjour ${clean(data.name) || "Participant"},`,
     "",
-    "Votre inscription à SGVE 2026 - Stratégie Gagnante Visa Étudiant a bien été enregistrée.",
+    "Votre inscription à la SGVE 2026 — Stratégie Gagnante Visa Étudiant a bien été enregistrée.",
     `Code billet : ${ticketId}`,
     "",
     "Date : 12 septembre 2026",
     "Heure : 14h00",
     "Lieu : Krystal Palace Douala, Douala, Cameroun",
-    "Acces : gratuit, sur inscription",
+    "Accès : gratuit, sur inscription",
     "",
-    "Presentez ce billet a l'accueil de la conference.",
+    "Présentez ce billet à l'accueil de la conférence.",
     "CF Consulting Travel vous contactera avec les informations pratiques.",
     "",
     "Contacts officiels CF Consulting Travel :",
@@ -509,7 +509,7 @@ function createEmailText(ticketId: string, data: RegistrationData, seatState: Se
     `Email secondaire : ${contactSecondaryEmail}`,
     `Téléphone France : ${contactPhoneFr}`,
     `Téléphone Cameroun : ${contactPhoneCm}`,
-    `Adresse France : ${contactAddressFr}`,
+    `Adresse en France : ${contactAddressFr}`,
     `Écrire sur WhatsApp France : ${whatsappFr}`,
     `Écrire sur WhatsApp Cameroun : ${whatsappCm}`,
   ].join("\n");
@@ -534,7 +534,7 @@ async function sendTicketEmail(ticketId: string, data: RegistrationData, seatSta
       from,
       to: [clean(data.email)],
       reply_to: replyTo,
-      subject: `Votre billet d'invitation SGVE 2026 - ${ticketId}`,
+      subject: `Votre billet d'invitation pour la SGVE 2026 — ${ticketId}`,
       html: createEmailHtml(ticketId, data, seatState),
       text: createEmailText(ticketId, data, seatState),
       attachments: [createCalendarAttachment(ticketId, data)],
@@ -546,7 +546,7 @@ async function sendTicketEmail(ticketId: string, data: RegistrationData, seatSta
       status: response.status,
       statusText: response.statusText,
     });
-    throw new Error("Le billet n'a pas pu etre envoye par email.");
+    throw new Error("Le billet n'a pas pu être envoyé par email.");
   }
 
   return { configured: true, sent: true };
@@ -709,7 +709,7 @@ export default async (req: Request) => {
   }
 
   if (req.method !== "POST") {
-    return jsonResponse({ message: "Methode non autorisee." }, 405);
+    return jsonResponse({ message: "Méthode non autorisée." }, 405);
   }
 
   if (!isAllowedRequestOrigin(req)) {
@@ -717,20 +717,20 @@ export default async (req: Request) => {
       origin: req.headers.get("origin") || req.headers.get("referer") || "unknown",
       ipHash: await hashValue(getRequestIp(req)),
     });
-    return jsonResponse({ message: "Requete non autorisee." }, 403);
+    return jsonResponse({ message: "Requête non autorisée." }, 403);
   }
 
   if (!isJsonRequest(req)) {
-    return jsonResponse({ message: "Le format de la requete est invalide." }, 415);
+    return jsonResponse({ message: "Le format de la requête est invalide." }, 415);
   }
 
   if (isOversizedRequest(req)) {
-    return jsonResponse({ message: "La requete est trop volumineuse." }, 413);
+    return jsonResponse({ message: "La requête est trop volumineuse." }, 413);
   }
 
   const rateLimitKey = await getRateLimitKey(req);
   if (await isRateLimited(rateLimitKey)) {
-    return jsonResponse({ message: "Trop de tentatives. Veuillez patienter quelques minutes avant de reessayer." }, 429);
+    return jsonResponse({ message: "Trop de tentatives. Veuillez patienter quelques minutes avant de réessayer." }, 429);
   }
 
   let data: RegistrationData;
@@ -738,25 +738,25 @@ export default async (req: Request) => {
     data = await req.json();
   } catch {
     await recordFailedAttempt(rateLimitKey);
-    return jsonResponse({ message: "Donnees d'inscription invalides." }, 400);
+    return jsonResponse({ message: "Données d'inscription invalides." }, 400);
   }
 
   if (clean(data.companyWebsite, 200)) {
     await recordFailedAttempt(rateLimitKey);
-    return jsonResponse({ ok: true, message: "Inscription recue." }, 202);
+    return jsonResponse({ ok: true, message: "Inscription reçue." }, 202);
   }
 
   const attendee = sanitizeRegistration(data);
   const missingFields: string[] = [];
 
   if (!attendee.name) missingFields.push("nom complet");
-  if (!attendee.phone) missingFields.push("numero de telephone WhatsApp");
+  if (!attendee.phone) missingFields.push("numéro de téléphone WhatsApp");
   if (!attendee.email) missingFields.push("adresse email");
 
   if (missingFields.length > 0) {
     await recordFailedAttempt(rateLimitKey);
     return jsonResponse({
-      message: `Veuillez renseigner les champs obligatoires marques d'un asterisque : ${missingFields.join(", ")}.`,
+      message: `Veuillez renseigner les champs obligatoires marqués d'un astérisque : ${missingFields.join(", ")}.`,
     }, 400);
   }
 
@@ -767,7 +767,7 @@ export default async (req: Request) => {
 
   if (!hasUsablePhone(attendee.phone)) {
     await recordFailedAttempt(rateLimitKey);
-    return jsonResponse({ message: "Veuillez renseigner un numero WhatsApp valide." }, 400);
+    return jsonResponse({ message: "Veuillez renseigner un numéro WhatsApp valide." }, 400);
   }
 
   if (!isConsentAccepted(data.consent)) {
@@ -784,17 +784,17 @@ export default async (req: Request) => {
   const duplicate = await findDuplicateRegistration(attendee);
   if (duplicate?.field === "email") {
     await recordFailedAttempt(rateLimitKey);
-    return jsonResponse({ message: "Cette adresse email est deja inscrite pour SGVE 2026." }, 409);
+    return jsonResponse({ message: "Cette adresse email est déjà inscrite à la SGVE 2026." }, 409);
   }
 
   if (duplicate?.field === "phone") {
     await recordFailedAttempt(rateLimitKey);
-    return jsonResponse({ message: "Ce numero WhatsApp est deja inscrit pour SGVE 2026." }, 409);
+    return jsonResponse({ message: "Ce numéro WhatsApp est déjà inscrit à la SGVE 2026." }, 409);
   }
 
   if (!env("RESEND_API_KEY")) {
     console.error("Register email provider missing configuration");
-    return jsonResponse({ message: "L'envoi du billet n'est pas configure. Veuillez contacter l'equipe CF Consulting Travel." }, 503);
+    return jsonResponse({ message: "L'envoi du billet n'est pas configuré. Veuillez contacter l'équipe CF Consulting Travel." }, 503);
   }
 
   const ticketId = createTicketId();
@@ -803,7 +803,7 @@ export default async (req: Request) => {
   if (!reservation.ok) {
     return jsonResponse({
       ok: false,
-      message: "Les places disponibles sont epuisees.",
+      message: "Les places disponibles sont épuisées.",
       totalSeats: reservation.state.totalSeats,
       remainingSeats: reservation.state.remainingSeats,
       registrations: reservation.state.registrations,
@@ -827,7 +827,7 @@ export default async (req: Request) => {
     consent: {
       accepted: true,
       acceptedAt: createdAt,
-      label: "J'accepte que mes informations soient utilisees pour gerer mon inscription SGVE 2026 et l'envoi de mon billet.",
+      label: "J'accepte que mes informations soient utilisées pour gérer mon inscription à la SGVE 2026 et l'envoi de mon billet.",
     },
     sourceTraffic: extractSourceTraffic(data),
     security: createSecuritySnapshot(req, fingerprintHash),
@@ -844,7 +844,7 @@ export default async (req: Request) => {
       ticketId,
       error: error instanceof Error ? error.message : "unknown storage error",
     });
-    return jsonResponse({ message: "L'inscription n'a pas pu etre enregistree. Veuillez reessayer." }, 500);
+    return jsonResponse({ message: "L'inscription n'a pas pu être enregistrée. Veuillez réessayer." }, 500);
   }
 
   try {
@@ -882,7 +882,7 @@ export default async (req: Request) => {
     });
     return jsonResponse({
       ok: false,
-      message: "L'envoi du billet par email n'a pas pu etre confirme. Aucune place n'a ete consommee. Veuillez reessayer ou contacter l'equipe CF Consulting Travel.",
+      message: "L'envoi du billet par email n'a pas pu être confirmé. Aucune place n'a été consommée. Veuillez réessayer ou contacter l'équipe CF Consulting Travel.",
       totalSeats: reservation.state.totalSeats,
       remainingSeats: Math.min(reservation.state.totalSeats, reservation.state.remainingSeats + 1),
       registrations: Math.max(0, reservation.state.registrations - 1),

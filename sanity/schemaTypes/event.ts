@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: "event",
-  title: "Evenements",
+  title: "Événements",
   type: "document",
   fields: [
     defineField({ name: "title", title: "Titre", type: "string", validation: (Rule) => Rule.required() }),
@@ -17,7 +17,7 @@ export default defineType({
     defineField({ name: "totalSeats", title: "Nombre de places", type: "number" }),
     defineField({ name: "program", title: "Programme", type: "array", of: [{ type: "object", fields: [{ name: "time", type: "string" }, { name: "title", type: "string" }, { name: "description", type: "text" }] }] }),
     defineField({ name: "speakers", title: "Intervenants", type: "array", of: [{ type: "reference", to: [{ type: "speaker" }] }] }),
-    defineField({ name: "faqs", title: "FAQ evenement", type: "array", of: [{ type: "reference", to: [{ type: "faq" }] }] }),
+    defineField({ name: "faqs", title: "FAQ de l'événement", type: "array", of: [{ type: "reference", to: [{ type: "faq" }] }] }),
     defineField({ name: "whatsappCta", title: "CTA WhatsApp", type: "string" }),
     defineField({ name: "registrationCta", title: "CTA inscription", type: "string" }),
     defineField({ name: "heroImage", title: "Image hero", type: "image", options: { hotspot: true } }),

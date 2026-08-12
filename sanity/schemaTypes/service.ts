@@ -17,7 +17,7 @@ export default defineType({
     defineField({ name: "solutionTitle", title: "Titre solution", type: "string" }),
     defineField({ name: "solution", title: "Solution CF Consulting Travel", type: "text", rows: 3 }),
     defineField({ name: "valuePoints", title: "Points de valeur", type: "array", of: [{ type: "string" }] }),
-    defineField({ name: "steps", title: "Etapes", type: "array", of: [{ type: "object", fields: [{ name: "title", type: "string" }, { name: "text", type: "text" }] }] }),
+    defineField({ name: "steps", title: "Étapes", type: "array", of: [{ type: "object", fields: [{ name: "title", type: "string" }, { name: "text", type: "text" }] }] }),
     defineField({ name: "documents", title: "Documents generalement necessaires", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "errors", title: "Erreurs a eviter", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "faqs", title: "FAQ service", type: "array", of: [{ type: "reference", to: [{ type: "faq" }] }] }),

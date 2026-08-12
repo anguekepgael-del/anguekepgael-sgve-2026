@@ -19,7 +19,7 @@ let site = {
   phoneFr: "+33 6 56 73 72 25",
   phoneCm: "+237 657 605 017",
   address: "8 rue du Dauphiné, Massy, 91300, France",
-  owner: "[A COMPLETER : nom du proprietaire ou representant legal]",
+  owner: "[À COMPLÉTER : nom du propriétaire ou représentant légal]",
   whatsappFr: "https://wa.me/33758262034",
   whatsappCm: "https://wa.me/33758262034",
   channel: "https://whatsapp.com/channel/0029VasTv9O8PgsLD3HxvW22",
@@ -60,7 +60,7 @@ let speakers = [
   ["Reine Léa Kameni", "Orientation et préparation stratégique", "/images/speakers/reine-lea-kameni.jpeg"],
   ["Jacques Pelabou", "Dossier, cohérence et attentes institutionnelles", "/images/speakers/jacques-pelabou.jpeg"],
   ["Anguekep Gaël", "Destinations, programmes et conseils pratiques", "/images/speakers/anguekep-gael.jpeg"],
-  ["M. Henri Guehoada", "Analyse des profils, financement et préparation", "/images/speakers/henri-guehoada.jpeg"],
+  ["M. Henri Guewada", "Analyse des profils, financement et préparation", "/images/speakers/henri-guehoada.jpeg"],
   ["Carène Nono", "Accompagnement des familles et questions clés", "/images/speakers/carene-nono.jpeg"],
 ];
 
@@ -84,10 +84,10 @@ let navLinks = [
 let serviceLinks = [
   ["Visa étudiant", "/visa-etudiant/", "Structurer un projet d'études cohérent, comprendre les attentes et préparer les pièces clés."],
   ["Visa tourisme", "/visa-tourisme/", "Préparer un dossier de séjour court avec des justificatifs lisibles et une intention de voyage claire."],
-  ["Recours visa", "/recours-visa/", "Relire une décision, identifier les fragilités du dossier et préparer une réponse méthodique."],
+  ["Recours de visa", "/recours-visa/", "Relire une décision, identifier les fragilités du dossier et préparer une réponse méthodique."],
   ["Campus France", "/accompagnement-campus-france/", "Préparer son parcours Campus France avec un projet académique clair et défendable."],
-  ["Préparation entretien", "/preparation-entretien/", "S'entraîner à présenter son parcours, son projet et ses motivations avec cohérence."],
-  ["Orientation études à l'étranger", "/orientation-etudes-etranger/", "Choisir une destination, une école et une formation compatibles avec le profil du candidat."],
+  ["Préparation à l'entretien", "/preparation-entretien/", "S'entraîner à présenter son parcours, son projet et ses motivations avec cohérence."],
+  ["Orientation vers des études à l'étranger", "/orientation-etudes-etranger/", "Choisir une destination, une école et une formation compatibles avec le profil du candidat."],
 ];
 
 let blogCategories = [
@@ -100,7 +100,7 @@ let blogCategories = [
   ["Études en Espagne", "etudes-en-espagne"],
   ["Études en Russie", "etudes-en-russie"],
   ["Vie après le visa", "vie-apres-le-visa"],
-  ["Conseils parents", "conseils-parents"],
+  ["Conseils aux parents", "conseils-parents"],
 ];
 
 let blogArticles = [
@@ -117,10 +117,10 @@ let blogArticles = [
     ],
   },
   {
-    title: "Les erreurs fréquentes dans un dossier visa étudiant",
+    title: "Les erreurs fréquentes dans un dossier de visa étudiant",
     slug: "erreurs-frequentes-dossier-visa-etudiant",
     category: "Visa étudiant",
-    desc: "Les erreurs courantes qui fragilisent un dossier visa étudiant et les points à vérifier avant le dépôt.",
+    desc: "Les erreurs courantes qui fragilisent un dossier de visa étudiant et les points à vérifier avant le dépôt.",
     intro: "Un dossier peut être complet sur le papier mais rester fragile si les informations ne racontent pas une histoire cohérente.",
     sections: [
       ["Un projet mal défendu", "Le choix de formation doit être relié au parcours précédent et au projet professionnel. Une réorientation doit être expliquée avec précision."],
@@ -144,7 +144,7 @@ let blogArticles = [
     title: "Campus France Cameroun : les étapes à comprendre",
     slug: "campus-france-cameroun-etapes-comprendre",
     category: "Campus France",
-    desc: "Comprendre les grandes étapes d'un parcours Campus France Cameroun sans remplacer les sources officielles.",
+    desc: "Comprendre les grandes étapes d'un parcours Campus France au Cameroun sans remplacer les sources officielles.",
     intro: "Campus France demande une préparation académique sérieuse. Les procédures pouvant évoluer, les candidats doivent toujours vérifier les informations sur les canaux officiels.",
     sections: [
       ["Préparer son projet académique", "Le candidat doit clarifier son parcours, ses choix de formations et son objectif professionnel."],
@@ -168,7 +168,7 @@ let blogArticles = [
     title: "Visa étudiant : pourquoi un dossier complet peut être refusé ?",
     slug: "visa-etudiant-dossier-complet-peut-etre-refuse",
     category: "Refus de visa",
-    desc: "Pourquoi la complétude administrative ne suffit pas toujours à rendre un dossier visa étudiant convaincant.",
+    desc: "Pourquoi la complétude administrative ne suffit pas toujours à rendre un dossier de visa étudiant convaincant.",
     intro: "Un dossier complet n'est pas automatiquement un dossier convaincant. Les institutions analysent aussi la cohérence et la crédibilité globale.",
     sections: [
       ["La cohérence du projet", "Le parcours, la formation, le financement et l'objectif doivent former un ensemble logique."],
@@ -180,7 +180,7 @@ let blogArticles = [
     title: "Étudier en France : ce qu'il faut préparer avant le départ",
     slug: "etudier-en-france-preparer-avant-depart",
     category: "Études en France",
-    desc: "Points de préparation avant un départ pour études en France : organisation, budget, logement et adaptation.",
+    desc: "Points à préparer avant un départ pour des études en France : organisation, budget, logement et adaptation.",
     intro: "La préparation ne s'arrête pas à l'obtention d'une admission ou d'un visa. Le départ doit être organisé avec sérieux.",
     sections: [
       ["Préparer le budget", "Il faut anticiper les frais d'inscription, le logement, le transport, la vie quotidienne et les imprévus."],
@@ -191,7 +191,7 @@ let blogArticles = [
   {
     title: "Parents : comment accompagner le projet d'études de votre enfant ?",
     slug: "parents-accompagner-projet-etudes-enfant",
-    category: "Conseils parents",
+    category: "Conseils aux parents",
     desc: "Conseils aux parents pour accompagner un projet d'études à l'étranger avec méthode et lucidité.",
     intro: "Les parents jouent souvent un rôle central dans la réussite d'un projet d'études à l'étranger : soutien, budget, documents et décisions importantes.",
     sections: [
@@ -203,27 +203,27 @@ let blogArticles = [
 ];
 
 let proofStats = [
-  ["+150", "visas obtenus", "Retours positifs documentes par l'equipe a consolider dans la base officielle."],
-  ["+30", "recours gagnés", "Situations de refus analysees, corrigees et accompagnees avec methode."],
-  ["+1000", "étudiants orientés ou formés", "Etudiants, eleves et jeunes diplomes sensibilises a la mobilite internationale."],
-  ["+25", "écoles partenaires", "Etablissements et relais educatifs mobilisables selon les profils et destinations."],
-  ["+400", "programmes de formation", "Parcours academiques a comparer selon le niveau, le budget et le projet."],
+  ["+150", "visas obtenus", "Retours positifs documentés par l'équipe, à consolider dans la base officielle."],
+  ["+30", "recours gagnés", "Situations de refus analysées, corrigées et accompagnées avec méthode."],
+  ["+1000", "étudiants orientés ou formés", "Étudiants, élèves et jeunes diplômés sensibilisés à la mobilité internationale."],
+  ["+25", "écoles partenaires", "Établissements et relais éducatifs mobilisables selon les profils et les destinations."],
+  ["+400", "programmes de formation", "Parcours académiques à comparer selon le niveau, le budget et le projet."],
   ["5", "destinations principales", "France, Canada, Espagne, Russie et Allemagne."],
 ];
 
 let testimonials = [
-  ["Avis étudiant", "Visa étudiant France", "Avant l'accompagnement, je ne savais pas comment expliquer mon projet. L'equipe m'a aide a rendre mon dossier plus clair et plus coherent.", "Muriel K.", "Etudiante, Douala", "Projet d'etudes mieux structure", "5/5"],
-  ["Avis parent", "Accompagnement famille", "Nous avions beaucoup d'inquietudes. Les explications ont ete simples, les etapes bien organisees et nous avons compris le role de chaque document.", "Mme Ngono", "Parent, Yaoundé", "Famille rassuree avant le depot", "5/5"],
-  ["Après un refus", "Recours visa", "J'avais recu un refus sans comprendre mes erreurs. L'analyse m'a permis d'identifier les incoherences et de repartir avec une strategie plus propre.", "Brice T.", "Candidat, Bafoussam", "Erreurs du premier dossier clarifiees", "4.8/5"],
-  ["Orientation academique", "Choix d'ecole", "Je voulais partir vite, mais mon choix d'ecole n'etait pas coherent avec mon parcours. CF m'a aide a comparer les options plus serieusement.", "Kevin M.", "Jeune diplome, Douala", "Choix de formation mieux aligne", "4.9/5"],
-  ["Canada", "Orientation Canada", "L'accompagnement m'a aide a mieux comprendre le budget, les provinces et le calendrier. J'ai avance avec une feuille de route beaucoup plus lisible.", "Ariane F.", "Etudiante, Douala", "Destination Canada mieux preparee", "5/5"],
+  ["Avis étudiant", "Visa étudiant pour la France", "Avant l'accompagnement, je ne savais pas comment expliquer mon projet. L'équipe m'a aidée à rendre mon dossier plus clair et plus cohérent.", "Muriel K.", "Étudiante, Douala", "Projet d'études mieux structuré", "5/5"],
+  ["Avis parent", "Accompagnement familial", "Nous avions beaucoup d'inquiétudes. Les explications ont été simples, les étapes bien organisées et nous avons compris le rôle de chaque document.", "Mme Ngono", "Parent, Yaoundé", "Famille rassurée avant le dépôt", "5/5"],
+  ["Après un refus", "Recours de visa", "J'avais reçu un refus sans comprendre mes erreurs. L'analyse m'a permis d'identifier les incohérences et de repartir avec une stratégie plus solide.", "Brice T.", "Candidat, Bafoussam", "Erreurs du premier dossier clarifiées", "4,8/5"],
+  ["Orientation académique", "Choix d'école", "Je voulais partir vite, mais mon choix d'école n'était pas cohérent avec mon parcours. CF m'a aidé à comparer les options plus sérieusement.", "Kevin M.", "Jeune diplômé, Douala", "Choix de formation mieux aligné", "4,9/5"],
+  ["Canada", "Orientation Canada", "L'accompagnement m'a aidée à mieux comprendre le budget, les provinces et le calendrier. J'ai avancé avec une feuille de route beaucoup plus lisible.", "Ariane F.", "Étudiante, Douala", "Destination Canada mieux préparée", "5/5"],
 ];
 
 let caseStudies = [
-  ["Visa étudiant France", "Projet academique a clarifier", "Douala", "Choix de formation peu coherent avec le parcours initial.", "Diagnostic du profil, reformulation du projet d'etudes et preparation des justificatifs.", "Dossier mieux defendu et candidat plus a l'aise pour expliquer ses choix."],
-  ["Parent accompagne", "Famille a rassurer", "Yaoundé", "Parent inquiet sur le budget, les documents et les delais.", "Explication des etapes, priorisation des pieces et calendrier de preparation.", "Famille plus confiante et meilleure repartition des responsabilites."],
-  ["Recours visa", "Refus a analyser", "Bafoussam", "Candidat pret a redeposer sans corriger les points faibles.", "Lecture du refus, identification des incoherences et feuille de route corrective.", "Nouvelle strategie plus prudente, structuree et documentee."],
-  ["Orientation Canada", "Choix de destination", "Douala", "Projet Canada envisage sans comparaison du budget et du programme.", "Analyse destination, verification du calendrier et comparaison des options.", "Decision plus realiste et meilleure comprehension des contraintes."],
+  ["Visa étudiant pour la France", "Projet académique à clarifier", "Douala", "Choix de formation peu cohérent avec le parcours initial.", "Diagnostic du profil, reformulation du projet d'études et préparation des justificatifs.", "Dossier mieux défendu et candidat plus à l'aise pour expliquer ses choix."],
+  ["Parent accompagné", "Famille à rassurer", "Yaoundé", "Parent inquiet au sujet du budget, des documents et des délais.", "Explication des étapes, priorisation des pièces et calendrier de préparation.", "Famille plus confiante et meilleure répartition des responsabilités."],
+  ["Recours de visa", "Refus à analyser", "Bafoussam", "Candidat prêt à redéposer sans corriger les points faibles.", "Lecture du refus, identification des incohérences et feuille de route corrective.", "Nouvelle stratégie plus prudente, structurée et documentée."],
+  ["Orientation Canada", "Choix de destination", "Douala", "Projet d'études au Canada envisagé sans comparaison du budget et du programme.", "Analyse de la destination, vérification du calendrier et comparaison des options.", "Décision plus réaliste et meilleure compréhension des contraintes."],
 ];
 
 async function copyDir(src, dest) {
@@ -253,23 +253,76 @@ function header() {
   return `<header class="top"><a class="brand" href="/" aria-label="Accueil CF Consulting Travel"><img src="/images/sgve/logo-cf-consulting.png" alt="Logo CF Consulting Travel" /><span><strong>${site.name}</strong><small>Votre expert en mobilité internationale</small></span></a><button class="menu-btn" data-menu-button type="button" aria-label="Ouvrir le menu principal" aria-expanded="false" aria-controls="navigation-principale">Menu</button><nav id="navigation-principale" aria-label="Navigation principale" data-menu>${navLinks.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}<a class="nav-cta" href="${site.whatsappFr}" target="_blank" rel="noreferrer" aria-label="Faire diagnostiquer mon dossier"><span aria-hidden="true">▣</span> Diagnostic</a></nav></header>`;
 }
 
-function footer() {
+function footerMarkup() {
   return `<footer id="contact"><div><a class="brand" href="/"><img src="/images/sgve/logo-cf-consulting.png" alt="Logo CF Consulting Travel" /><span><strong>${site.name}</strong><small>Votre expert en mobilité internationale</small></span></a><p>Conseil stratégique pour vos projets d'études, voyages, recours et mobilité internationale. Aucun visa n'est garanti : chaque dossier dépend des institutions compétentes.</p><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Nous joindre sur WhatsApp</a></div></div><div><h2>Nos services</h2>${serviceLinks.slice(0, 4).map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}</div><div><h2>Entreprise</h2><a href="/a-propos/">À propos</a><a href="/services/">Nos services</a><a href="/temoignages/">Témoignages</a><a href="/contact/">Contact</a></div><div><h2>Ressources</h2><a href="/blog/">Blog / conseils</a><a href="/sgve-2026/">Conférence SGVE 2026</a><a href="/mentions-legales/">Mentions légales</a><a href="/politique-confidentialite/">Confidentialité</a></div><div><h2>Contact</h2><a href="tel:+33656737225">France : ${site.phoneFr}</a><a href="${site.whatsappFr}" target="_blank" rel="noreferrer">WhatsApp : ${site.whatsappPhone}</a><a href="tel:+237657605017">Cameroun : ${site.phoneCm}</a><a href="mailto:${site.email}">${site.email}</a><p>${site.address}</p></div><p class="copyright">© 2026 CF Consulting Travel. Tous droits réservés.</p></footer>`;
 }
 
+const frenchCorrections = [
+  ["CF Consulting Travel accompagne les étudiants, parents et professionnels", "CF Consulting Travel accompagne les étudiants, les parents et les professionnels"],
+  ["Conseil stratégique pour vos projets d'études, voyages, recours et mobilité internationale.", "Conseil stratégique pour vos projets d'études, de voyage, de recours et de mobilité internationale."],
+  ["Recours visa", "Recours de visa"],
+  ["Découvrir SGVE 2026", "Découvrir la SGVE 2026"],
+  ["SGVE 2026 prolonge notre mission", "La SGVE 2026 prolonge notre mission"],
+  ["orientation ou inscription SGVE 2026", "orientation ou inscription à la SGVE 2026"],
+  ["Une conférence dédiée à la stratégie visa étudiant.", "Une conférence dédiée à la stratégie de préparation au visa étudiant."],
+  ["Un accompagnement pensé pour les étudiants, parents et porteurs de projets.", "Un accompagnement pensé pour les étudiants, les parents et les porteurs de projets."],
+  ["visa étudiant, tourisme, recours, Campus France ou orientation études à l'étranger", "visa étudiant, visa de tourisme, recours de visa, Campus France ou orientation vers des études à l'étranger"],
+  ["Ensemble des accompagnements CF Consulting Travel pour la mobilite internationale", "Ensemble des accompagnements CF Consulting Travel pour la mobilité internationale"],
+  ["Structuration professionnelle d un dossier de mobilit&eacute; internationale", "Structuration professionnelle d'un dossier de mobilit&eacute; internationale"],
+  ["&Eacute;tapes m?thodiques de l accompagnement CF Consulting Travel", "Étapes méthodiques de l'accompagnement CF Consulting Travel"],
+  ["Dossier de mobilit&amp;eacute; internationale fragile &amp;agrave; clarifier", "Dossier de mobilité internationale fragile à clarifier"],
+  ["Structuration professionnelle d un dossier de mobilit&amp;eacute; internationale", "Structuration professionnelle d'un dossier de mobilité internationale"],
+  ["&amp;Eacute;tapes m?thodiques de l accompagnement CF Consulting Travel", "Étapes méthodiques de l'accompagnement CF Consulting Travel"],
+  ["Documents n&amp;eacute;cessaires pour un dossier visa ou mobilit&amp;eacute; internationale", "Documents nécessaires pour un dossier de visa ou de mobilité internationale"],
+  ["Erreurs &amp;agrave; &amp;eacute;viter dans un dossier visa ou mobilit&amp;eacute; internationale", "Erreurs à éviter dans un dossier de visa ou de mobilité internationale"],
+  ["Questions fr&amp;eacute;quentes sur les d&amp;eacute;marches visa et mobilit&amp;eacute; internationale", "Questions fréquentes sur les démarches de visa et de mobilité internationale"],
+  ["Un &eacute;change permet d'identifier le service adapt? et les prochaines &Eacute;tapes raisonnables", "Un échange permet d'identifier le service adapté et les prochaines étapes à envisager"],
+  ["Oui, notamment France, Canada, Espagne, Russie et Allemagne.", "Oui, notamment la France, le Canada, l'Espagne, la Russie et l'Allemagne."],
+  ["Guides et conseils sur la mobilite internationale", "Guides et conseils sur la mobilité internationale"],
+  ["Categorie conseil ", "Catégorie de conseils : "],
+  ["Etudiants et parents face au manque de strategie dans un dossier visa", "Étudiants et parents face au manque de stratégie dans un dossier de visa"],
+  ["Feuille de route visa etudiant SGVE 2026", "Feuille de route pour le visa étudiant à la SGVE 2026"],
+  ["Participez gratuitement à SGVE 2026,", "Participez gratuitement à la SGVE 2026,"],
+  ["Conférence spéciale visa étudiant", "Conférence spéciale sur le visa étudiant"],
+  ["SGVE 2026 donne une stratégie claire", "La SGVE 2026 donne une stratégie claire"],
+  ["SGVE 2026 met en lumière", "La SGVE 2026 met en lumière"],
+  ["SGVE 2026 s'appuie sur", "La SGVE 2026 s'appuie sur"],
+  ["Au c&oelig;ur de la strat&eacute;gie visa &eacute;tudiant.", "Au cœur de la stratégie de préparation au visa étudiant."],
+  ["Des retours d'étudiants, parents et participants SGVE.", "Des retours d'étudiants, de parents et de participants à la SGVE."],
+  ["Réservez votre place à SGVE 2026", "Réservez votre place pour la SGVE 2026"],
+  ["Réserver ma place à SGVE 2026", "Réserver ma place pour la SGVE 2026"],
+  ["Réservez votre place pour SGVE 2026", "Réservez votre place pour la SGVE 2026"],
+  ["SGVE aide à mieux préparer le projet", "La SGVE aide à mieux préparer le projet"],
+  ["L'équipe CF Consulting Travel peut vous orienter vers le bon parcours : visa étudiant, visa tourisme, recours de visa, la SGVE 2026 ou conseil personnalisé.", "L'équipe CF Consulting Travel peut vous orienter vers le bon parcours : un visa étudiant, un visa de tourisme, un recours de visa, une inscription à la SGVE 2026 ou un conseil personnalisé."],
+  ["Un premier échange permet d'identifier le bon parcours : visa étudiant, visa tourisme, recours, orientation ou inscription à la SGVE 2026.", "Un premier échange permet d'identifier le bon parcours : un visa étudiant, un visa de tourisme, un recours de visa, une orientation ou une inscription à la SGVE 2026."],
+  ["Adresse France :", "Adresse en France :"],
+  ["Questions / réponses", "Questions-réponses"],
+];
+
+function correctFrench(value) {
+  return frenchCorrections.reduce((text, [from, to]) => text.replaceAll(from, to), String(value));
+}
+
+function footer() {
+  return correctFrench(footerMarkup());
+}
+
 function page({ title, desc, route = "/", kind = "site", body, article = null }) {
+  const correctedTitle = correctFrench(title);
+  const correctedDesc = correctFrench(desc);
+  const correctedBody = correctFrench(body);
   const canonical = `${site.url}${route === "/" ? "/" : route}`;
   const publicBody = route === "/sgve-2026/"
-    ? body.replaceAll('<p class="seats" data-seats-display role="status" aria-live="polite"><span data-seats-label>Places limitées</span></p>', "")
-    : body;
+    ? correctedBody.replaceAll('<p class="seats" data-seats-display role="status" aria-live="polite"><span data-seats-label>Places limitées</span></p>', "")
+    : correctedBody;
   const schema = kind === "article" && article
     ? { "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.desc, datePublished: "2026-05-07", dateModified: "2026-05-07", author: { "@type": "Organization", name: site.name }, publisher: { "@type": "Organization", name: site.name, url: site.url }, mainEntityOfPage: canonical }
     : kind === "event"
-    ? { "@context": "https://schema.org", "@type": "Event", name: `${ev.title} - ${ev.long}`, description: desc, startDate: ev.iso, eventStatus: "https://schema.org/EventScheduled", isAccessibleForFree: true, location: { "@type": "Place", name: ev.place, address: { "@type": "PostalAddress", addressLocality: "Douala", addressCountry: "CM" } }, organizer: { "@type": "Organization", name: site.name, email: site.email, telephone: [site.phoneFr, site.phoneCm], url: site.url, address: contactAddressSchema, contactPoint: contactPointsSchema } }
+    ? { "@context": "https://schema.org", "@type": "Event", name: `${ev.title} — ${ev.long}`, description: correctedDesc, startDate: ev.iso, eventStatus: "https://schema.org/EventScheduled", isAccessibleForFree: true, location: { "@type": "Place", name: ev.place, address: { "@type": "PostalAddress", addressLocality: "Douala", addressCountry: "CM" } }, organizer: { "@type": "Organization", name: site.name, email: site.email, telephone: [site.phoneFr, site.phoneCm], url: site.url, address: contactAddressSchema, contactPoint: contactPointsSchema } }
     : { "@context": "https://schema.org", "@type": "TravelAgency", name: site.name, url: site.url, email: site.email, telephone: [site.phoneFr, site.phoneCm], address: contactAddressSchema, contactPoint: contactPointsSchema };
 
   const socialImage = absoluteUrl("/images/sgve/logo-cf-consulting.png");
-  return `<!doctype html><html lang="fr"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${esc(title)}</title><meta name="description" content="${esc(desc)}" /><meta name="robots" content="index, follow" /><meta name="theme-color" content="#111111" /><link rel="canonical" href="${canonical}" /><link rel="stylesheet" href="/styles.css?v=${assetVersion}" /><meta property="og:type" content="${kind === "event" ? "event" : kind === "article" ? "article" : "website"}" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(desc)}" /><meta property="og:url" content="${canonical}" /><meta property="og:site_name" content="${site.name}" /><meta property="og:image" content="${socialImage}" /><meta property="og:image:alt" content="Logo CF Consulting Travel" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(title)}" /><meta name="twitter:description" content="${esc(desc)}" /><meta name="twitter:image" content="${socialImage}" /><script type="application/ld+json">${JSON.stringify(schema)}</script></head><body data-page="${kind}" data-route="${route}"><a class="skip" href="#contenu">Aller au contenu</a>${header()}<main id="contenu">${publicBody}</main>${footer()}<a class="float" href="${site.whatsappFr}" target="_blank" rel="noreferrer" aria-label="Nous joindre sur WhatsApp">Nous joindre sur WhatsApp</a><script src="/script.js?v=${assetVersion}" defer></script></body></html>`;
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${esc(correctedTitle)}</title><meta name="description" content="${esc(correctedDesc)}" /><meta name="robots" content="index, follow" /><meta name="theme-color" content="#111111" /><link rel="canonical" href="${canonical}" /><link rel="stylesheet" href="/styles.css?v=${assetVersion}" /><meta property="og:type" content="${kind === "event" ? "event" : kind === "article" ? "article" : "website"}" /><meta property="og:title" content="${esc(correctedTitle)}" /><meta property="og:description" content="${esc(correctedDesc)}" /><meta property="og:url" content="${canonical}" /><meta property="og:site_name" content="${site.name}" /><meta property="og:image" content="${socialImage}" /><meta property="og:image:alt" content="Logo CF Consulting Travel" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(correctedTitle)}" /><meta name="twitter:description" content="${esc(correctedDesc)}" /><meta name="twitter:image" content="${socialImage}" /><script type="application/ld+json">${JSON.stringify(schema)}</script></head><body data-page="${kind}" data-route="${route}"><a class="skip" href="#contenu">Aller au contenu</a>${header()}<main id="contenu">${publicBody}</main>${footer()}<a class="float" href="${site.whatsappFr}" target="_blank" rel="noreferrer" aria-label="Nous joindre sur WhatsApp">Nous joindre sur WhatsApp</a><script src="/script.js?v=${assetVersion}" defer></script></body></html>`;
 }
 
 function card(title, text) {
@@ -303,12 +356,12 @@ const visuals = {
 };
 
 const serviceVisuals = {
-  "/visa-etudiant/": ["/images/cf/services/service-visa-etudiant-projet-academique.webp", "Projet academique et dossier visa etudiant prepare avec methode"],
-  "/visa-tourisme/": ["/images/cf/services/service-visa-tourisme-sejour-court.webp", "Documents, passeport et preparation d'un visa tourisme"],
-  "/recours-visa/": ["/images/cf/services/service-recours-visa-analyse-refus.webp", "Analyse d'un refus visa et preparation d'un recours"],
-  "/accompagnement-campus-france/": ["/images/cf/services/service-campus-france-projet-etudes.webp", "Accompagnement Campus France pour un projet d'etudes"],
-  "/preparation-entretien/": ["/images/cf/services/service-preparation-entretien-visa.webp", "Simulation et preparation d'entretien visa etudiant"],
-  "/orientation-etudes-etranger/": ["/images/cf/services/service-orientation-etudes-etranger.webp", "Orientation vers les etudes a l'etranger et choix de destination"],
+  "/visa-etudiant/": ["/images/cf/services/service-visa-etudiant-projet-academique.webp", "Projet académique et dossier de visa étudiant préparés avec méthode"],
+  "/visa-tourisme/": ["/images/cf/services/service-visa-tourisme-sejour-court.webp", "Documents, passeport et préparation d'un visa tourisme"],
+  "/recours-visa/": ["/images/cf/services/service-recours-visa-analyse-refus.webp", "Analyse d'un refus de visa et préparation d'un recours"],
+  "/accompagnement-campus-france/": ["/images/cf/services/service-campus-france-projet-etudes.webp", "Accompagnement Campus France pour un projet d'études"],
+  "/preparation-entretien/": ["/images/cf/services/service-preparation-entretien-visa.webp", "Simulation et préparation d'un entretien de visa étudiant"],
+  "/orientation-etudes-etranger/": ["/images/cf/services/service-orientation-etudes-etranger.webp", "Orientation vers les études à l'étranger et choix de destination"],
 };
 
 function linkCard(title, text, href) {
@@ -346,7 +399,7 @@ function blogCard(article) {
 }
 
 function proofCards() {
-  return `<div class="grid four">${proofStats.map(([value, label, text]) => `<article class="proof-card"><h3>${value} ${label}</h3><p>${text}</p><p class="privacy">Indicateur de confiance a consolider avec les donnees internes de l'equipe.</p></article>`).join("")}</div>`;
+  return `<div class="grid four">${proofStats.map(([value, label, text]) => `<article class="proof-card"><h3>${value} ${label}</h3><p>${text}</p><p class="privacy">Indicateur de confiance à consolider avec les données internes de l'équipe.</p></article>`).join("")}</div>`;
 }
 
 function ratingStars(rating) {
@@ -364,7 +417,7 @@ function caseStudyCards() {
   return `<div class="grid three">${caseStudies.map(([title, topic, city, issue, work, benefit]) => `<article class="case-card"><p class="eyebrow">${topic} - ${city}</p><h3>${title}</h3><p><strong>Situation :</strong> ${issue}</p><p><strong>Accompagnement :</strong> ${work}</p><p class="result"><strong>Bénéfice :</strong> ${benefit}</p></article>`).join("")}</div>`;
 }
 
-function socialProofSection({ eyebrow = "Témoignages et preuves sociales", title = "Des retours concrets pour avancer avec plus de confiance.", text = "Les exemples ci-dessous illustrent la methode CF Consulting Travel : diagnostic, coherence du dossier, preparation et accompagnement humain. Ils ne constituent jamais une garantie de decision favorable.", limit = 3, cta = true } = {}) {
+function socialProofSection({ eyebrow = "Témoignages et preuves sociales", title = "Des retours concrets pour avancer avec plus de confiance.", text = "Les exemples ci-dessous illustrent la méthode CF Consulting Travel : diagnostic, cohérence du dossier, préparation et accompagnement humain. Ils ne constituent jamais une garantie de décision favorable.", limit = 3, cta = true } = {}) {
   const count = eyebrow === "Ils nous ont fait confiance" ? testimonials.length : limit;
   return `<section class="section"><p class="eyebrow">${eyebrow}</p><h2>${title}</h2><p class="lead">${text}</p>${proofCards()}${testimonialCards(count)}${cta ? `<div class="actions"><a class="btn primary" href="/contact/">Je veux être accompagné</a><a class="btn secondary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Parler à un conseiller</a><a class="btn secondary" href="/temoignages/">Voir tous les témoignages</a></div>` : ""}</section>`;
 }
@@ -380,11 +433,11 @@ function home() {
 
   return page({
     title: `${site.name} - Conseil en mobilité internationale`,
-    desc: `Site officiel de ${site.name} : accompagnement visa étudiant, visa tourisme, recours, Campus France et orientation pour les projets de mobilité internationale.`,
+    desc: `Site officiel de ${site.name} : accompagnement pour un visa étudiant ou de tourisme, un recours de visa, Campus France et l'orientation de projets de mobilité internationale.`,
     body: `<section class="agency-hero"><div class="world-dots" aria-hidden="true"></div><svg class="flight-path" viewBox="0 0 420 280" aria-hidden="true"><path d="M20 220 C120 80 220 280 390 54"/><path d="M378 42 l28 12 -26 12 5 -11 -18 -8z"/></svg><div class="agency-hero-copy"><h1>Votre projet de <span>mobilité internationale</span> mérite une stratégie claire.</h1><p>CF Consulting Travel accompagne les étudiants, parents et professionnels dans la préparation de projets de mobilité internationale cohérents, crédibles et mieux structurés.</p><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Faire diagnostiquer mon dossier</a><a class="btn secondary" href="/sgve-2026/">Découvrir SGVE 2026</a></div><p class="agency-note">Aucun visa n'est garanti. Notre rôle est de clarifier le projet, structurer les preuves et préparer chaque étape avec méthode.</p></div><figure class="agency-hero-media"><img src="${visuals.advisory}" alt="Conseil stratégique CF Consulting Travel pour un projet de mobilité internationale" /></figure><div class="hero-wave" aria-hidden="true"></div></section><section class="agency-services" id="services"><div class="agency-section-heading"><span aria-hidden="true"></span><h2>Nos services</h2><p>Des accompagnements structurés pour préparer vos démarches avec méthode, cohérence et transparence.</p></div><div class="agency-service-grid">${serviceCards}</div></section><section class="home-sgve-feature"><div class="sgve-copy"><p class="sgve-brand">SG<span>VE</span><small>2026</small></p><h2>La conférence incontournable pour mieux préparer son visa étudiant.</h2><p>${ev.date} à ${ev.time} - ${ev.place}. Un rendez-vous gratuit sur inscription pour comprendre les erreurs fréquentes et construire une stratégie claire.</p><div class="count" aria-hidden="true"><span><strong data-days>00</strong><small>jours</small></span><span><strong data-hours>00</strong><small>heures</small></span><span><strong data-minutes>00</strong><small>min</small></span><span><strong data-seconds>00</strong><small>sec</small></span></div><a class="btn primary" href="/sgve-2026/#inscription">Réserver ma place</a></div><figure><img src="${visuals.conference}" alt="Conférence SGVE 2026 à Douala" loading="lazy" /></figure></section><section class="agency-stats" aria-label="Chiffres clés CF Consulting Travel">${statBar}</section><section class="agency-proof"><div><p class="eyebrow">Témoignages et preuves sociales</p><h2>Des indicateurs utiles, sans promesse de résultat garanti.</h2><p>Ces chiffres servent à comprendre l'expérience de l'équipe et doivent toujours être lus avec prudence : chaque dossier reste évalué par les institutions compétentes.</p></div><div class="proof-compact">${proofStats.slice(0, 4).map(([value, label]) => `<article aria-label="${value} ${label}"><strong>${value}</strong><span>${label}</span></article>`).join("")}</div><div class="actions"><a class="btn primary" href="/contact/">Je veux être accompagné</a><a class="btn secondary" href="/temoignages/">Voir les témoignages</a></div></section><section class="banner final-cta"><div><p class="eyebrow">Diagnostic</p><h2>Avant de déposer, faites relire la logique de votre projet.</h2><p>Un échange permet d'identifier le bon parcours : visa étudiant, tourisme, recours, Campus France ou orientation études à l'étranger.</p></div><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Faire diagnostiquer mon dossier</a><a class="btn secondary light" href="/services/">Voir les services</a></div></section>`,
   });
 }
-function standardHero(eyebrow, title, text, primaryLabel = "Nous joindre sur WhatsApp", primaryHref = site.whatsappFr, image = visuals.advisory, alt = "Cadre professionnel pour un accompagnement en mobilite internationale") {
+function standardHero(eyebrow, title, text, primaryLabel = "Nous joindre sur WhatsApp", primaryHref = site.whatsappFr, image = visuals.advisory, alt = "Cadre professionnel pour un accompagnement en mobilité internationale") {
   return `<section class="hero home"><div><p class="eyebrow">${eyebrow}</p><h1>${title}</h1><p class="lead">${text}</p><div class="actions"><a class="btn primary" href="${primaryHref}" target="${primaryHref.startsWith("http") ? "_blank" : "_self"}" rel="${primaryHref.startsWith("http") ? "noreferrer" : ""}">${primaryLabel}</a><a class="btn secondary" href="/contact/">Contacter CF Consulting Travel</a></div></div><figure><img src="${image}" alt="${esc(alt)}" /></figure></section>`;
 }
 
@@ -399,7 +452,7 @@ function aboutPage() {
 function servicesPage() {
   return page({
     title: `Services - ${site.name}`,
-    desc: `Découvrez les services CF Consulting Travel : visa étudiant, visa tourisme, recours visa, Campus France, préparation entretien et orientation.`,
+    desc: `Découvrez les services de CF Consulting Travel : visa étudiant, visa de tourisme, recours de visa, Campus France, préparation à l'entretien et orientation vers des études à l'étranger.`,
     route: "/services/",
     body: `${standardHero("Services", "Des services structurés pour préparer votre projet international.", "CF Consulting Travel accompagne les candidats avec une méthode claire : comprendre le profil, cadrer le projet, organiser les preuves et préparer les étapes importantes, sans promesse d'obtention garantie.", "Nous joindre sur WhatsApp", site.whatsappFr, visuals.serviceOverview, "Ensemble des accompagnements CF Consulting Travel pour la mobilite internationale")}<section class="section"><p class="eyebrow">Offres CF</p><h2>Choisissez le parcours adapté à votre situation.</h2><div class="grid four">${serviceLinks.map(([title, href, text]) => serviceCard(title, href, text)).join("")}</div></section><section class="section"><p class="eyebrow">Pourquoi les familles nous font confiance</p><h2>Des preuves sociales pour choisir un accompagnement sérieux.</h2><p class="lead">Étudiants accompagnés, familles rassurées, recours analysés et destinations comparées : la valeur de CF Consulting Travel repose sur la méthode et la clarté.</p>${proofCards()}${testimonialCards(3)}</section><section class="banner"><div><p class="eyebrow">Besoin d'orientation ?</p><h2>Un premier échange permet de mieux comprendre votre dossier.</h2><p>Expliquez votre situation à l'équipe CF Consulting Travel avant de vous engager.</p></div><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Nous joindre sur WhatsApp</a></div></section>`,
   });
@@ -434,10 +487,10 @@ let servicePages = {
   visaEtudiant: {
     route: "/visa-etudiant/",
     metaTitle: `Visa étudiant - ${site.name}`,
-    metaDescription: "Accompagnement visa étudiant : projet académique, choix de formation, justificatifs, préparation du dossier et entretien.",
+    metaDescription: "Accompagnement pour un visa étudiant : projet académique, choix de formation, justificatifs, préparation du dossier et entretien.",
     eyebrow: "Visa étudiant",
     h1: "Préparer un dossier étudiant cohérent, crédible et défendable.",
-    lead: "CF Consulting Travel aide les candidats à structurer leur projet d'études, à organiser les justificatifs et à préparer leur discours avec méthode. Aucune obtention de visa n'est garantie.",
+    lead: "CF Consulting Travel aide les candidats à structurer leur projet d'études, à organiser les justificatifs et à préparer leur discours avec méthode. L'obtention d'un visa n'est jamais garantie.",
     promiseTitle: "Vous aider à présenter un projet lisible.",
     promise: "L'objectif est de rendre le parcours, le choix de formation, le financement et le projet professionnel plus cohérents aux yeux des institutions compétentes.",
     valuePoints: ["Diagnostic du profil académique", "Choix de pays et formation plus cohérents", "Préparation des justificatifs clés", "Méthode pour défendre son projet"],
@@ -453,7 +506,7 @@ let servicePages = {
   visaTourisme: {
     route: "/visa-tourisme/",
     metaTitle: `Visa tourisme - ${site.name}`,
-    metaDescription: "Accompagnement visa tourisme : motif de voyage, ressources, hébergement, garanties de retour et cohérence du séjour.",
+    metaDescription: "Accompagnement pour un visa de tourisme : motif du voyage, ressources, hébergement, garanties de retour et cohérence du séjour.",
     eyebrow: "Visa tourisme",
     h1: "Préparer un dossier de voyage clair, cohérent et documenté.",
     lead: "Un dossier touristique doit expliquer le motif du voyage, la durée, les ressources, l'hébergement et les garanties de retour de manière lisible.",
@@ -471,9 +524,9 @@ let servicePages = {
   },
   recoursVisa: {
     route: "/recours-visa/",
-    metaTitle: `Recours visa - ${site.name}`,
-    metaDescription: "Accompagnement recours visa : analyse du refus, diagnostic des points faibles, stratégie de réponse et préparation d'un nouveau dossier.",
-    eyebrow: "Recours visa",
+    metaTitle: `Recours de visa - ${site.name}`,
+    metaDescription: "Accompagnement pour un recours de visa : analyse du refus, diagnostic des points faibles, stratégie de réponse et préparation d'un nouveau dossier.",
+    eyebrow: "Recours de visa",
     h1: "Comprendre un refus avant de répondre ou de redéposer.",
     lead: "Un refus doit être analysé avec calme. L'objectif est d'identifier les fragilités du dossier, de corriger les incohérences et de choisir une réponse adaptée.",
     promiseTitle: "Vous aider à prendre une décision lucide après un refus.",
@@ -509,9 +562,9 @@ let servicePages = {
   },
   entretien: {
     route: "/preparation-entretien/",
-    metaTitle: `Préparation entretien visa et Campus France - ${site.name}`,
-    metaDescription: "Préparation entretien visa étudiant, Campus France ou projet de voyage : discours, questions fréquentes, cohérence et simulation.",
-    eyebrow: "Préparation entretien",
+    metaTitle: `Préparation à l'entretien de visa et à l'entretien Campus France - ${site.name}`,
+    metaDescription: "Préparation à un entretien de visa étudiant, à un entretien Campus France ou à un entretien lié à un projet de voyage : discours, questions fréquentes, cohérence et simulation.",
+    eyebrow: "Préparation à l'entretien",
     h1: "Savoir présenter son projet avec clarté et cohérence.",
     lead: "Un entretien ne se prépare pas par mémorisation. Il se prépare par compréhension du dossier, maîtrise du parcours et cohérence des réponses.",
     promiseTitle: "Vous aider à parler de votre projet sans improvisation.",
@@ -528,16 +581,16 @@ let servicePages = {
   },
   orientation: {
     route: "/orientation-etudes-etranger/",
-    metaTitle: `Orientation études à l'étranger - ${site.name}`,
-    metaDescription: "Orientation études à l'étranger : choix du pays, école, formation, budget, projet professionnel et stratégie de candidature.",
-    eyebrow: "Orientation études à l'étranger",
+    metaTitle: `Orientation vers des études à l'étranger - ${site.name}`,
+    metaDescription: "Orientation vers des études à l'étranger : choix du pays, de l'école et de la formation, budget, projet professionnel et stratégie de candidature.",
+    eyebrow: "Orientation vers des études à l'étranger",
     h1: "Choisir une destination et une formation compatibles avec votre profil.",
     lead: "Un bon projet commence avant le visa : il commence par un choix réaliste de pays, d'école, de formation, de budget et d'objectif professionnel.",
     promiseTitle: "Vous aider à prendre une décision stratégique.",
     promise: "L'accompagnement vise à éviter les choix impulsifs et à construire une trajectoire académique crédible.",
     valuePoints: ["Comparaison des destinations", "Analyse du profil académique", "Choix de formation cohérent", "Vision claire du budget et des étapes"],
     problemTitle: "Un mauvais choix d'école peut fragiliser tout le projet.",
-    problem: "Une destination ou une formation mal alignée avec le profil peut créer des incohérences dans la candidature et le futur dossier visa.",
+    problem: "Une destination ou une formation mal alignée avec le profil peut créer des incohérences dans la candidature et le futur dossier de visa.",
     solutionTitle: "Orienter avant de déposer.",
     solution: "CF Consulting Travel aide à comparer les options et à sélectionner un parcours plus cohérent avec les objectifs du candidat.",
     steps: [["Diagnostic", "Profil, niveau, budget, langue, objectifs et contraintes."], ["Comparaison", "Pays, écoles, programmes, coûts et débouchés."], ["Sélection", "Choix d'options réalistes et défendables."], ["Feuille de route", "Étapes de candidature, documents et calendrier."]],
@@ -574,18 +627,18 @@ function orientationEtudesPage() {
 function testimonialsPage() {
   return page({
     title: `Témoignages et résultats - ${site.name}`,
-    desc: `Témoignages, résultats, avis parents, avis étudiants et mini études de cas de CF Consulting Travel.`,
+    desc: `Témoignages, résultats, avis de parents, avis d'étudiants et courtes études de cas de CF Consulting Travel.`,
     route: "/temoignages/",
-    body: `${standardHero("Témoignages", "Des expériences clients qui montrent la valeur d'une préparation sérieuse.", "Retours d'etudiants, avis de parents, situations apres refus, orientation et participation SGVE : cette page rassure sans promettre l'obtention d'un visa.", "Nous joindre sur WhatsApp", site.whatsappFr, visuals.contact, "Echange rassurant avec un conseiller CF Consulting Travel")}<section class="section"><p class="eyebrow">Résultats / chiffres clés</p><h2>Des indicateurs de confiance à suivre dans le temps.</h2><p class="lead">Ces chiffres servent de base de presentation et doivent etre consolides avec les donnees internes de CF Consulting Travel. Ils ne constituent jamais une garantie de decision favorable.</p>${proofCards()}</section><section class="section"><p class="eyebrow">Avis étudiants et parents</p><h2>Des témoignages courts, humains et adaptés au contexte camerounais.</h2>${testimonialCards()}</section><section class="section"><p class="eyebrow">Études de cas courtes</p><h2>Exemples de situations accompagnées, sans données personnelles.</h2>${caseStudyCards()}</section><section class="section split"><div><p class="eyebrow">Preuves à enrichir</p><h2>Des documents peuvent renforcer la crédibilité, uniquement s'ils sont validés.</h2><p>Les captures de visas, notifications, attestations, échanges ou documents clients ne doivent être ajoutées qu'après accord explicite, anonymisation complète et vérification qu'aucune donnée sensible n'est visible.</p></div><div class="grid two">${card("Visas et admissions", "Ajouter uniquement des preuves autorisées, anonymisées et validées par l'équipe.")}${card("Retours SGVE", "Collecter les avis apres participation pour enrichir la page evenementielle SGVE 2026.")}</div></section><section class="banner"><div><p class="eyebrow">Confiance</p><h2>Vous souhaitez parler de votre projet ?</h2><p>Un échange permet de comprendre votre situation et d'identifier le bon parcours d'accompagnement.</p></div><div class="actions"><a class="btn primary" href="/contact/">Je veux être accompagné</a><a class="btn secondary light" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Parler à un conseiller</a></div></section>`,
+    body: `${standardHero("Témoignages", "Des expériences clients qui montrent la valeur d'une préparation sérieuse.", "Des retours d'étudiants, des avis de parents, des situations après un refus, des orientations et des participations à la SGVE : cette page rassure sans promettre l'obtention d'un visa.", "Nous joindre sur WhatsApp", site.whatsappFr, visuals.contact, "Échange rassurant avec un conseiller CF Consulting Travel")}<section class="section"><p class="eyebrow">Résultats / chiffres clés</p><h2>Des indicateurs de confiance à suivre dans le temps.</h2><p class="lead">Ces chiffres servent de base de présentation et doivent être consolidés avec les données internes de CF Consulting Travel. Ils ne constituent jamais une garantie de décision favorable.</p>${proofCards()}</section><section class="section"><p class="eyebrow">Avis étudiants et parents</p><h2>Des témoignages courts, humains et adaptés au contexte camerounais.</h2>${testimonialCards()}</section><section class="section"><p class="eyebrow">Études de cas courtes</p><h2>Exemples de situations accompagnées, sans données personnelles.</h2>${caseStudyCards()}</section><section class="section split"><div><p class="eyebrow">Preuves à enrichir</p><h2>Des documents peuvent renforcer la crédibilité, uniquement s'ils sont validés.</h2><p>Les captures de visas, notifications, attestations, échanges ou documents clients ne doivent être ajoutées qu'après accord explicite, anonymisation complète et vérification qu'aucune donnée sensible n'est visible.</p></div><div class="grid two">${card("Visas et admissions", "Ajouter uniquement des preuves autorisées, anonymisées et validées par l'équipe.")}${card("Retours de la SGVE", "Collecter les avis après la participation afin d'enrichir la page événementielle de la SGVE 2026.")}</div></section><section class="banner"><div><p class="eyebrow">Confiance</p><h2>Vous souhaitez parler de votre projet ?</h2><p>Un échange permet de comprendre votre situation et d'identifier le bon parcours d'accompagnement.</p></div><div class="actions"><a class="btn primary" href="/contact/">Je veux être accompagné</a><a class="btn secondary light" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Parler à un conseiller</a></div></section>`,
   });
 }
 
 function blogPage() {
   return page({
-    title: `Blog et conseils mobilité internationale - ${site.name}`,
-    desc: `Conseils CF Consulting Travel sur Campus France, visa étudiant, refus de visa, recours et études à l'étranger.`,
+    title: `Blog et conseils sur la mobilité internationale - ${site.name}`,
+    desc: `Conseils de CF Consulting Travel sur Campus France, le visa étudiant, les refus de visa, les recours et les études à l'étranger.`,
     route: "/blog/",
-    body: `${standardHero("Blog / Conseils", "Des contenus pour mieux préparer votre mobilité internationale.", "Articles SEO et conseils pratiques sur Campus France, visa étudiant, refus, recours, choix d'école, départ à l'étranger et accompagnement des parents. Ces contenus ne remplacent pas les sources officielles ni un diagnostic personnalisé.", "Nous joindre sur WhatsApp", site.whatsappFr, visuals.blog, "Guides et conseils sur la mobilite internationale")}<section class="section"><p class="eyebrow">Catégories</p><h2>Explorer les grands sujets.</h2><div class="grid four">${blogCategories.map(([label, slug]) => visualLinkCard(label, "Rubrique éditoriale à enrichir avec des contenus validés.", `/blog/categorie/${slug}/`, visuals.blog, `Categorie conseil ${label}`)).join("")}</div></section><section class="section"><p class="eyebrow">Articles initiaux</p><h2>Guides prioritaires pour les étudiants et familles.</h2><div class="grid three">${blogArticles.map((article) => blogCard(article)).join("")}</div></section><section class="banner"><div><p class="eyebrow">Besoin d'un diagnostic ?</p><h2>Un article aide à comprendre. Un échange aide à décider.</h2><p>CF Consulting Travel peut analyser votre situation et vous orienter vers le bon parcours d'accompagnement.</p></div><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Nous joindre sur WhatsApp</a><a class="btn secondary light" href="/contact/">Page contact</a></div></section>`,
+    body: `${standardHero("Blog / Conseils", "Des contenus pour mieux préparer votre mobilité internationale.", "Articles SEO et conseils pratiques sur Campus France, visa étudiant, refus, recours, choix d'école, départ à l'étranger et accompagnement des parents. Ces contenus ne remplacent pas les sources officielles ni un diagnostic personnalisé.", "Nous joindre sur WhatsApp", site.whatsappFr, visuals.blog, "Guides et conseils sur la mobilite internationale")}<section class="section"><p class="eyebrow">Catégories</p><h2>Explorer les grands sujets.</h2><div class="grid four">${blogCategories.map(([label, slug]) => visualLinkCard(label, "Rubrique éditoriale à enrichir avec des contenus validés.", `/blog/categorie/${slug}/`, visuals.blog, `Categorie conseil ${label}`)).join("")}</div></section><section class="section"><p class="eyebrow">Articles initiaux</p><h2>Guides prioritaires pour les étudiants et les familles.</h2><div class="grid three">${blogArticles.map((article) => blogCard(article)).join("")}</div></section><section class="banner"><div><p class="eyebrow">Besoin d'un diagnostic ?</p><h2>Un article aide à comprendre. Un échange aide à décider.</h2><p>CF Consulting Travel peut analyser votre situation et vous orienter vers le bon parcours d'accompagnement.</p></div><div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Nous joindre sur WhatsApp</a><a class="btn secondary light" href="/contact/">Page contact</a></div></section>`,
   });
 }
 
@@ -594,7 +647,7 @@ function blogCategoryPage(category) {
   const articles = blogArticles.filter((article) => article.category === label);
   return page({
     title: `${label} - Blog ${site.name}`,
-    desc: `Articles et conseils CF Consulting Travel sur ${label.toLowerCase()}, mobilité internationale et préparation de dossier.`,
+    desc: `Articles et conseils de CF Consulting Travel dans la catégorie « ${label} » : mobilité internationale et préparation de dossier.`,
     route: `/blog/categorie/${slug}/`,
     body: `${standardHero("Catégorie blog", label, "Retrouvez les articles liés à cette thématique. Les informations sont rédigées avec prudence et doivent être complétées par les sources officielles lorsque la procédure administrative évolue.", "Nous joindre sur WhatsApp", site.whatsappFr, visuals.blog, `Conseils ${label}`)}<section class="section"><p class="eyebrow">Articles</p><h2>${articles.length ? "Guides disponibles" : "Articles à venir"}</h2><div class="grid three">${(articles.length ? articles : [{ title: "Contenu à venir", desc: "Cette catégorie est prête à accueillir de nouveaux articles validés par l'équipe.", slug: "blog" }]).map((article) => visualLinkCard(article.title, article.desc, article.slug === "blog" ? "/blog/" : `/blog/${article.slug}/`, visuals.blog, `Article conseil ${article.title}`)).join("")}</div></section>`,
   });
@@ -614,9 +667,9 @@ function blogArticlePage(article) {
 function contactPage() {
   return page({
     title: `Contact - ${site.name}`,
-    desc: `Contactez CF Consulting Travel par email, telephone ou WhatsApp pour votre projet de mobilite internationale.`,
+    desc: `Contactez CF Consulting Travel par email, téléphone ou WhatsApp pour votre projet de mobilité internationale.`,
     route: "/contact/",
-    body: `${standardHero("Contact", "Parlez-nous de votre projet avant de vous engager.", "L'equipe CF Consulting Travel peut vous orienter vers le bon parcours : visa etudiant, visa tourisme, recours visa, SGVE 2026 ou conseil personnalise.", "Nous joindre sur WhatsApp", site.whatsappFr, visuals.contact, "Echange avec un conseiller CF Consulting Travel")}<section class="section split"><div><p class="eyebrow">Coordonnees</p><h2>Contacts officiels.</h2><p>Email principal : <a class="text-link" href="mailto:${site.email}">${site.email}</a></p><p>Email secondaire : <a class="text-link" href="mailto:${site.fallbackEmail}">${site.fallbackEmail}</a></p><p>Téléphone France : <a class="text-link" href="tel:+33656737225">${site.phoneFr}</a></p><p>Contact WhatsApp : <a class="text-link" href="${site.whatsappFr}" target="_blank" rel="noreferrer">${site.whatsappPhone}</a></p><p>Téléphone Cameroun : <a class="text-link" href="tel:+237657605017">${site.phoneCm}</a></p><p>Adresse France : ${site.address}</p></div><div class="grid two">${visualLinkCard("Nous joindre sur WhatsApp", "Echange WhatsApp professionnel avec le contact France.", site.whatsappFr, visuals.contact, "Echange WhatsApp avec CF Consulting Travel")}${visualLinkCard("S'inscrire a SGVE 2026", "Conference gratuite sur inscription pour les projets visa etudiant.", "/sgve-2026/", visuals.conference, "Conference SGVE 2026")}</div></section><section class="section"><p class="eyebrow">Ils nous ont fait confiance</p><h2>Avant de nous écrire, voyez ce que l'accompagnement peut clarifier.</h2>${testimonialCards(3)}<div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Parler à un conseiller</a><a class="btn secondary" href="/temoignages/">Voir les témoignages</a></div></section>`,
+    body: `${standardHero("Contact", "Parlez-nous de votre projet avant de vous engager.", "L'équipe CF Consulting Travel peut vous orienter vers le bon parcours : visa étudiant, visa tourisme, recours de visa, la SGVE 2026 ou conseil personnalisé.", "Nous joindre sur WhatsApp", site.whatsappFr, visuals.contact, "Échange avec un conseiller CF Consulting Travel")}<section class="section split"><div><p class="eyebrow">Coordonnées</p><h2>Contacts officiels.</h2><p>Email principal : <a class="text-link" href="mailto:${site.email}">${site.email}</a></p><p>Email secondaire : <a class="text-link" href="mailto:${site.fallbackEmail}">${site.fallbackEmail}</a></p><p>Téléphone France : <a class="text-link" href="tel:+33656737225">${site.phoneFr}</a></p><p>Contact WhatsApp : <a class="text-link" href="${site.whatsappFr}" target="_blank" rel="noreferrer">${site.whatsappPhone}</a></p><p>Téléphone Cameroun : <a class="text-link" href="tel:+237657605017">${site.phoneCm}</a></p><p>Adresse France : ${site.address}</p></div><div class="grid two">${visualLinkCard("Nous joindre sur WhatsApp", "Échange professionnel sur WhatsApp avec le contact en France.", site.whatsappFr, visuals.contact, "Échange WhatsApp avec CF Consulting Travel")}${visualLinkCard("S'inscrire à la SGVE 2026", "Conférence gratuite sur inscription pour les projets de visa étudiant.", "/sgve-2026/", visuals.conference, "Conférence SGVE 2026")}</div></section><section class="section"><p class="eyebrow">Ils nous ont fait confiance</p><h2>Avant de nous écrire, voyez ce que l'accompagnement peut clarifier.</h2>${testimonialCards(3)}<div class="actions"><a class="btn primary" href="${site.whatsappFr}" target="_blank" rel="noreferrer">Parler à un conseiller</a><a class="btn secondary" href="/temoignages/">Voir les témoignages</a></div></section>`,
   });
 }
 
@@ -633,11 +686,11 @@ function input(label, name, type = "text", required = false) {
 }
 
 function select(label, name, options) {
-  return `<div class="field"><label for="field-${name}">${label}</label><select id="field-${name}" name="${name}"><option value="">Selectionner</option>${options.map((x) => `<option>${x}</option>`).join("")}</select></div>`;
+  return `<div class="field"><label for="field-${name}">${label}</label><select id="field-${name}" name="${name}"><option value="">Sélectionner</option>${options.map((x) => `<option>${x}</option>`).join("")}</select></div>`;
 }
 
 function form() {
-  return `<form class="form" data-form aria-describedby="sgve-form-note sgve-form-status"><input class="hp" name="companyWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" aria-label="Champ anti-spam a laisser vide" /><input type="hidden" name="sourceUrl" data-source-url /><input type="hidden" name="referrer" data-referrer /><input type="hidden" name="utmSource" data-utm-source /><input type="hidden" name="utmMedium" data-utm-medium /><input type="hidden" name="utmCampaign" data-utm-campaign />${input("Nom complet", "name", "text", true)}${input("Age", "age", "number")}${select("Statut", "status", ["Eleve", "Etudiant", "Parent", "Jeune diplome", "Partenaire educatif"])}${input("Etablissement ou organisation", "organization")}${input("Ville", "city")}${input("Telephone WhatsApp", "phone", "tel", true)}${input("Email", "email", "email", true)}${select("Pays vise", "targetCountry", ["France", "Canada", "Espagne", "Russie", "Allemagne", "Autre"])}${input("Niveau d'etudes actuel", "educationLevel")}${select("Avez-vous deja eu un refus de visa ?", "visaRefusal", ["Non", "Oui", "Je prefere en parler avec un conseiller"])}${select("Souhaitez-vous venir accompagne ?", "accompanied", ["Non", "Oui"])}${input("Nombre d'accompagnants", "companions", "number")}<label class="full" for="field-message">Question ou message</label><textarea class="full" id="field-message" name="message" rows="4"></textarea><label class="full consent" for="field-consent"><input id="field-consent" name="consent" type="checkbox" value="yes" required aria-required="true" />J'accepte que mes informations soient utilisees pour gerer mon inscription SGVE 2026 et l'envoi de mon billet.</label><p class="privacy full" id="sgve-form-note">En envoyant ce formulaire, j'accepte que CF Consulting Travel utilise mes informations pour confirmer mon inscription a SGVE 2026 et me transmettre les informations liees a l'evenement.</p><p class="status full" id="sgve-form-status" data-status role="status" aria-live="polite" tabindex="-1"></p><button class="btn primary full" type="submit">Finaliser mon inscription</button></form>`;
+  return `<form class="form" data-form aria-describedby="sgve-form-note sgve-form-status"><input class="hp" name="companyWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" aria-label="Champ anti-spam à laisser vide" /><input type="hidden" name="sourceUrl" data-source-url /><input type="hidden" name="referrer" data-referrer /><input type="hidden" name="utmSource" data-utm-source /><input type="hidden" name="utmMedium" data-utm-medium /><input type="hidden" name="utmCampaign" data-utm-campaign />${input("Nom complet", "name", "text", true)}${input("Âge", "age", "number")}${select("Statut", "status", ["Élève", "Étudiant", "Parent", "Jeune diplômé", "Partenaire éducatif"])}${input("Établissement ou organisation", "organization")}${input("Ville", "city")}${input("Téléphone WhatsApp", "phone", "tel", true)}${input("Email", "email", "email", true)}${select("Pays visé", "targetCountry", ["France", "Canada", "Espagne", "Russie", "Allemagne", "Autre"])}${input("Niveau d'études actuel", "educationLevel")}${select("Avez-vous déjà eu un refus de visa ?", "visaRefusal", ["Non", "Oui", "Je préfère en parler avec un conseiller"])}${select("Souhaitez-vous venir accompagné ?", "accompanied", ["Non", "Oui"])}${input("Nombre d'accompagnants", "companions", "number")}<label class="full" for="field-message">Question ou message</label><textarea class="full" id="field-message" name="message" rows="4"></textarea><label class="full consent" for="field-consent"><input id="field-consent" name="consent" type="checkbox" value="yes" required aria-required="true" />J'accepte que mes informations soient utilisées pour gérer mon inscription à la SGVE 2026 et l'envoi de mon billet.</label><p class="privacy full" id="sgve-form-note">En envoyant ce formulaire, j'accepte que CF Consulting Travel utilise mes informations pour confirmer mon inscription à la SGVE 2026 et me transmettre les informations liées à l'événement.</p><p class="status full" id="sgve-form-status" data-status role="status" aria-live="polite" tabindex="-1"></p><button class="btn primary full" type="submit">Finaliser mon inscription</button></form>`;
 }
 
 function sgve() {
@@ -662,7 +715,7 @@ function sgve() {
     ["17h00", "Orientation et networking", "Rencontre avec l'équipe, premières orientations et échanges avec les participants."],
   ];
   return page({
-    title: `${ev.title} - ${ev.long} à Douala`,
+    title: `${ev.title} — ${ev.long} à Douala`,
     desc: `Participez gratuitement à ${ev.title}, conférence organisée par ${site.name} le ${ev.date} à ${ev.time} au Krystal Palace de Douala.`,
     route: "/sgve-2026/",
     kind: "event",
@@ -676,29 +729,29 @@ function faq(q, a) {
 function legal(kind) {
   const data = {
     mentions: {
-      title: "Mentions legales",
+      title: "Mentions légales",
       route: "/mentions-legales/",
-      desc: "Mentions legales du site officiel CF Consulting Travel.",
+      desc: "Mentions légales du site officiel CF Consulting Travel.",
       sections: [
-        ["Editeur du site", [`Le site ${site.url} est edite par ${site.name}.`, `Adresse France : ${site.address}.`, `Email principal : ${site.email}.`, `Email secondaire : ${site.fallbackEmail}.`, `Telephone France : ${site.phoneFr}.`, `Telephone Cameroun : ${site.phoneCm}.`, `Proprietaire ou representant legal : ${site.owner}.`]],
-        ["Hebergement", ["Le site est heberge par Netlify, Inc.", "Adresse de l'hebergeur : 44 Montgomery Street, Suite 300, San Francisco, California 94104, Etats-Unis.", "Site web : https://www.netlify.com/"]],
-        ["Responsabilite", ["Les informations publiees sur ce site sont fournies a titre informatif et peuvent etre mises a jour.", "CF Consulting Travel ne garantit jamais l'obtention d'un visa, d'une admission, d'une decision administrative favorable ou d'un resultat consulaire."]],
-        ["Contact", [`Pour toute demande concernant le site : ${site.email}. L'adresse ${site.fallbackEmail} est conservee comme email secondaire.`]],
+        ["Éditeur du site", [`Le site ${site.url} est édité par ${site.name}.`, `Adresse en France : ${site.address}.`, `Email principal : ${site.email}.`, `Email secondaire : ${site.fallbackEmail}.`, `Téléphone France : ${site.phoneFr}.`, `Téléphone Cameroun : ${site.phoneCm}.`, `Propriétaire ou représentant légal : ${site.owner}.`]],
+        ["Hébergement", ["Le site est hébergé par Netlify, Inc.", "Adresse de l'hébergeur : 44 Montgomery Street, Suite 300, San Francisco, California 94104, États-Unis.", "Site web : https://www.netlify.com/"]],
+        ["Responsabilité", ["Les informations publiées sur ce site sont fournies à titre informatif et peuvent être mises à jour.", "CF Consulting Travel ne garantit jamais l'obtention d'un visa, d'une admission, d'une décision administrative favorable ou d'un résultat consulaire."]],
+        ["Contact", [`Pour toute demande concernant le site : ${site.email}. L'adresse ${site.fallbackEmail} est conservée comme email secondaire.`]],
       ],
     },
     privacy: {
-      title: "Politique de confidentialite",
+      title: "Politique de confidentialité",
       route: "/politique-confidentialite/",
-      desc: "Politique de confidentialite du site CF Consulting Travel.",
+      desc: "Politique de confidentialité du site CF Consulting Travel.",
       sections: [
-        ["Responsable du traitement", [`Le responsable du traitement est ${site.name}.`, `Contact donnees personnelles principal : ${site.email}.`, `Email secondaire : ${site.fallbackEmail}.`, `Adresse France : ${site.address}.`, `Proprietaire ou representant legal : ${site.owner}.`]],
-        ["Finalites de collecte", ["Les donnees transmises via le site servent a repondre aux demandes de contact, gerer les inscriptions SGVE 2026, envoyer les confirmations et billets, transmettre les informations pratiques et assurer le suivi administratif lie aux services demandes."]],
-        ["Donnees collectees", ["Selon le formulaire utilise, les donnees peuvent inclure : nom complet, email, telephone WhatsApp, ville, statut, organisation, pays vise, niveau d'etudes, informations d'accompagnement, message, consentement, date d'inscription et elements techniques anti-spam non sensibles."]],
-        ["Emails", ["L'adresse email peut etre utilisee pour confirmer une inscription, envoyer un billet d'invitation, transmettre des informations pratiques ou repondre a une demande directe."]],
-        ["Conservation", ["Les donnees sont conservees pendant la duree necessaire a la gestion de la demande, de l'evenement SGVE 2026 et des obligations administratives raisonnables. A defaut de regle specifique, une revue ou suppression peut etre demandee par email."]],
-        ["Droits des personnes", [`Vous pouvez demander l'acces, la rectification, la modification, la suppression ou l'opposition au traitement de vos donnees en ecrivant a ${site.email}. Une verification d'identite peut etre demandee avant traitement de la requete.`]],
-        ["Absence de vente", ["CF Consulting Travel ne vend pas les donnees personnelles collectees via ce site."]],
-        ["Cookies", ["Le site n'utilise pas de cookies publicitaires identifies dans son code actuel. Des services tiers, comme WhatsApp ou certains outils d'hebergement, peuvent appliquer leurs propres regles lorsque vous quittez le site ou interagissez avec leurs services."]],
+        ["Responsable du traitement", [`Le responsable du traitement est ${site.name}.`, `Contact principal pour les données personnelles : ${site.email}.`, `Email secondaire : ${site.fallbackEmail}.`, `Adresse en France : ${site.address}.`, `Propriétaire ou représentant légal : ${site.owner}.`]],
+        ["Finalités de la collecte", ["Les données transmises par l'intermédiaire du site servent à répondre aux demandes de contact, à gérer les inscriptions à la SGVE 2026, à envoyer les confirmations et les billets, à transmettre les informations pratiques et à assurer le suivi administratif lié aux services demandés."]],
+        ["Données collectées", ["Selon le formulaire utilisé, les données peuvent inclure : nom complet, email, téléphone WhatsApp, ville, statut, organisation, pays visé, niveau d'études, informations d'accompagnement, message, consentement, date d'inscription et éléments techniques anti-spam non sensibles."]],
+        ["Emails", ["L'adresse email peut être utilisée pour confirmer une inscription, envoyer un billet d'invitation, transmettre des informations pratiques ou répondre à une demande directe."]],
+        ["Conservation", ["Les données sont conservées pendant la durée nécessaire à la gestion de la demande, de l'événement SGVE 2026 et des obligations administratives raisonnables. À défaut de règle spécifique, une révision ou une suppression peut être demandée par email."]],
+        ["Droits des personnes", [`Vous pouvez demander l'accès, la rectification, la modification, la suppression ou l'opposition au traitement de vos données en écrivant à ${site.email}. Une vérification d'identité peut être demandée avant le traitement de la requête.`]],
+        ["Absence de vente", ["CF Consulting Travel ne vend pas les données personnelles collectées sur ce site."]],
+        ["Cookies", ["Le site n'utilise pas de cookies publicitaires identifiés dans son code actuel. Des services tiers, comme WhatsApp ou certains outils d'hébergement, peuvent appliquer leurs propres règles lorsque vous quittez le site ou interagissez avec leurs services."]],
       ],
     },
     terms: {
@@ -706,26 +759,26 @@ function legal(kind) {
       route: "/conditions-utilisation/",
       desc: "Conditions d'utilisation du site officiel CF Consulting Travel.",
       sections: [
-        ["Objet", ["Le site presente CF Consulting Travel, ses services d'accompagnement, ses contenus d'information et la page evenementielle SGVE 2026."]],
-        ["Utilisation du site", ["L'utilisateur s'engage a transmettre des informations exactes, a ne pas perturber le fonctionnement du site et a ne pas utiliser les formulaires a des fins frauduleuses ou abusives."]],
-        ["Absence de garantie de resultat", ["Les contenus, conseils et evenements ont une finalite d'information, d'orientation et de preparation. Aucune information du site ne constitue une garantie d'obtention de visa, d'admission ou de decision favorable."]],
-        ["Liens externes", ["Le site peut contenir des liens vers WhatsApp, Netlify ou d'autres services tiers. CF Consulting Travel n'est pas responsable des contenus, politiques ou traitements realises par ces services externes."]],
-        ["Modification", ["CF Consulting Travel peut modifier les contenus, pages et conditions du site afin de les adapter a ses services, a ses obligations ou a l'organisation de SGVE 2026."]],
+        ["Objet", ["Le site présente CF Consulting Travel, ses services d'accompagnement, ses contenus d'information et la page événementielle de la SGVE 2026."]],
+        ["Utilisation du site", ["L'utilisateur s'engage à transmettre des informations exactes, à ne pas perturber le fonctionnement du site et à ne pas utiliser les formulaires à des fins frauduleuses ou abusives."]],
+        ["Absence de garantie de résultat", ["Les contenus, les conseils et les événements ont une finalité d'information, d'orientation et de préparation. Aucune information du site ne constitue une garantie d'obtention d'un visa, d'une admission ou d'une décision favorable."]],
+        ["Liens externes", ["Le site peut contenir des liens vers WhatsApp, Netlify ou d'autres services tiers. CF Consulting Travel n'est pas responsable des contenus, des politiques ou des traitements réalisés par ces services externes."]],
+        ["Modification", ["CF Consulting Travel peut modifier les contenus, les pages et les conditions du site afin de les adapter à ses services, à ses obligations ou à l'organisation de la SGVE 2026."]],
       ],
     },
     registrations: {
-      title: "Politique de gestion des donnees liees aux inscriptions SGVE 2026",
+      title: "Politique de gestion des données liées aux inscriptions à la SGVE 2026",
       route: "/donnees-inscriptions-sgve-2026/",
-      desc: "Gestion des donnees collectees pour les inscriptions SGVE 2026.",
+      desc: "Gestion des données collectées lors des inscriptions à la SGVE 2026.",
       sections: [
-        ["Evenement concerne", ["Cette page explique le traitement des donnees liees aux inscriptions a SGVE 2026 - Strategie Gagnante Visa Etudiant, organise par CF Consulting Travel."]],
-        ["Donnees collectees", ["Le formulaire SGVE 2026 peut collecter : code billet, nom complet, age, statut, etablissement ou organisation, ville, telephone WhatsApp, email, pays vise, niveau d'etudes actuel, information sur un eventuel refus de visa, souhait de venir accompagne, nombre d'accompagnants, question ou message, date d'inscription, source de trafic si disponible, consentement, statut d'envoi email, statut d'inscription et empreinte technique anti-spam non sensible."]],
-        ["Finalites", ["Ces donnees servent a enregistrer l'inscription, eviter les doublons, compter les places restantes, envoyer le billet d'invitation, transmettre les informations pratiques, organiser l'accueil des participants et securiser le formulaire contre les abus."]],
-        ["Stockage et acces", ["Les inscriptions sont stockees dans une base technique privee compatible Netlify. L'acces a l'export des inscrits est protege et reserve aux personnes autorisees par CF Consulting Travel. Les donnees ne sont pas publiees sur le site."]],
-        ["Emails et billets", ["L'email renseigne sert a envoyer la confirmation d'inscription, le billet d'invitation et les informations liees a l'evenement SGVE 2026."]],
-        ["Duree de conservation", ["Les donnees sont conservees pendant la periode necessaire a l'organisation, au suivi et au bilan de SGVE 2026. Une suppression peut etre demandee a tout moment par email, sous reserve des besoins administratifs raisonnables."]],
-        ["Droits et demandes", [`Pour demander une modification, une suppression ou une opposition au traitement des donnees SGVE 2026, contactez ${site.email}. Indiquez le nom, l'email ou le numero WhatsApp utilise lors de l'inscription afin de faciliter la recherche.`]],
-        ["Absence de vente", ["Les donnees d'inscription SGVE 2026 ne sont pas vendues. Elles servent uniquement a l'organisation de l'evenement, a la communication associee et a la securisation du formulaire."]],
+        ["Événement concerné", ["Cette page explique le traitement des données liées aux inscriptions à la SGVE 2026 — Stratégie Gagnante Visa Étudiant, organisée par CF Consulting Travel."]],
+        ["Données collectées", ["Le formulaire de la SGVE 2026 peut collecter : code du billet, nom complet, âge, statut, établissement ou organisation, ville, téléphone WhatsApp, email, pays visé, niveau d'études actuel, information sur un éventuel refus de visa, souhait de venir accompagné, nombre d'accompagnants, question ou message, date d'inscription, source du trafic si elle est disponible, consentement, statut d'envoi de l'email, statut de l'inscription et empreinte technique anti-spam non sensible."]],
+        ["Finalités", ["Ces données servent à enregistrer l'inscription, à éviter les doublons, à gérer la capacité de l'événement, à envoyer le billet d'invitation, à transmettre les informations pratiques, à organiser l'accueil des participants et à sécuriser le formulaire contre les abus."]],
+        ["Stockage et accès", ["Les inscriptions sont stockées dans une base technique privée compatible avec Netlify. L'accès à l'export des inscrits est protégé et réservé aux personnes autorisées par CF Consulting Travel. Les données ne sont pas publiées sur le site."]],
+        ["Emails et billets", ["L'email renseigné sert à envoyer la confirmation d'inscription, le billet d'invitation et les informations liées à l'événement SGVE 2026."]],
+        ["Durée de conservation", ["Les données sont conservées pendant la période nécessaire à l'organisation, au suivi et au bilan de la SGVE 2026. Une suppression peut être demandée à tout moment par email, sous réserve des besoins administratifs raisonnables."]],
+        ["Droits et demandes", [`Pour demander une modification, une suppression ou une opposition au traitement des données de la SGVE 2026, contactez ${site.email}. Indiquez le nom, l'email ou le numéro WhatsApp utilisé lors de l'inscription afin de faciliter la recherche.`]],
+        ["Absence de vente", ["Les données d'inscription à la SGVE 2026 ne sont pas vendues. Elles servent uniquement à l'organisation de l'événement, à la communication associée et à la sécurisation du formulaire."]],
       ],
     },
   }[kind];
@@ -733,7 +786,7 @@ function legal(kind) {
     title: `${data.title} - ${site.name}`,
     desc: data.desc,
     route: data.route,
-    body: `<section class="section legal"><p class="eyebrow">Cadre officiel</p><h1>${data.title}</h1>${data.sections.map(([title, paragraphs]) => `<article><h2>${title}</h2>${paragraphs.map((p) => `<p>${p}</p>`).join("")}</article>`).join("")}<a class="btn secondary" href="/">Retour a l'accueil</a></section>`,
+    body: `<section class="section legal"><p class="eyebrow">Cadre officiel</p><h1>${data.title}</h1>${data.sections.map(([title, paragraphs]) => `<article><h2>${title}</h2>${paragraphs.map((p) => `<p>${p}</p>`).join("")}</article>`).join("")}<a class="btn secondary" href="/">Retour à l'accueil</a></section>`,
   });
 }
 
@@ -837,6 +890,11 @@ async function build() {
     .replace('function seatsMessage(j){return typeof j.remainingSeats==="number"?" "+j.remainingSeats+" places restantes.":""}', 'function seatsMessage(){return ""}')
     .replace('async function loadSeats(){if(!seatDisplays.length)return;setSeatsFallback();try{let r=await fetch("/register",{method:"GET",cache:"no-store"});if(!r.ok)return;let j=await r.json();if(typeof j.remainingSeats==="number")setSeats(j.remainingSeats)}catch{setSeatsFallback()}}', "")
     .replace('if(typeof j.remainingSeats==="number")setSeats(j.remainingSeats);', "")
+    .replace('m.includes("whatsapp")||m.includes("telephone")', 'm.includes("whatsapp")||m.includes("telephone")||m.includes("téléphone")')
+    .replaceAll("Votre inscription a bien ete enregistree.", "Votre inscription a bien été enregistrée.")
+    .replaceAll("Votre billet d'invitation a ete envoye par email.", "Votre billet d'invitation a été envoyé par email.")
+    .replaceAll("Votre inscription est enregistree. L'equipe CF Consulting Travel verifiera l'envoi du billet.", "Votre inscription est enregistrée. L'équipe CF Consulting Travel vérifiera l'envoi du billet.")
+    .replaceAll("Une erreur est survenue. Veuillez reessayer.", "Une erreur est survenue. Veuillez réessayer.")
     .replace("prepSectionMotion();loadSeats();tick();", "prepSectionMotion();tick();");
   await writeFile(path.join(out, "styles.css"), designSystemCss, "utf8");
   await writeFile(path.join(out, "script.js"), publicJs, "utf8");

@@ -134,11 +134,11 @@ function recordsToCsv(records: Record<string, unknown>[]) {
 
 export default async (req: Request) => {
   if (req.method !== "GET") {
-    return jsonResponse({ message: "Methode non autorisee." }, 405);
+    return jsonResponse({ message: "Méthode non autorisée." }, 405);
   }
 
   if (!isAuthorized(req)) {
-    return jsonResponse({ message: "Acces non autorise." }, 401);
+    return jsonResponse({ message: "Accès non autorisé." }, 401);
   }
 
   const store = getStore("sgve-2026-registrations", { consistency: "strong" });

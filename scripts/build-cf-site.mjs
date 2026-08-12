@@ -51,9 +51,9 @@ let ev = {
   title: "SGVE 2026",
   long: "Stratégie Gagnante Visa Étudiant",
   date: "12 septembre 2026",
-  time: "15h00",
+  time: "14h00",
   place: "Krystal Palace, Douala",
-  iso: "2026-09-12T15:00:00+01:00",
+  iso: "2026-09-12T14:00:00+01:00",
 };
 
 let speakers = [
@@ -651,12 +651,12 @@ function sgve() {
     ["04", "Défendre son dossier", "Anticiper les questions sensibles et présenter son projet avec calme, précision et méthode."],
   ];
   const programme = [
-    ["15h00", "Accueil des participants", "Installation, orientation et rappel du cadre de la conférence."],
-    ["15h20", "Comprendre le visa étudiant", "Lecture des attentes : projet, financement, cohérence, calendrier et preuves."],
-    ["16h00", "Les erreurs qui provoquent les refus", "Cas fréquents : mauvais choix d'école, projet flou, documents fragiles, discours incohérent."],
-    ["16h45", "Stratégies par pays", "France, Canada, Espagne, Russie et Allemagne : points d'attention et préparation."],
-    ["17h30", "Questions / réponses", "Échanges avec les intervenants, conseils pratiques et retours d'expérience."],
-    ["18h00", "Orientation et networking", "Rencontre avec l'équipe, premières orientations et échanges avec les participants."],
+    ["14h00", "Accueil des participants", "Installation, orientation et rappel du cadre de la conférence."],
+    ["14h20", "Comprendre le visa étudiant", "Lecture des attentes : projet, financement, cohérence, calendrier et preuves."],
+    ["15h00", "Les erreurs qui provoquent les refus", "Cas fréquents : mauvais choix d'école, projet flou, documents fragiles, discours incohérent."],
+    ["15h45", "Stratégies par pays", "France, Canada, Espagne, Russie et Allemagne : points d'attention et préparation."],
+    ["16h30", "Questions / réponses", "Échanges avec les intervenants, conseils pratiques et retours d'expérience."],
+    ["17h00", "Orientation et networking", "Rencontre avec l'équipe, premières orientations et échanges avec les participants."],
   ];
   return page({
     title: `${ev.title} - ${ev.long} à Douala`,

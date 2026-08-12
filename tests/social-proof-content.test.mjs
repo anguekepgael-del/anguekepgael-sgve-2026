@@ -24,6 +24,19 @@ test("generated pages expose premium social proof content across key conversion 
   assert.doesNotMatch(sgve, /Retour participant SGVE/);
   assert.doesNotMatch(sgve, /Participant SGVE - Douala/);
   assert.match(sgve, /Réserver ma place pour la SGVE 2026/);
+  assert.match(sgve, /Ouverture des portes : 14h00/);
+  assert.match(sgve, /Début officiel : 15h00/);
+  assert.match(sgve, /Fin : 19h45/);
+  assert.match(sgve, /Panel 1 — Partir où, mais pour quel projet \?/);
+  assert.match(sgve, /Panel 2 — Cinq destinations, cinq règles du jeu/);
+  assert.match(sgve, /Intervention spéciale/);
+  assert.match(sgve, /Panel 3 — Trois clés stratégiques pour décrocher votre visa/);
+  assert.match(sgve, /Panel 4 — Visa refusé : votre projet n'a pas encore dit son dernier mot/);
+  assert.match(sgve, /Panel 5 — Visa en poche : bienvenue dans votre nouvelle vie/);
+  assert.match(sgve, /19h43 – 19h45/);
+  assert.match(sgve, /Remerciements et fin de la conférence/);
+  assert.doesNotMatch(sgve, /data-seats-display/);
+  assert.doesNotMatch(sgve, /places restantes/);
 
   const services = await page("services");
   assert.match(services, /Pourquoi les familles nous font confiance/);

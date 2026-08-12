@@ -57,8 +57,12 @@ function mapEvent(doc, fallback) {
     long: pick(doc.fullName, fallback.long),
     date: pick(doc.dateLabel, fallback.date),
     time: pick(doc.timeLabel, fallback.time),
+    officialTime: pick(doc.officialStartTimeLabel, fallback.officialTime),
+    endTime: pick(doc.endTimeLabel, fallback.endTime),
     place: pick(doc.location, fallback.place),
     iso: pick(doc.startDateTime, fallback.iso),
+    officialIso: pick(doc.officialStartDateTime, fallback.officialIso),
+    endIso: pick(doc.endDateTime, fallback.endIso),
     slogan: pick(doc.slogan, fallback.slogan),
     description: pick(doc.description, fallback.description),
     totalSeats: pick(doc.totalSeats, fallback.totalSeats),
@@ -201,7 +205,8 @@ function mapCaseStudies(items, fallback) {
 const query = `{
   "siteSettings": *[_type == "siteSettings"][0],
   "event": *[_type == "event" && slug.current == "sgve-2026"][0]{
-    title, fullName, slogan, dateLabel, timeLabel, location, startDateTime, description,
+    title, fullName, slogan, dateLabel, timeLabel, officialStartTimeLabel, endTimeLabel,
+    location, startDateTime, officialStartDateTime, endDateTime, description,
     totalSeats, whatsappCta, registrationCta, emailSubject, emailBody,
     heroImage{asset->{url}}
   },

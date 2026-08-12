@@ -30,7 +30,7 @@ test("Sanity schemas expose the required editorial collections", async () => {
   }
 
   const eventSchema = await readFile(path.join(schemaDir, "event.ts"), "utf8");
-  for (const field of ["totalSeats", "program", "speakers", "faqs", "whatsappCta", "registrationCta", "heroImage", "emailSubject", "emailBody"]) {
+  for (const field of ["officialStartTimeLabel", "endTimeLabel", "officialStartDateTime", "endDateTime", "totalSeats", "program", "speakers", "faqs", "whatsappCta", "registrationCta", "heroImage", "emailSubject", "emailBody"]) {
     assert.match(eventSchema, new RegExp(field));
   }
 });

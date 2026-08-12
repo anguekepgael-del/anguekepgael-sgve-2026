@@ -1396,6 +1396,11 @@ article:hover {
   font-weight: 950;
 }
 
+.program li > span {
+  flex: 0 0 132px;
+  line-height: 1.35;
+}
+
 .program small {
   display: block;
   margin-top: 5px;
@@ -1492,6 +1497,10 @@ article:hover {
 
 .sgve-program .program li {
   align-items: flex-start;
+}
+
+.sgve-program .program strong {
+  line-height: 1.35;
 }
 
 .sgve-cta .actions {
@@ -2697,6 +2706,15 @@ footer > div:last-of-type {
     grid-template-columns: 0.82fr 1.18fr;
     align-items: start;
     gap: 12px;
+  }
+
+  .program li {
+    display: grid;
+    gap: 10px;
+  }
+
+  .program li > span {
+    width: auto;
   }
 
   .sgve-roadmap-layout {

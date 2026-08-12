@@ -259,6 +259,9 @@ function footer() {
 
 function page({ title, desc, route = "/", kind = "site", body, article = null }) {
   const canonical = `${site.url}${route === "/" ? "/" : route}`;
+  const publicBody = route === "/sgve-2026/"
+    ? body.replaceAll('<p class="seats" data-seats-display role="status" aria-live="polite"><span data-seats-label>Places limitées</span></p>', "")
+    : body;
   const schema = kind === "article" && article
     ? { "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.desc, datePublished: "2026-05-07", dateModified: "2026-05-07", author: { "@type": "Organization", name: site.name }, publisher: { "@type": "Organization", name: site.name, url: site.url }, mainEntityOfPage: canonical }
     : kind === "event"
@@ -266,7 +269,7 @@ function page({ title, desc, route = "/", kind = "site", body, article = null })
     : { "@context": "https://schema.org", "@type": "TravelAgency", name: site.name, url: site.url, email: site.email, telephone: [site.phoneFr, site.phoneCm], address: contactAddressSchema, contactPoint: contactPointsSchema };
 
   const socialImage = absoluteUrl("/images/sgve/logo-cf-consulting.png");
-  return `<!doctype html><html lang="fr"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${esc(title)}</title><meta name="description" content="${esc(desc)}" /><meta name="robots" content="index, follow" /><meta name="theme-color" content="#111111" /><link rel="canonical" href="${canonical}" /><link rel="stylesheet" href="/styles.css?v=${assetVersion}" /><meta property="og:type" content="${kind === "event" ? "event" : kind === "article" ? "article" : "website"}" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(desc)}" /><meta property="og:url" content="${canonical}" /><meta property="og:site_name" content="${site.name}" /><meta property="og:image" content="${socialImage}" /><meta property="og:image:alt" content="Logo CF Consulting Travel" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(title)}" /><meta name="twitter:description" content="${esc(desc)}" /><meta name="twitter:image" content="${socialImage}" /><script type="application/ld+json">${JSON.stringify(schema)}</script></head><body data-page="${kind}" data-route="${route}"><a class="skip" href="#contenu">Aller au contenu</a>${header()}<main id="contenu">${body}</main>${footer()}<a class="float" href="${site.whatsappFr}" target="_blank" rel="noreferrer" aria-label="Nous joindre sur WhatsApp">Nous joindre sur WhatsApp</a><script src="/script.js?v=${assetVersion}" defer></script></body></html>`;
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${esc(title)}</title><meta name="description" content="${esc(desc)}" /><meta name="robots" content="index, follow" /><meta name="theme-color" content="#111111" /><link rel="canonical" href="${canonical}" /><link rel="stylesheet" href="/styles.css?v=${assetVersion}" /><meta property="og:type" content="${kind === "event" ? "event" : kind === "article" ? "article" : "website"}" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(desc)}" /><meta property="og:url" content="${canonical}" /><meta property="og:site_name" content="${site.name}" /><meta property="og:image" content="${socialImage}" /><meta property="og:image:alt" content="Logo CF Consulting Travel" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(title)}" /><meta name="twitter:description" content="${esc(desc)}" /><meta name="twitter:image" content="${socialImage}" /><script type="application/ld+json">${JSON.stringify(schema)}</script></head><body data-page="${kind}" data-route="${route}"><a class="skip" href="#contenu">Aller au contenu</a>${header()}<main id="contenu">${publicBody}</main>${footer()}<a class="float" href="${site.whatsappFr}" target="_blank" rel="noreferrer" aria-label="Nous joindre sur WhatsApp">Nous joindre sur WhatsApp</a><script src="/script.js?v=${assetVersion}" defer></script></body></html>`;
 }
 
 function card(title, text) {
@@ -827,8 +830,16 @@ async function build() {
   await mkdir(out, { recursive: true });
   await copyDir(imgSrc, imgOut);
   const designSystemCss = await readFile(cssSrc, "utf8");
+  const publicJs = js
+    .replace(',seatDisplays=document.querySelectorAll("[data-seats-display]")', "")
+    .replace('function setSeatsFallback(){seatDisplays.forEach(e=>{e.textContent="Places limitées"})}', "")
+    .replace('function setSeats(v){let n=Number.parseInt(v,10);if(!Number.isFinite(n)||n<0){setSeatsFallback();return}seatDisplays.forEach(e=>{e.innerHTML="<strong>"+n+"</strong> places restantes"})}', "")
+    .replace('function seatsMessage(j){return typeof j.remainingSeats==="number"?" "+j.remainingSeats+" places restantes.":""}', 'function seatsMessage(){return ""}')
+    .replace('async function loadSeats(){if(!seatDisplays.length)return;setSeatsFallback();try{let r=await fetch("/register",{method:"GET",cache:"no-store"});if(!r.ok)return;let j=await r.json();if(typeof j.remainingSeats==="number")setSeats(j.remainingSeats)}catch{setSeatsFallback()}}', "")
+    .replace('if(typeof j.remainingSeats==="number")setSeats(j.remainingSeats);', "")
+    .replace("prepSectionMotion();loadSeats();tick();", "prepSectionMotion();tick();");
   await writeFile(path.join(out, "styles.css"), designSystemCss, "utf8");
-  await writeFile(path.join(out, "script.js"), js, "utf8");
+  await writeFile(path.join(out, "script.js"), publicJs, "utf8");
   await writeFile(path.join(out, "_redirects"), redirectRules.join("\n"), "utf8");
   await writeFile(path.join(out, "_headers"), netlifyHeaders.join("\n"), "utf8");
   await writeFile(path.join(out, "robots.txt"), robotsTxt(), "utf8");
@@ -870,5 +881,3 @@ build().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
-
-

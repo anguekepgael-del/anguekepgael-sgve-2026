@@ -303,9 +303,9 @@ const frenchCorrections = [
   ["Un premier échange permet d'identifier le bon parcours : visa étudiant, visa tourisme, recours, orientation ou inscription à la SGVE 2026.", "Un premier échange permet d'identifier le bon parcours : un visa étudiant, un visa de tourisme, un recours de visa, une orientation ou une inscription à la SGVE 2026."],
   ["Adresse France :", "Adresse en France :"],
   ["Questions / réponses", "Questions-réponses"],
-  ["12 septembre 2026 à 14h00 - Krystal Palace, Douala. Un rendez-vous gratuit sur inscription", "12 septembre 2026 au Krystal Palace de Douala. Ouverture des portes à 14h00, début officiel à 15h00 et fin à 19h45. Un rendez-vous gratuit sur inscription"],
-  ["<p class=\"meta\"><span>12 septembre 2026</span><span>14h00</span><span>Krystal Palace, Douala</span><span>Accès gratuit sur inscription</span></p>", "<p class=\"meta\"><span>12 septembre 2026</span><span>Portes : 14h00</span><span>Début : 15h00</span><span>Fin : 19h45</span><span>Krystal Palace, Douala</span><span>Accès gratuit sur inscription</span></p>"],
-  ["<p><b>Heure</b>14h00</p><p><b>Lieu</b>Krystal Palace, Douala</p>", "<p><b>Ouverture des portes</b>14h00</p><p><b>Début officiel</b>15h00</p><p><b>Fin</b>19h45</p><p><b>Lieu</b>Krystal Palace, Douala</p>"],
+  ["12 septembre 2026 à 14h00 - Krystal Palace, Douala. Un rendez-vous gratuit sur inscription", "12 septembre 2026 au Krystal Palace de Douala. Ouverture des portes à 14h00. Un rendez-vous gratuit sur inscription"],
+  ["<p class=\"meta\"><span>12 septembre 2026</span><span>14h00</span><span>Krystal Palace, Douala</span><span>Accès gratuit sur inscription</span></p>", "<p class=\"meta\"><span>12 septembre 2026</span><span>Ouverture des portes : 14h00</span><span>Krystal Palace, Douala</span><span>Accès gratuit sur inscription</span></p>"],
+  ["<p><b>Heure</b>14h00</p><p><b>Lieu</b>Krystal Palace, Douala</p>", "<p><b>Ouverture des portes</b>14h00</p><p><b>Lieu</b>Krystal Palace, Douala</p>"],
   ["La conférence privilégie les explications pratiques : ce qu'il faut comprendre, ce qu'il faut éviter et comment mieux présenter son dossier.", "Ouverture des portes : 14h00 | Début officiel : 15h00 | Fin : 19h45. La conférence privilégie les explications pratiques, les échanges concrets et les réponses aux questions du public."],
 ];
 

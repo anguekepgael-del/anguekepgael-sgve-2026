@@ -27,6 +27,12 @@ test("generated pages expose premium social proof content across key conversion 
   assert.match(sgve, /Ouverture des portes : 14h00/);
   assert.match(sgve, /Début officiel : 15h00/);
   assert.match(sgve, /Fin : 19h45/);
+  const heroMeta = sgve.match(/<p class="meta">([\s\S]*?)<\/p>/)?.[1] || "";
+  assert.match(heroMeta, /Ouverture des portes : 14h00/);
+  assert.doesNotMatch(heroMeta, /Début|Fin/);
+  const heroFacts = sgve.match(/<div class="sgve-facts">([\s\S]*?)<\/div>/)?.[1] || "";
+  assert.match(heroFacts, /Ouverture des portes/);
+  assert.doesNotMatch(heroFacts, /Début officiel|<b>Fin<\/b>/);
   assert.match(sgve, /Panel 1 — Partir où, mais pour quel projet \?/);
   assert.match(sgve, /Panel 2 — Cinq destinations, cinq règles du jeu/);
   assert.match(sgve, /Intervention spéciale/);

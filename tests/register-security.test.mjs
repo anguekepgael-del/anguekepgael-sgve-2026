@@ -8,6 +8,7 @@ import { BlobsServer } from "@netlify/blobs/server";
 async function createHarness({ totalSeats = 3, emailOk = true, googleSheetWebhook = false, googleSheetOk = true } = {}) {
   const token = `token-${Math.random().toString(36).slice(2)}`;
   const sheetWebhookUrl = "https://script.google.com/macros/s/test-webhook/exec";
+  const emailPayloads = [];
   const sheetPayloads = [];
   const server = new BlobsServer({
     directory: await mkdtemp(path.join(tmpdir(), "sgve-register-test-")),
@@ -34,6 +35,7 @@ async function createHarness({ totalSeats = 3, emailOk = true, googleSheetWebhoo
   globalThis.fetch = async (input, init) => {
     const url = typeof input === "string" ? input : input?.url;
     if (url === "https://api.resend.com/emails") {
+      emailPayloads.push(JSON.parse(init?.body || "{}"));
       return new Response(emailOk ? "{\"id\":\"email-test\"}" : "provider failed", {
         status: emailOk ? 200 : 500,
         headers: { "Content-Type": "application/json" },
@@ -54,6 +56,7 @@ async function createHarness({ totalSeats = 3, emailOk = true, googleSheetWebhoo
 
   return {
     handler,
+    emailPayloads,
     sheetPayloads,
     async get() {
       const response = await handler(new Request("http://localhost/register", { method: "GET" }));
@@ -92,6 +95,27 @@ const validRegistration = {
   sourceUrl: "https://cfconsultingtravel.org/sgve-2026/?utm_source=test&utm_medium=qa&utm_campaign=security",
   referrer: "https://example.com/source",
 };
+
+test("ticket invitations only display the 14h00 door-opening time", async () => {
+  const h = await createHarness({ totalSeats: 3 });
+  try {
+    const saved = await h.post(validRegistration);
+    assert.equal(saved.response.status, 200);
+    assert.equal(h.emailPayloads.length, 1);
+
+    const email = h.emailPayloads[0];
+    assert.match(email.html, /Ouverture des portes<\/td>[\s\S]*?>14h00<\/td>/);
+    assert.doesNotMatch(email.html, /Début officiel|>Fin<|15h00|19h45/);
+    assert.match(email.text, /^Ouverture des portes : 14h00$/m);
+    assert.doesNotMatch(email.text, /^Début officiel|^Fin :|15h00|19h45/m);
+
+    const calendar = Buffer.from(email.attachments[0].content, "base64").toString("utf8");
+    assert.match(calendar, /Ouverture des portes à 14h00/);
+    assert.doesNotMatch(calendar, /DTEND|début officiel|fin à 19h45|15h00|19h45/i);
+  } finally {
+    await h.close();
+  }
+});
 
 test("rejects duplicate email and phone without consuming another seat", async () => {
   const h = await createHarness({ totalSeats: 3 });
